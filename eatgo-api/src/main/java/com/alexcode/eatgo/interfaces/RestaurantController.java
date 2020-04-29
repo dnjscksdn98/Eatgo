@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
+import com.alexcode.eatgo.application.RestaurantService;
 import com.alexcode.eatgo.domain.Restaurant;
-import com.alexcode.eatgo.domain.RestaurantRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestaurantController {
 
   @Autowired
-  private RestaurantRepository repository;
+  private RestaurantService restaurantService;
 
   @GetMapping("/restaurants")
   public List<Restaurant> list() {
-    return repository.findAll();
+    return restaurantService.getRestaurants();
   }
 
   @GetMapping("/restaurants/{id}")
   public Restaurant detail(@PathVariable("id") Long id) {
-    return repository.findById(id);
+    return restaurantService.getRestaurantById(id);
   }
 }
