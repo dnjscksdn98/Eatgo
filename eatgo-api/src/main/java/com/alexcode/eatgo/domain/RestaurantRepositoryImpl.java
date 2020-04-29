@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.domain;
 
+import java.rmi.server.RemoteStub;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -25,5 +26,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
         .filter(r -> r.getId().equals(id))
         .findFirst()
         .orElse(null);
+  }
+
+  @Override
+  public Restaurant save(Restaurant restaurant) {
+    restaurant.setId(1234L);
+    restaurants.add(restaurant);
+    return restaurant;
   }
 }
