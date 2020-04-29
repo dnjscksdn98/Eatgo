@@ -5,6 +5,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.alexcode.eatgo.application.RestaurantService;
+import com.alexcode.eatgo.domain.MenuItemRepository;
+import com.alexcode.eatgo.domain.MenuItemRepositoryImpl;
 import com.alexcode.eatgo.domain.RestaurantRepository;
 import com.alexcode.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.jupiter.api.Test;
@@ -22,8 +25,14 @@ class RestaurantControllerTest {
   @Autowired
   private MockMvc mvc;
 
+  @SpyBean(RestaurantService.class)
+  private RestaurantService restaurantService;
+
   @SpyBean(RestaurantRepositoryImpl.class)
-  private RestaurantRepository repository;
+  private RestaurantRepository restaurantRepository;
+
+  @SpyBean(MenuItemRepositoryImpl.class)
+  private MenuItemRepository menuItemRepository;
 
   @Test
   public void list() throws Exception {
@@ -38,6 +47,7 @@ class RestaurantControllerTest {
     mvc.perform(get("/restaurants/1004"))
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
-        .andExpect(content().string(containsString("\"id\":1004")));
+        .andExpect(content().string(containsString("\"id\":1004")))
+        .andExpect(content().string(containsString("Kimchi")));
   }
 }
