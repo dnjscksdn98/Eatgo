@@ -2,6 +2,7 @@ package com.alexcode.eatgo.application;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.alexcode.eatgo.domain.MenuItem;
@@ -63,5 +64,17 @@ public class RestaurantServiceTest {
     assertThat(restaurant.getId(), is(1004L));
     MenuItem menuItem = restaurant.getMenuItems().get(0);
     assertThat(menuItem.getName(), is("Kimchi"));
+  }
+
+  @Test
+  public void addRestaurant() {
+    Restaurant restaurant = new Restaurant("BeRyong", "Seoul");
+    Restaurant saved = new Restaurant(1234L, "BeRyong", "Seoul");
+
+    given(restaurantRepository.save(any())).willReturn(saved);
+
+    Restaurant created = restaurantService.addRestaurant(restaurant);
+
+    assertThat(created.getId(), is(1234L));
   }
 }
