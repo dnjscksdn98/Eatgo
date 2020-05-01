@@ -5,6 +5,7 @@ import com.alexcode.eatgo.domain.MenuItemRepository;
 import com.alexcode.eatgo.domain.Restaurant;
 import com.alexcode.eatgo.domain.RestaurantRepository;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,12 @@ public class RestaurantService {
 
   public Restaurant addRestaurant(Restaurant restaurant) {
     return restaurantRepository.save(restaurant);
+  }
+
+  @Transactional
+  public Restaurant updateRestaurant(Long id, String name, String address) {
+    Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
+    restaurant.updateInformation(name, address);
+    return new Restaurant(id, name, address);
   }
 }
