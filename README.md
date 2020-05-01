@@ -1,22 +1,27 @@
-# Getting Started
+# <레스토랑 예약 앱>
 
-### Reference Documentation
-For further reference, please consider the following sections:
+## 3-Tier Architecture
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/gradle-plugin/reference/html/)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/reference/htmlsingle/#using-boot-devtools)
+    - Presentation : Front-end
+    - Business : Back-end
+    - Data Source : DataBase
+    
+## Business - Layered Architecture
 
-### Guides
-The following guides illustrate how to use some features concretely:
+    - UI Layer : Controller
+    - Application Layer : Service
+    - Domain Layer : Model
+    - Infrastructure Layer
+    
+## 기술 선택
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
+    - Java
+    - Spring-Boot
+    - Gradle
+    - REST API
+    - Spring Data JPA
+    - Lombok
+    
+## 프로젝트 개발 방법
 
-### Additional Links
-These additional references should also help you:
-
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
-
+    - TDD (Test Driven Development)
