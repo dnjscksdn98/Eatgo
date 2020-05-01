@@ -3,6 +3,7 @@ package com.alexcode.eatgo.application;
 import com.alexcode.eatgo.domain.MenuItem;
 import com.alexcode.eatgo.domain.MenuItemRepository;
 import com.alexcode.eatgo.domain.Restaurant;
+import com.alexcode.eatgo.domain.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.RestaurantRepository;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -29,7 +30,9 @@ public class RestaurantService {
   }
 
   public Restaurant getRestaurantById(Long id) {
-    Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
+    Restaurant restaurant = restaurantRepository.findById(id)
+        .orElseThrow(() -> new RestaurantNotFoundException(id));
+
     List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
     restaurant.setMenuItems(menuItems);
 
