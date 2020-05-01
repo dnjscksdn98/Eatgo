@@ -8,10 +8,12 @@ import static org.mockito.BDDMockito.given;
 import com.alexcode.eatgo.domain.MenuItem;
 import com.alexcode.eatgo.domain.MenuItemRepository;
 import com.alexcode.eatgo.domain.Restaurant;
+import com.alexcode.eatgo.domain.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.RestaurantRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -68,11 +70,18 @@ public class RestaurantServiceTest {
   }
 
   @Test
-  public void getRestaurant() {
+  public void getRestaurantWithExistedData() {
     Restaurant restaurant = restaurantService.getRestaurantById(1004L);
     assertThat(restaurant.getId(), is(1004L));
     MenuItem menuItem = restaurant.getMenuItems().get(0);
     assertThat(menuItem.getName(), is("Kimchi"));
+  }
+
+  @Test
+  public void getRestaurantWithNonExistedData() {
+    Assertions.assertThrows(RestaurantNotFoundException.class, () -> {
+      restaurantService.getRestaurantById(999L);
+    });
   }
 
   @Test

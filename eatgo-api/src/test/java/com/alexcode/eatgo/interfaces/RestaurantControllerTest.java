@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.alexcode.eatgo.application.RestaurantService;
 import com.alexcode.eatgo.domain.MenuItem;
 import com.alexcode.eatgo.domain.Restaurant;
+import com.alexcode.eatgo.domain.RestaurantNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +55,7 @@ class RestaurantControllerTest {
   }
 
   @Test
-  public void detail() throws Exception {
+  public void detailWithExistedData() throws Exception {
     Restaurant restaurant = Restaurant.builder()
         .id(1004L)
         .name("Bob zip")
@@ -73,6 +74,16 @@ class RestaurantControllerTest {
         .andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
         .andExpect(content().string(containsString("\"id\":1004")))
         .andExpect(content().string(containsString("Kimchi")));
+  }
+
+  @Test
+  public void detailWithNonExistedData() throws Exception {
+    given(restaurantService.getRestaurantById(999L))
+        .willThrow(new RestaurantNotFoundException(999L));
+
+    mvc.perform(get("/restaurants/999"))
+        .andExpect(status().isNotFound())
+        .andExpect(content().string("{}"));
   }
 
   @Test
