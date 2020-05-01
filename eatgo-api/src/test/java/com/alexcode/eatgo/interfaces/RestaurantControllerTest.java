@@ -15,6 +15,7 @@ import com.alexcode.eatgo.application.RestaurantService;
 import com.alexcode.eatgo.domain.MenuItem;
 import com.alexcode.eatgo.domain.Restaurant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,7 +39,12 @@ class RestaurantControllerTest {
   @Test
   public void list() throws Exception {
     List<Restaurant> restaurants = new ArrayList<>();
-    restaurants.add(new Restaurant(1004L, "Bob zip", "Seoul"));
+    restaurants.add(Restaurant.builder()
+        .id(1004L)
+        .name("Bob zip")
+        .address("Seoul")
+        .build()
+    );
     given(restaurantService.getRestaurants()).willReturn(restaurants);
 
     mvc.perform(get("/restaurants"))
@@ -49,8 +55,17 @@ class RestaurantControllerTest {
 
   @Test
   public void detail() throws Exception {
-    Restaurant restaurant = new Restaurant(1004L, "Bob zip", "Seoul");
-    restaurant.addMenuItem(new MenuItem("Kimchi"));
+    Restaurant restaurant = Restaurant.builder()
+        .id(1004L)
+        .name("Bob zip")
+        .address("Seoul")
+        .build();
+
+    MenuItem menuItem = MenuItem.builder()
+        .name("Kimchi")
+        .build();
+
+    restaurant.setMenuItems(Arrays.asList(menuItem));
     given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant);
 
     mvc.perform(get("/restaurants/1004"))
@@ -62,11 +77,20 @@ class RestaurantControllerTest {
 
   @Test
   public void create() throws Exception {
+    given(restaurantService.addRestaurant(any())).will(invocation -> {
+      Restaurant restaurant = invocation.getArgument(0);
+      return Restaurant.builder()
+          .id(1234L)
+          .name(restaurant.getName())
+          .address(restaurant.getAddress())
+          .build();
+    });
+
     mvc.perform(post("/restaurants")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"name\": \"BeRyong\", \"address\": \"Seoul\"}"))
         .andExpect(status().isCreated())
-//        .andExpect(header().string("location", "/restaurants/1234"))
+        .andExpect(header().string("location", "/restaurants/1234"))
         .andExpect(content().string("{}"));
 
     verify(restaurantService).addRestaurant(any());
