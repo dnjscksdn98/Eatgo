@@ -32,6 +32,7 @@ public class RestaurantService {
     Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
     List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
     restaurant.setMenuItems(menuItems);
+
     return restaurant;
   }
 
@@ -43,6 +44,11 @@ public class RestaurantService {
   public Restaurant updateRestaurant(Long id, String name, String address) {
     Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
     restaurant.updateInformation(name, address);
-    return new Restaurant(id, name, address);
+
+    return Restaurant.builder()
+        .id(id)
+        .name(name)
+        .address(address)
+        .build();
   }
 }
