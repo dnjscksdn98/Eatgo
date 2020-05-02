@@ -31,3 +31,4 @@
 ## 프로젝트 개발 방법
 
     - TDD (Test Driven Development)
+    - Gradle Multi Project
