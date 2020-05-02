@@ -1,10 +1,15 @@
 package com.alexcode.eatgo.application;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import com.alexcode.eatgo.domain.Review;
 import com.alexcode.eatgo.domain.ReviewRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -25,16 +30,16 @@ class ReviewServiceTest {
   }
 
   @Test
-  public void addReview() {
-    Review review = Review.builder()
-        .name("alex")
-        .score(3)
-        .description("yummy")
-        .build();
+  public void getReviews() {
+    List<Review> mockReviews = new ArrayList<>();
+    mockReviews.add(Review.builder().description("Cool").build());
 
-    reviewService.addReview(1004L, review);
+    given(reviewRepository.findAll()).willReturn(mockReviews);
 
-    verify(reviewRepository).save(any());
+    List<Review> reviews = reviewService.getReviews();
+
+    Review review = reviews.get(0);
+
+    assertThat(review.getDescription(), is("Cool"));
   }
-
 }

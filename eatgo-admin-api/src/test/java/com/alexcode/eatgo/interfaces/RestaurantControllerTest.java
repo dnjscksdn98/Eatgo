@@ -12,12 +12,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alexcode.eatgo.application.RestaurantService;
-import com.alexcode.eatgo.domain.MenuItem;
 import com.alexcode.eatgo.domain.Restaurant;
 import com.alexcode.eatgo.domain.RestaurantNotFoundException;
-import com.alexcode.eatgo.domain.Review;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,27 +60,12 @@ class RestaurantControllerTest {
         .address("Seoul")
         .build();
 
-    MenuItem menuItem = MenuItem.builder()
-        .name("Kimchi")
-        .build();
-
-    Review review = Review.builder()
-        .name("alex")
-        .score(3)
-        .description("yummy")
-        .build();
-
-    restaurant.setMenuItems(Arrays.asList(menuItem));
-    restaurant.setReviews(Arrays.asList(review));
-
     given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant);
 
     mvc.perform(get("/restaurants/1004"))
         .andExpect(status().isOk())
         .andExpect(content().string(containsString("\"name\":\"Bob zip\"")))
-        .andExpect(content().string(containsString("\"id\":1004")))
-        .andExpect(content().string(containsString("Kimchi")))
-        .andExpect(content().string(containsString("yummy")));
+        .andExpect(content().string(containsString("\"id\":1004")));
   }
 
   @Test
