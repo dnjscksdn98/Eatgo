@@ -6,7 +6,7 @@
     - Business : Back-end
     - Data Source : DataBase
     
-## Business - Layered Architecture
+## Business : Layered Architecture
 
     - UI Layer : Controller
     - Application Layer : Service

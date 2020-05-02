@@ -1,5 +1,7 @@
 package com.alexcode.eatgo.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -15,13 +17,13 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Restaurant {
 
   @Id
+  @Setter
   @GeneratedValue
   private Long id;
 
@@ -32,6 +34,7 @@ public class Restaurant {
   private String address;
 
   @Transient
+  @JsonInclude(Include.NON_NULL)
   private List<MenuItem> menuItems;
 
   public void updateInformation(String name, String address) {
