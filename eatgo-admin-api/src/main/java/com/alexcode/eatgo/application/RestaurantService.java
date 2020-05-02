@@ -27,6 +27,7 @@ public class RestaurantService {
   public RestaurantService(RestaurantRepository restaurantRepository,
                             MenuItemRepository menuItemRepository,
                             ReviewRepository reviewRepository) {
+
     this.restaurantRepository = restaurantRepository;
     this.menuItemRepository = menuItemRepository;
     this.reviewRepository = reviewRepository;
@@ -55,7 +56,9 @@ public class RestaurantService {
 
   @Transactional
   public Restaurant updateRestaurant(Long id, String name, String address) {
-    Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
+    Restaurant restaurant = restaurantRepository.findById(id)
+        .orElseThrow(() -> new RestaurantNotFoundException(id));
+
     restaurant.updateInformation(name, address);
 
     return Restaurant.builder()
