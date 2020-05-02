@@ -13,6 +13,12 @@
     - Domain Layer : Model
     - Infrastructure Layer
     
+## Domain Layer
+
+    - Restaurant
+    - Menu Item
+    - Review
+    
 ## 기술 선택
 
     - Java
