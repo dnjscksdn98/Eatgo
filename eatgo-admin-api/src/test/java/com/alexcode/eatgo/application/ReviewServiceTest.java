@@ -2,9 +2,7 @@ package com.alexcode.eatgo.application;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 import com.alexcode.eatgo.domain.Review;
 import com.alexcode.eatgo.domain.ReviewRepository;

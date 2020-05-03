@@ -22,11 +22,9 @@ public class RestaurantService {
     return restaurantRepository.findAll();
   }
 
-  public Restaurant getRestaurantById(Long id) {
-    Restaurant restaurant = restaurantRepository.findById(id)
-        .orElseThrow(() -> new RestaurantNotFoundException(id));
-
-    return restaurant;
+  public Restaurant getRestaurantById(Long restaurantId) {
+    return restaurantRepository.findById(restaurantId)
+        .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
   }
 
   public Restaurant addRestaurant(Restaurant restaurant) {
@@ -34,14 +32,14 @@ public class RestaurantService {
   }
 
   @Transactional
-  public Restaurant updateRestaurant(Long id, String name, String address) {
-    Restaurant restaurant = restaurantRepository.findById(id)
-        .orElseThrow(() -> new RestaurantNotFoundException(id));
+  public Restaurant updateRestaurant(Long restaurantId, String name, String address) {
+    Restaurant restaurant = restaurantRepository.findById(restaurantId)
+        .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 
     restaurant.updateInformation(name, address);
 
     return Restaurant.builder()
-        .id(id)
+        .id(restaurantId)
         .name(name)
         .address(address)
         .build();
