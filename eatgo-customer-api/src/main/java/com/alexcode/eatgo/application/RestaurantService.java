@@ -8,7 +8,6 @@ import com.alexcode.eatgo.domain.RestaurantRepository;
 import com.alexcode.eatgo.domain.Review;
 import com.alexcode.eatgo.domain.ReviewRepository;
 import java.util.List;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,23 +47,5 @@ public class RestaurantService {
     restaurant.setReviews(reviews);
 
     return restaurant;
-  }
-
-  public Restaurant addRestaurant(Restaurant restaurant) {
-    return restaurantRepository.save(restaurant);
-  }
-
-  @Transactional
-  public Restaurant updateRestaurant(Long id, String name, String address) {
-    Restaurant restaurant = restaurantRepository.findById(id)
-        .orElseThrow(() -> new RestaurantNotFoundException(id));
-
-    restaurant.updateInformation(name, address);
-
-    return Restaurant.builder()
-        .id(id)
-        .name(name)
-        .address(address)
-        .build();
   }
 }

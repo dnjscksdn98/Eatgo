@@ -11,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.alexcode.eatgo.application.ReviewService;
 import com.alexcode.eatgo.domain.Review;
-import com.alexcode.eatgo.interfaces.ReviewController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
