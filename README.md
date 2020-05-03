@@ -32,3 +32,15 @@
 
     - TDD (Test Driven Development)
     - Gradle Multi Project
+
+## Gradle Multi Project
+
+    - 고객 API
+    - 어드민 API
+
+    - gradlew.bat build
+    - gradlew.bat assemble
+    - gradlew.bat test
+    - gradlew.bat check
+    
+    - gradle run/debug config -> tasks: clean test
