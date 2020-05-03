@@ -1,0 +1,16 @@
+server:
+  port: 8181
+
+spring:
+  datasource:
+    url: jdbc:h2:~/database/eatgo
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+---
+
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:h2:mem:test
