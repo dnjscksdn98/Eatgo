@@ -13,19 +13,22 @@
     - Domain Layer : Model
     - Infrastructure Layer
     
-## Domain Layer
+## Domain Model
 
     - Restaurant
     - Menu Item
     - Review
+    - Region
+    - Category
+    - User
     
 ## 기술 선택
 
     - Java
     - Spring-Boot
-    - Gradle
-    - REST API
     - Spring Data JPA
+    - Gradle Project
+    - REST API
     - Lombok
     
 ## 프로젝트 개발 방법
