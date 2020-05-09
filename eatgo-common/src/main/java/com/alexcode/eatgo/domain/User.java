@@ -14,7 +14,6 @@ import lombok.Setter;
 @Entity
 @Builder
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -23,16 +22,27 @@ public class User {
   @GeneratedValue
   private Long id;
 
+  @Setter
   @NotEmpty
   private String email;
 
+  @Setter
   @NotEmpty
   private String name;
 
+  @Setter
   @NotNull
   private Long level;
 
   public boolean isAdmin() {
     return level >= 3;
+  }
+
+  public boolean isActive() {
+    return level > 0;
+  }
+
+  public void deactivate() {
+    level = 0L;
   }
 }

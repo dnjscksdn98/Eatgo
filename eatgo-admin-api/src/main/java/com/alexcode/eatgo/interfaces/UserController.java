@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,9 @@ public class UserController {
 
   @PostMapping("/users")
   public ResponseEntity<?> create(@RequestBody User resource) throws URISyntaxException {
-    User user = userService.addUser(resource.getEmail(), resource.getName());
+    String email = resource.getEmail();
+    String name = resource.getName();
+    User user = userService.addUser(email, name);
     URI location = new URI("/users/" + user.getId());
 
     return ResponseEntity.created(location).body("{}");
@@ -51,6 +54,12 @@ public class UserController {
     Long level = resource.getLevel();
 
     userService.updateUser(userId, email, name, level);
+    return "{}";
+  }
+
+  @DeleteMapping("/users/{userId}")
+  public String deactivate(@PathVariable("userId") Long userId) {
+    userService.deactivateUser(userId);
     return "{}";
   }
 }
