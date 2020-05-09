@@ -27,6 +27,7 @@
     - Java
     - Spring-Boot
     - Spring Data JPA
+    - Spring-Security
     - Gradle Project
     - REST API
     - Lombok
