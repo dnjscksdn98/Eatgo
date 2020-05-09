@@ -4,6 +4,7 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -85,4 +86,11 @@ class UserControllerTest {
     verify(userService).updateUser(eq(id), eq(email), eq(name), eq(level));
   }
 
+  @Test
+  public void deactivate() throws Exception {
+    mvc.perform(delete("/users/1"))
+        .andExpect(status().isOk());
+
+    verify(userService).deactivateUser(1L);
+  }
 }
