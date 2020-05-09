@@ -17,8 +17,7 @@ public class UserService {
   }
 
   public List<User> getUsers() {
-    List<User> users = userRepository.findAll();
-    return users;
+    return userRepository.findAll();
   }
 
   public User addUser(String email, String name) {

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class RestaurantService {
 
-  @Autowired
   private RestaurantRepository restaurantRepository;
 
+  @Autowired
   public RestaurantService(RestaurantRepository restaurantRepository) {
     this.restaurantRepository = restaurantRepository;
   }

@@ -22,17 +22,15 @@ public class RegionController {
 
   @GetMapping("/regions")
   public List<Region> list() {
-    List<Region> regions = regionService.getRegions();
-
-    return regions;
+    return regionService.getRegions();
   }
 
   @PostMapping("/regions")
   public ResponseEntity<?> create(@RequestBody Region resource) throws URISyntaxException {
     Region region = regionService.addRegion(resource.getName());
 
-    String url = "/regions/" + region.getId();
-    return ResponseEntity.created(new URI(url)).body("{}");
+    URI location = new URI("/regions/" + region.getId());
+    return ResponseEntity.created(location).body("{}");
   }
 
 }

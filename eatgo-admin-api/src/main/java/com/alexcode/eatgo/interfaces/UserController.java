@@ -28,15 +28,14 @@ public class UserController {
 
   @GetMapping("/users")
   public List<User> list() {
-    List<User> users = userService.getUsers();
-    return users;
+    return userService.getUsers();
   }
 
   @PostMapping("/users")
   public ResponseEntity<?> create(@RequestBody User resource) throws URISyntaxException {
     User user = userService.addUser(resource.getEmail(), resource.getName());
+    URI location = new URI("/users/" + user.getId());
 
-    String url = "/users/" + user.getId();
-    return ResponseEntity.created(new URI(url)).body("{}");
+    return ResponseEntity.created(location).body("{}");
   }
 }

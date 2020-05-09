@@ -22,14 +22,13 @@ public class CategoryController {
 
   @GetMapping("/categories")
   public List<Category> list() {
-    List<Category> categories = categoryService.getCategories();
-    return categories;
+    return categoryService.getCategories();
   }
 
   @PostMapping("/categories")
   public ResponseEntity<?> create(@RequestBody Category resource) throws URISyntaxException {
     Category category = categoryService.addCategory(resource.getName());
-    String url = "/categories/" + category.getId();
-    return ResponseEntity.created(new URI(url)).body("{}");
+    URI location = new URI("/categories/" + category.getId());
+    return ResponseEntity.created(location).body("{}");
   }
 }

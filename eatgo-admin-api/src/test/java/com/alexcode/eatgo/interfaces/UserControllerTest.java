@@ -37,6 +37,7 @@ class UserControllerTest {
     users.add(User.builder()
         .email("tester@example.com")
         .name("tester")
+        .level(1L)
         .build()
     );
 

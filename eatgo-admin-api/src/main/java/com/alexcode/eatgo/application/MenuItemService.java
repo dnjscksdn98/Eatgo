@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class MenuItemService {
 
-  @Autowired
   MenuItemRepository menuItemRepository;
 
+  @Autowired
   public MenuItemService(MenuItemRepository menuItemRepository) {
     this.menuItemRepository = menuItemRepository;
   }

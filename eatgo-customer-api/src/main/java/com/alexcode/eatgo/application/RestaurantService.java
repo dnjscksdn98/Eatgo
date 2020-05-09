@@ -14,15 +14,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class RestaurantService {
 
-  @Autowired
   private RestaurantRepository restaurantRepository;
-
-  @Autowired
   private MenuItemRepository menuItemRepository;
-
-  @Autowired
   private ReviewRepository reviewRepository;
 
+  @Autowired
   public RestaurantService(RestaurantRepository restaurantRepository,
                             MenuItemRepository menuItemRepository,
                             ReviewRepository reviewRepository) {

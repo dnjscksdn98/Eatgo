@@ -21,14 +21,14 @@ public class ReviewController {
   private ReviewService reviewService;
 
   @PostMapping("/restaurants/{restaurantId}/reviews")
-  public ResponseEntity<?> create(@Valid @RequestBody Review resource, @PathVariable("restaurantId") Long restaurantId
+  public ResponseEntity<?> create(
+      @Valid @RequestBody Review resource,
+      @PathVariable("restaurantId") Long restaurantId
   ) throws URISyntaxException {
 
     Review review = reviewService.addReview(restaurantId, resource);
+    URI location = new URI("/restaurants/" + restaurantId + "/reviews/" + review.getId());
 
-    String location = "/restaurants/" + restaurantId + "/reviews/" + review.getId();
-    return ResponseEntity
-        .created(new URI(location))
-        .body("{}");
+    return ResponseEntity.created(location).body("{}");
   }
 }
