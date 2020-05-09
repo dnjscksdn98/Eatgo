@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +39,18 @@ public class UserController {
     URI location = new URI("/users/" + user.getId());
 
     return ResponseEntity.created(location).body("{}");
+  }
+
+  @PatchMapping("/users/{userId}")
+  public String update(
+      @PathVariable("userId") Long userId,
+      @RequestBody User resource) {
+
+    String email = resource.getEmail();
+    String name = resource.getName();
+    Long level = resource.getLevel();
+
+    userService.updateUser(userId, email, name, level);
+    return "{}";
   }
 }

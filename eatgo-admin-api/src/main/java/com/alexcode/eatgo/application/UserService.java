@@ -3,6 +3,7 @@ package com.alexcode.eatgo.application;
 import com.alexcode.eatgo.domain.User;
 import com.alexcode.eatgo.domain.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,4 +29,13 @@ public class UserService {
     return userRepository.save(user);
   }
 
+  public User updateUser(Long id, String email, String name, Long level) {
+    User user = userRepository.findById(id).orElse(null);
+
+    user.setEmail(email);
+    user.setName(name);
+    user.setLevel(level);
+
+    return user;
+  }
 }
