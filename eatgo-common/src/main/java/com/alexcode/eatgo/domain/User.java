@@ -30,6 +30,8 @@ public class User {
   @NotEmpty
   private String name;
 
+  private String password;
+
   @Setter
   @NotNull
   private Long level;
