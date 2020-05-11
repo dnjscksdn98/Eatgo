@@ -32,7 +32,7 @@ class SessionControllerTest {
   private UserService userService;
 
   @Test
-  public void createWithValidData() throws Exception {
+  public void loginWithValidData() throws Exception {
     String email = "tester@example.com";
     String password = "ACCESSTOKEN";
 
@@ -51,7 +51,7 @@ class SessionControllerTest {
   }
 
   @Test
-  public void createWithWrongPassword() throws Exception {
+  public void loginWithWrongPassword() throws Exception {
     given(userService.authenticate("tester@example.com", "wrongpw"))
         .willThrow(WrongPasswordException.class);
 
@@ -64,7 +64,7 @@ class SessionControllerTest {
   }
 
   @Test
-  public void createWithNonExistEmail() throws Exception {
+  public void loginWithNonExistedEmail() throws Exception {
     given(userService.authenticate("nonexist@example.com", "testerpw"))
         .willThrow(EmailNotExistsException.class);
 

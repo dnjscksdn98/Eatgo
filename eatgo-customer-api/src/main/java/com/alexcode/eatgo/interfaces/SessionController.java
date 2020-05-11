@@ -19,7 +19,7 @@ public class SessionController {
   private UserService userService;
 
   @PostMapping("/session")
-  public ResponseEntity<SessionResponseDto> create(
+  public ResponseEntity<SessionResponseDto> login(
       @RequestBody SessionRequestDto resource) throws URISyntaxException {
 
     String email = resource.getEmail();

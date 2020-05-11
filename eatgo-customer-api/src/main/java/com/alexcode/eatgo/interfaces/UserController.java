@@ -19,7 +19,7 @@ public class UserController {
   private UserService userService;
 
   @PostMapping("/users")
-  public ResponseEntity<?> create(@RequestBody User resource) throws URISyntaxException {
+  public ResponseEntity<?> register(@RequestBody User resource) throws URISyntaxException {
     String email = resource.getEmail();
     String name = resource.getName();
     String password = resource.getPassword();

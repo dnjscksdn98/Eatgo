@@ -29,7 +29,7 @@ class UserControllerTest {
   private UserService userService;
 
   @Test
-  public void create() throws Exception {
+  public void register() throws Exception {
     String email = "tester@example.com";
     String name = "tester";
     String password = "testerpw";
