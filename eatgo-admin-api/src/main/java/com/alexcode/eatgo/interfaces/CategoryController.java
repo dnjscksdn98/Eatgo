@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.CategoryService;
-import com.alexcode.eatgo.domain.Category;
+import com.alexcode.eatgo.domain.models.Category;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;

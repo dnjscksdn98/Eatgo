@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.MenuItemService;
-import com.alexcode.eatgo.domain.MenuItem;
+import com.alexcode.eatgo.domain.models.MenuItem;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

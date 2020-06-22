@@ -6,12 +6,12 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import com.alexcode.eatgo.domain.MenuItem;
+import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.MenuItemRepository;
-import com.alexcode.eatgo.domain.Restaurant;
-import com.alexcode.eatgo.domain.RestaurantNotFoundException;
+import com.alexcode.eatgo.domain.models.Restaurant;
+import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.RestaurantRepository;
-import com.alexcode.eatgo.domain.Review;
+import com.alexcode.eatgo.domain.models.Review;
 import com.alexcode.eatgo.domain.ReviewRepository;
 import java.util.ArrayList;
 import java.util.List;

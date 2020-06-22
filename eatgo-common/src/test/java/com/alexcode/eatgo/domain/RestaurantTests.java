@@ -3,6 +3,7 @@ package com.alexcode.eatgo.domain;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+import com.alexcode.eatgo.domain.models.Restaurant;
 import org.junit.jupiter.api.Test;
 
 class RestaurantTests {

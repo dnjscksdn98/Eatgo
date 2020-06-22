@@ -8,7 +8,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.alexcode.eatgo.domain.MenuItem;
+import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.MenuItemRepository;
 import java.util.ArrayList;
 import java.util.List;

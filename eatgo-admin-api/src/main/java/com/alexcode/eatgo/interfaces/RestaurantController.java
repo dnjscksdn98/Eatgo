@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RestaurantService;
-import com.alexcode.eatgo.domain.Restaurant;
+import com.alexcode.eatgo.domain.models.Restaurant;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;

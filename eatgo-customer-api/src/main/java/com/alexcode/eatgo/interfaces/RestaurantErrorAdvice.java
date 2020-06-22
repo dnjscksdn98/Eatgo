@@ -1,6 +1,6 @@
 package com.alexcode.eatgo.interfaces;
 
-import com.alexcode.eatgo.domain.RestaurantNotFoundException;
+import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

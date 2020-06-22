@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.domain;
+package com.alexcode.eatgo.domain.exceptions;
 
 public class RestaurantNotFoundException extends RuntimeException {
 

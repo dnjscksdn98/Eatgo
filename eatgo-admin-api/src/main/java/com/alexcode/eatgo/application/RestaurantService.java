@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.Restaurant;
-import com.alexcode.eatgo.domain.RestaurantNotFoundException;
+import com.alexcode.eatgo.domain.models.Restaurant;
+import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.RestaurantRepository;
 import java.util.List;
 import javax.transaction.Transactional;

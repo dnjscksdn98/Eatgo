@@ -1,6 +1,6 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.Category;
+import com.alexcode.eatgo.domain.models.Category;
 import com.alexcode.eatgo.domain.CategoryRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

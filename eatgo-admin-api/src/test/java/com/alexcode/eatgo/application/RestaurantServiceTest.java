@@ -5,8 +5,8 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-import com.alexcode.eatgo.domain.Restaurant;
-import com.alexcode.eatgo.domain.RestaurantNotFoundException;
+import com.alexcode.eatgo.domain.models.Restaurant;
+import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.RestaurantRepository;
 import java.util.ArrayList;
 import java.util.List;

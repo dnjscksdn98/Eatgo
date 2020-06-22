@@ -1,6 +1,6 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.User;
+import com.alexcode.eatgo.domain.models.User;
 import com.alexcode.eatgo.domain.UserRepository;
 import java.util.List;
 import javax.transaction.Transactional;

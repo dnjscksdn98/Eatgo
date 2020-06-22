@@ -2,6 +2,8 @@ package com.alexcode.eatgo.domain;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.alexcode.eatgo.domain.models.Restaurant;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {

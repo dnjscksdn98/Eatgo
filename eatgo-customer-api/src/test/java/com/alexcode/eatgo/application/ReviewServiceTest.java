@@ -3,7 +3,7 @@ package com.alexcode.eatgo.application;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
-import com.alexcode.eatgo.domain.Review;
+import com.alexcode.eatgo.domain.models.Review;
 import com.alexcode.eatgo.domain.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

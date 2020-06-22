@@ -2,6 +2,8 @@ package com.alexcode.eatgo.domain;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.alexcode.eatgo.domain.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

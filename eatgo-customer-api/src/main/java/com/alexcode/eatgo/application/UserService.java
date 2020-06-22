@@ -1,6 +1,9 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.User;
+import com.alexcode.eatgo.application.exceptions.EmailExistsException;
+import com.alexcode.eatgo.application.exceptions.EmailNotExistsException;
+import com.alexcode.eatgo.application.exceptions.WrongPasswordException;
+import com.alexcode.eatgo.domain.models.User;
 import com.alexcode.eatgo.domain.UserRepository;
 import java.util.Optional;
 import javax.transaction.Transactional;

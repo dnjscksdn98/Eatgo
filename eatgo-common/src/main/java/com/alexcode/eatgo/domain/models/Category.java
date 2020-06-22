@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.domain;
+package com.alexcode.eatgo.domain.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

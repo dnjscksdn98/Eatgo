@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alexcode.eatgo.application.RegionService;
-import com.alexcode.eatgo.domain.Region;
+import com.alexcode.eatgo.domain.models.Region;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.UserService;
-import com.alexcode.eatgo.domain.User;
+import com.alexcode.eatgo.domain.models.User;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;

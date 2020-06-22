@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.application;
+package com.alexcode.eatgo.application.exceptions;
 
 public class EmailNotExistsException extends RuntimeException {
 

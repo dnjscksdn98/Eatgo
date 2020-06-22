@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import com.alexcode.eatgo.domain.Region;
+import com.alexcode.eatgo.domain.models.Region;
 import com.alexcode.eatgo.domain.RegionRepository;
 import java.util.ArrayList;
 import java.util.List;

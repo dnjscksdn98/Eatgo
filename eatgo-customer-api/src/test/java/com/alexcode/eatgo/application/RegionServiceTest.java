@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
 
-import com.alexcode.eatgo.domain.Region;
+import com.alexcode.eatgo.domain.models.Region;
 import com.alexcode.eatgo.domain.RegionRepository;
 import java.util.ArrayList;
 import java.util.List;

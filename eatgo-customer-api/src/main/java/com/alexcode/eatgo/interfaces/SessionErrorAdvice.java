@@ -1,8 +1,8 @@
 package com.alexcode.eatgo.interfaces;
 
-import com.alexcode.eatgo.application.EmailExistsException;
-import com.alexcode.eatgo.application.EmailNotExistsException;
-import com.alexcode.eatgo.application.WrongPasswordException;
+import com.alexcode.eatgo.application.exceptions.EmailExistsException;
+import com.alexcode.eatgo.application.exceptions.EmailNotExistsException;
+import com.alexcode.eatgo.application.exceptions.WrongPasswordException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

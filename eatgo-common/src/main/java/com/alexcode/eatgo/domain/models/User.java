@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.domain;
+package com.alexcode.eatgo.domain.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;

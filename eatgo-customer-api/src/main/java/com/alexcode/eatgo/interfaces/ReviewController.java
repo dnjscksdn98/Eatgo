@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.ReviewService;
-import com.alexcode.eatgo.domain.Review;
+import com.alexcode.eatgo.domain.models.Review;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.validation.Valid;

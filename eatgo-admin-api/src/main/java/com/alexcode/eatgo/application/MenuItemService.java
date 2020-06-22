@@ -1,6 +1,6 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.MenuItem;
+import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.MenuItemRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

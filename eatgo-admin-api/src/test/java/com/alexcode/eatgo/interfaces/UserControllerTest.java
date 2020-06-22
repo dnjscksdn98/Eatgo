@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alexcode.eatgo.application.UserService;
-import com.alexcode.eatgo.domain.User;
+import com.alexcode.eatgo.domain.models.User;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
