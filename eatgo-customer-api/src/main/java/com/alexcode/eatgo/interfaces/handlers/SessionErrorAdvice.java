@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.interfaces;
+package com.alexcode.eatgo.interfaces.handlers;
 
 import com.alexcode.eatgo.application.exceptions.EmailExistsException;
 import com.alexcode.eatgo.application.exceptions.EmailNotExistsException;

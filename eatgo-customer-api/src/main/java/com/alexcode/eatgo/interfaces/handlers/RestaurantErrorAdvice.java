@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.interfaces;
+package com.alexcode.eatgo.interfaces.handlers;
 
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import org.springframework.http.HttpStatus;
