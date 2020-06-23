@@ -5,10 +5,11 @@ import com.alexcode.eatgo.domain.models.User;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import com.alexcode.eatgo.interfaces.dto.SessionRequestDto;
+import com.alexcode.eatgo.interfaces.dto.SessionResponseDto;
 import com.alexcode.eatgo.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

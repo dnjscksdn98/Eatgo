@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.interfaces;
+package com.alexcode.eatgo.interfaces.dto;
 
 import lombok.Data;
 
