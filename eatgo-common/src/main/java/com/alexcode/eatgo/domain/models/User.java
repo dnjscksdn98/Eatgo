@@ -1,6 +1,5 @@
 package com.alexcode.eatgo.domain.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -31,6 +30,7 @@ public class User {
   @NotEmpty
   private String name;
 
+  @NotEmpty
   private String password;
 
   @Setter
@@ -49,9 +49,4 @@ public class User {
     level = 0L;
   }
 
-  @JsonIgnore
-  public String getAccessToken() {
-    if(password == null) return "";
-    return password.substring(0, 10);
-  }
 }

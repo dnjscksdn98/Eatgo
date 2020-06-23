@@ -24,10 +24,4 @@ class UserTest {
     assertThat(user.isActive(), is(false));
   }
 
-  @Test
-  public void accessToken() {
-    User user = User.builder().password("ACCESSTOKEN").build();
-
-    assertThat(user.getAccessToken(), is("ACCESSTOKE"));
-  }
 }
