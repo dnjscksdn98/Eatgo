@@ -1,15 +1,11 @@
 package com.alexcode.eatgo.application;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.alexcode.eatgo.application.exceptions.EmailExistsException;
-import com.alexcode.eatgo.application.exceptions.EmailNotExistsException;
-import com.alexcode.eatgo.application.exceptions.WrongPasswordException;
 import com.alexcode.eatgo.domain.models.User;
 import com.alexcode.eatgo.domain.UserRepository;
 import java.util.Optional;
@@ -62,50 +58,6 @@ class UserServiceTest {
       userService.registerUser(email, name, password);
 
       verify(userRepository, never()).save(any());
-    });
-  }
-
-  @Test
-  public void authenticateWithValidData() {
-    String email = "tester@example.com";
-    String password = "testerpw";
-
-    User mockUser = User.builder().email(email).build();
-
-    given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
-
-    given(passwordEncoder.matches(any(), any())).willReturn(true);
-
-    User user = userService.authenticate(email, password);
-
-    assertThat(user.getEmail(), is(email));
-  }
-
-  @Test
-  public void authenticateWithNotExistedEmail() {
-    String email = "wrong@example.com";
-    String password = "testerpw";
-
-    given(userRepository.findByEmail(email)).willReturn(Optional.empty());
-
-    Assertions.assertThrows(EmailNotExistsException.class, () -> {
-      userService.authenticate(email, password);
-    });
-  }
-
-  @Test
-  public void authenticateWithWrongPassword() {
-    String email = "tester@example.com";
-    String password = "wrongpw";
-
-    User mockUser = User.builder().email(email).build();
-
-    given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
-
-    given(passwordEncoder.matches(any(), any())).willReturn(false);
-
-    Assertions.assertThrows(WrongPasswordException.class, () -> {
-      userService.authenticate(email, password);
     });
   }
 

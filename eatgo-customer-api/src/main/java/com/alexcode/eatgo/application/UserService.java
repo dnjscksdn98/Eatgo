@@ -1,8 +1,6 @@
 package com.alexcode.eatgo.application;
 
 import com.alexcode.eatgo.application.exceptions.EmailExistsException;
-import com.alexcode.eatgo.application.exceptions.EmailNotExistsException;
-import com.alexcode.eatgo.application.exceptions.WrongPasswordException;
 import com.alexcode.eatgo.domain.models.User;
 import com.alexcode.eatgo.domain.UserRepository;
 import java.util.Optional;
@@ -39,17 +37,6 @@ public class UserService {
           .level(1L)
           .build()
     );
-  }
-
-  public User authenticate(String email, String password) {
-    User user = userRepository.findByEmail(email)
-        .orElseThrow(() -> new EmailNotExistsException(email));
-
-    if(!passwordEncoder.matches(password, user.getPassword())) {
-      throw new WrongPasswordException();
-    }
-
-    return user;
   }
 
 }

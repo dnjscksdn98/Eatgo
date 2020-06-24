@@ -1,6 +1,5 @@
 package com.alexcode.eatgo.interfaces.handlers;
 
-import com.alexcode.eatgo.application.exceptions.EmailExistsException;
 import com.alexcode.eatgo.application.exceptions.EmailNotExistsException;
 import com.alexcode.eatgo.application.exceptions.WrongPasswordException;
 import org.springframework.http.HttpStatus;
@@ -16,13 +15,6 @@ public class SessionErrorAdvice {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(WrongPasswordException.class)
   public String handleWrongPassword() {
-    return "{}";
-  }
-
-  @ResponseBody
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  @ExceptionHandler(EmailExistsException.class)
-  public String handleEmailExists() {
     return "{}";
   }
 
