@@ -1,10 +1,9 @@
 package com.alexcode.eatgo.domain;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-
 import com.alexcode.eatgo.domain.models.User;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
 
@@ -16,12 +15,22 @@ class UserTest {
         .level(3L)
         .build();
 
-    assertThat(user.getName(), is("tester"));
-    assertThat(user.isAdmin(), is(true));
+    assertEquals(user.getName(), "tester");
+    assertTrue(user.isAdmin());
 
     user.deactivate();
+    assertFalse(user.isActive());
+  }
 
-    assertThat(user.isActive(), is(false));
+  @Test
+  public void createRestaurantOwner() {
+    User user = User.builder().level(1L).build();
+    assertFalse(user.isRestaurantOwner());
+
+    user.setRestaurantId(1004L);
+    assertTrue(user.isRestaurantOwner());
+
+    assertEquals(user.getRestaurantId(), 1004L);
   }
 
 }
