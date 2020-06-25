@@ -1,5 +1,16 @@
 ## 스프링 부트로 구현한 식당 예약 웹 애플리케이션
 
+### 기술 선택
+
+- Java
+- Spring-Boot
+- Spring Data JPA
+- Spring-Security
+- Gradle Multi Project
+- REST API
+- Lombok
+- Json Web Tokens
+
 ### 3-Tier Architecture
 
 - Presentation : Front-end
@@ -13,25 +24,14 @@
 - Domain Layer : Model
 - Infrastructure Layer
     
-### Domain Model
+### Domain Model(도메인 모델)
 
-- Restaurant
-- Menu Item
-- Review
-- Region
-- Category
-- User
-    
-### 기술 선택
-
-- Java
-- Spring-Boot
-- Spring Data JPA
-- Spring-Security
-- Gradle Multi Project
-- REST API
-- Lombok
-- Json Web Tokens
+- Restaurant(식당)
+- Menu Item(메뉴)
+- Review(리뷰)
+- Region(지역)
+- Category(카테고리)
+- User(사용자)
     
 ### 프로젝트 개발 방법
 
@@ -40,6 +40,7 @@
 - Gradle Multi Project
   - eatgo-admin-api
   - eatgo-customer-api
+  - eatgo-login-api
   - eatgo-common
   
 ### 사용자 인증 방법(User Authentication)
