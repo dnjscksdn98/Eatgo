@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(SessionController.class)
 class SessionControllerTest {
@@ -56,7 +57,7 @@ class SessionControllerTest {
         .content("{\"email\": \"tester@example.com\", \"password\": \"tester\"}"))
         .andExpect(status().isCreated())
         .andExpect(header().string("location", "/session"))
-        .andExpect(content().string(containsString("{\"accessToken\":\"header.payload.signature\"")));
+        .andExpect(content().string(containsString("{\"accessToken\":\"header.payload.signature\"}")));
 
     verify(userService).authenticate(eq(email), eq(password));
   }

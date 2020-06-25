@@ -4,7 +4,6 @@ import com.alexcode.eatgo.application.exceptions.EmailNotExistsException;
 import com.alexcode.eatgo.application.exceptions.WrongPasswordException;
 import com.alexcode.eatgo.domain.UserRepository;
 import com.alexcode.eatgo.domain.models.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,8 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -32,7 +31,6 @@ class UserServiceTest {
   @BeforeEach
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-
     userService = new UserService(userRepository, passwordEncoder);
   }
 
@@ -40,16 +38,14 @@ class UserServiceTest {
   public void authenticateWithValidData() {
     String email = "tester@example.com";
     String password = "testerpw";
-
     User mockUser = User.builder().email(email).build();
 
     given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
-
     given(passwordEncoder.matches(any(), any())).willReturn(true);
 
     User user = userService.authenticate(email, password);
 
-    assertThat(user.getEmail(), is(email));
+    assertEquals(user.getEmail(), email);
   }
 
   @Test
@@ -59,7 +55,7 @@ class UserServiceTest {
 
     given(userRepository.findByEmail(email)).willReturn(Optional.empty());
 
-    Assertions.assertThrows(EmailNotExistsException.class, () -> {
+    assertThrows(EmailNotExistsException.class, () -> {
       userService.authenticate(email, password);
     });
   }
@@ -68,14 +64,12 @@ class UserServiceTest {
   public void authenticateWithWrongPassword() {
     String email = "tester@example.com";
     String password = "wrongpw";
-
     User mockUser = User.builder().email(email).build();
 
     given(userRepository.findByEmail(email)).willReturn(Optional.of(mockUser));
-
     given(passwordEncoder.matches(any(), any())).willReturn(false);
 
-    Assertions.assertThrows(WrongPasswordException.class, () -> {
+    assertThrows(WrongPasswordException.class, () -> {
       userService.authenticate(email, password);
     });
   }
