@@ -1,8 +1,9 @@
-package com.alexcode.eatgo.errors;
+package com.alexcode.eatgo.exceptions;
 
 public enum ErrorCode {
 
-    INVALID_INPUT_VALUE(400, "V001", "Invalid Input Value");
+    INVALID_INPUT_VALUE(400, "V001", "Invalid input value"),
+    INVALID_LOGIN_VALUE(400, "U001", "Login input value is invalid");
 
     private final Integer status;
     private final String code;

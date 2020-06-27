@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.errors;
+package com.alexcode.eatgo.exceptions;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
