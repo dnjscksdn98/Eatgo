@@ -5,6 +5,8 @@ import com.alexcode.eatgo.domain.models.User;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+
+import com.alexcode.eatgo.interfaces.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,15 +18,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @CrossOrigin
 @RestController
 public class UserController {
 
-  // 1. User List
-  // 2. User create
-  // 3. User update
-  // 4. User delete -> level: 0 => 사용 일시 중지
-  // (1: customer, 2: restaurant owner, 3: admin)
+  /**
+   * list(): 사용자 리스트 반환
+   * create(): 사용자 생성
+   * update(): 사용자 정보 변경
+   * deactivate(): 사용자 비활성화
+   *
+   * level:
+   *      1 -> 고객
+   *      50 -> 가게 주인
+   *      100 -> 관리자
+   *
+   */
 
   @Autowired
   private UserService userService;
@@ -35,7 +46,7 @@ public class UserController {
   }
 
   @PostMapping("/users")
-  public ResponseEntity<?> create(@RequestBody User resource) throws URISyntaxException {
+  public ResponseEntity<?> create(@Valid @RequestBody UserDto resource) throws URISyntaxException {
     String email = resource.getEmail();
     String name = resource.getName();
     User user = userService.addUser(email, name);
