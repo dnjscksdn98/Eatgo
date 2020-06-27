@@ -2,8 +2,7 @@ package com.alexcode.eatgo.application;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -116,7 +115,7 @@ class UserServiceTest {
     Long id = 1L;
     String email = "tester@example.com";
     String name = "tester";
-    Long level = 3L;
+    Long level = 100L;
 
     User mockUser = User.builder()
         .id(id)
@@ -127,11 +126,11 @@ class UserServiceTest {
 
     given(userRepository.findById(id)).willReturn(Optional.of(mockUser));
 
-    User user = userService.deactivateUser(1L);
+    User user = userService.deactivateUser(id);
 
     verify(userRepository).findById(eq(id));
 
-    assertThat(user.isActive(), is(false));
+    assertFalse(user.isActive());
   }
 
 }

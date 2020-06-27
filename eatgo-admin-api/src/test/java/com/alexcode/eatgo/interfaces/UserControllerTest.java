@@ -85,15 +85,25 @@ class UserControllerTest {
 
   @Test
   public void update() throws Exception {
-    mvc.perform(patch("/users/1")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"email\": \"tester@example.com\", \"name\": \"tester\", \"level\": 3}"))
-        .andExpect(status().isOk());
-
     Long id = 1L;
     String email = "tester@example.com";
     String name = "tester";
-    Long level = 3L;
+    Long level = 100L;
+
+    User user = User.builder()
+            .id(1L)
+            .email(email)
+            .name(name)
+            .level(level)
+            .build();
+
+    given(userService.updateUser(id, email, name, level))
+            .willReturn(user);
+
+    mvc.perform(patch("/users/1")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content("{\"email\": \"tester@example.com\", \"name\": \"tester\", \"level\": 100}"))
+        .andExpect(status().isOk());
 
     verify(userService).updateUser(eq(id), eq(email), eq(name), eq(level));
   }
