@@ -3,6 +3,8 @@ package com.alexcode.eatgo.domain.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,13 +26,16 @@ public class User {
 
   @Setter
   @NotEmpty
+  @Email
   private String email;
 
   @Setter
   @NotEmpty
+  @NotBlank
   private String name;
 
   @NotEmpty
+  @NotBlank
   private String password;
 
   private Long restaurantId;
@@ -40,11 +45,7 @@ public class User {
   private Long level;
 
   public boolean isAdmin() {
-    return level >= 3;
-  }
-
-  public boolean isActive() {
-    return level > 0;
+    return level == 100L;
   }
 
   public boolean isRestaurantOwner() {
@@ -52,6 +53,10 @@ public class User {
       return true;
     }
     return false;
+  }
+
+  public boolean isActive() {
+    return level > 0;
   }
 
   public void setRestaurantId(Long restaurantId) {
