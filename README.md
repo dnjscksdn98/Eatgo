@@ -40,8 +40,19 @@
 - Gradle Multi Project
   - eatgo-admin-api
   - eatgo-customer-api
+  - eatgo-restaurant-api
   - eatgo-login-api
   - eatgo-common
+  
+### 예외처리 방법
+- 최상위 예외 클래스: BusinessException
+  - 비즈니스 로직 상에서 발생하는 모든 예외
+  - 하위 클래스
+    - InvalidValueException: 유효하지 않은 값으로 인한 예외
+    - EntityNotFoundException: 해당 리소스가 없을 경우에 대한 예외
+    
+- 예외 발생시 통일된 형태의 객체로 응답
+  - ErrorResponse
   
 ### 사용자 인증 방법(User Authentication)
 - 토큰 기반 인증
