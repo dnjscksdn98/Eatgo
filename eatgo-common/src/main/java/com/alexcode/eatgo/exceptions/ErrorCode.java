@@ -3,7 +3,8 @@ package com.alexcode.eatgo.exceptions;
 public enum ErrorCode {
 
     INVALID_INPUT_VALUE(400, "V001", "Invalid input value"),
-    INVALID_LOGIN_VALUE(400, "U001", "Login input value is invalid");
+    INVALID_LOGIN_VALUE(400, "U001", "Login input value is invalid"),
+    EMAIL_DUPLICATION(400, "U002", "This email already exists");
 
     private final Integer status;
     private final String code;
