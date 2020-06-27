@@ -1,8 +1,11 @@
 package com.alexcode.eatgo.application.exceptions;
 
-public class EmailNotExistsException extends RuntimeException {
+import com.alexcode.eatgo.exceptions.EntityNotFoundException;
+import com.alexcode.eatgo.exceptions.ErrorCode;
 
-  public EmailNotExistsException(String email) {
-    super("This email is not registered: " + email);
+public class EmailNotExistsException extends EntityNotFoundException {
+
+  public EmailNotExistsException() {
+    super(ErrorCode.INVALID_LOGIN_VALUE);
   }
 }

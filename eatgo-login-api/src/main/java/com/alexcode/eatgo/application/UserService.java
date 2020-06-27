@@ -26,7 +26,7 @@ public class UserService {
 
   public User authenticate(String email, String password) {
     User user = userRepository.findByEmail(email)
-        .orElseThrow(() -> new EmailNotExistsException(email));
+        .orElseThrow(() -> new EmailNotExistsException());
 
     if(!passwordEncoder.matches(password, user.getPassword())) {
       throw new WrongPasswordException();

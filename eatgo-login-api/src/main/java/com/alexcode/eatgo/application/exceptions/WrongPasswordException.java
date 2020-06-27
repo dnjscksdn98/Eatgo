@@ -1,8 +1,11 @@
 package com.alexcode.eatgo.application.exceptions;
 
-public class WrongPasswordException extends RuntimeException {
+import com.alexcode.eatgo.exceptions.ErrorCode;
+import com.alexcode.eatgo.exceptions.InvalidValueException;
+
+public class WrongPasswordException extends InvalidValueException {
 
   public WrongPasswordException() {
-    super("Password is wrong");
+    super(ErrorCode.INVALID_LOGIN_VALUE);
   }
 }
