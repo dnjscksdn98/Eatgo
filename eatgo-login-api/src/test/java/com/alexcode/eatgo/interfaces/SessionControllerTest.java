@@ -1,8 +1,10 @@
 package com.alexcode.eatgo.interfaces;
 
 import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -119,5 +121,25 @@ class SessionControllerTest {
         .andExpect(status().isBadRequest());
 
     verify(userService).authenticate(eq("nonexist@example.com"), eq("testerpw"));
+  }
+
+  @Test
+  public void loginWithInvalidEmailForm() throws Exception {
+    mvc.perform(post("/session")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"email\":\"test\", \"password\": \"test\"}"))
+            .andExpect(status().isBadRequest());
+
+    verify(userService, never()).authenticate(any(), any());
+  }
+
+  @Test
+  public void loginWithEmptyData() throws Exception {
+    mvc.perform(post("/session")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{}"))
+            .andExpect(status().isBadRequest());
+
+    verify(userService, never()).authenticate(any(), any());
   }
 }
