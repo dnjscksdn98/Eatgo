@@ -1,8 +1,10 @@
 package com.alexcode.eatgo.interfaces;
 
 import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -69,6 +71,16 @@ class UserControllerTest {
         .andExpect(status().isCreated());
 
     verify(userService).addUser(email, name);
+  }
+
+  @Test
+  public void createWithInvalidData() throws Exception {
+    mvc.perform(post("/users")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"email\":\"tester\", \"name\":\"tester\"}"))
+            .andExpect(status().isBadRequest());
+
+    verify(userService, never()).addUser(any(), any());
   }
 
   @Test

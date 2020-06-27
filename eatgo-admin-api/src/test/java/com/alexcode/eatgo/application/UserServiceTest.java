@@ -2,11 +2,14 @@ package com.alexcode.eatgo.application;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import com.alexcode.eatgo.application.exceptions.EmailDuplicationException;
 import com.alexcode.eatgo.domain.models.User;
 import com.alexcode.eatgo.domain.UserRepository;
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 class UserServiceTest {
 
@@ -24,11 +28,13 @@ class UserServiceTest {
   @Mock
   private UserRepository userRepository;
 
+  @Mock
+  private PasswordEncoder passwordEncoder;
+
   @BeforeEach
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-
-    userService = new UserService(userRepository);
+    userService = new UserService(userRepository, passwordEncoder);
   }
 
   @Test
@@ -56,10 +62,29 @@ class UserServiceTest {
         .build();
 
     given(userRepository.save(any())).willReturn(mockUser);
+    given(userRepository.findByEmail(email)).willReturn(Optional.empty());
 
     User user = userService.addUser(email, name);
 
-    assertThat(user.getName(), is(name));
+    assertEquals(user.getName(), name);
+    assertEquals(user.getEmail(), email);
+  }
+
+  @Test
+  public void addUserWithEmailDuplication() {
+    String email = "tester@example.com";
+    String name = "tester";
+    given(userRepository.findByEmail(any()))
+            .willReturn(Optional.of(
+                    User.builder()
+                      .email(email)
+                      .name(name)
+                      .build())
+            );
+
+    assertThrows(EmailDuplicationException.class, () -> {
+      userService.addUser(email, name);
+    });
   }
 
   @Test
@@ -67,7 +92,7 @@ class UserServiceTest {
     Long id = 1L;
     String email = "tester@example.com";
     String name = "tester2";
-    Long level = 3L;
+    Long level = 100L;
 
     User mockUser = User.builder()
         .id(id)
