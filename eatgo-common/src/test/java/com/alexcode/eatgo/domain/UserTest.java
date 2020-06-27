@@ -12,7 +12,7 @@ class UserTest {
     User user = User.builder()
         .email("tester@example.com")
         .name("tester")
-        .level(3L)
+        .level(100L)
         .build();
 
     assertEquals(user.getName(), "tester");
