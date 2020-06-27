@@ -2,7 +2,11 @@ package com.alexcode.eatgo.exceptions;
 
 public enum ErrorCode {
 
-    INVALID_INPUT_VALUE(400, "V001", "Invalid input value"),
+    // Common
+    INVALID_INPUT_VALUE(400, "C001", "Invalid input value"),
+    ENTITY_NOT_FOUND(400, "C002", "Entity not found"),
+
+    // User
     INVALID_LOGIN_VALUE(400, "U001", "Login input value is invalid"),
     EMAIL_DUPLICATION(400, "U002", "This email already exists");
 
