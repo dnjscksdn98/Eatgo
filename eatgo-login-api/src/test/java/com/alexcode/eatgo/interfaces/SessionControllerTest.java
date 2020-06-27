@@ -1,18 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
-import static org.hamcrest.core.StringContains.containsString;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.alexcode.eatgo.application.exceptions.EmailNotExistsException;
 import com.alexcode.eatgo.application.UserService;
+import com.alexcode.eatgo.application.exceptions.EmailNotExistsException;
 import com.alexcode.eatgo.application.exceptions.WrongPasswordException;
 import com.alexcode.eatgo.domain.models.User;
 import com.alexcode.eatgo.utils.JwtUtil;
@@ -24,6 +13,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @ExtendWith(SpringExtension.class)
@@ -100,7 +98,7 @@ class SessionControllerTest {
   @Test
   public void loginWithWrongPassword() throws Exception {
     given(userService.authenticate("tester@example.com", "wrongpw"))
-        .willThrow(WrongPasswordException.class);
+        .willThrow(new WrongPasswordException());
 
     mvc.perform(post("/session")
         .contentType(MediaType.APPLICATION_JSON)
@@ -113,7 +111,7 @@ class SessionControllerTest {
   @Test
   public void loginWithNonExistedEmail() throws Exception {
     given(userService.authenticate("nonexist@example.com", "testerpw"))
-        .willThrow(EmailNotExistsException.class);
+        .willThrow(new EmailNotExistsException());
 
     mvc.perform(post("/session")
         .contentType(MediaType.APPLICATION_JSON)
