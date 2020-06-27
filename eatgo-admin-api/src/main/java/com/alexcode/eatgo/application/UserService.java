@@ -1,6 +1,7 @@
 package com.alexcode.eatgo.application;
 
 import com.alexcode.eatgo.application.exceptions.EmailDuplicationException;
+import com.alexcode.eatgo.application.exceptions.UserNotFoundException;
 import com.alexcode.eatgo.domain.models.User;
 import com.alexcode.eatgo.domain.UserRepository;
 import java.util.List;
@@ -41,8 +42,9 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public User updateUser(Long id, String email, String name, Long level) {
-    User user = userRepository.findById(id).orElse(null);
+  public User updateUser(Long userId, String email, String name, Long level) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new UserNotFoundException());
 
     user.setEmail(email);
     user.setName(name);
@@ -51,9 +53,11 @@ public class UserService {
     return user;
   }
 
-  public User deactivateUser(Long id) {
-    User user = userRepository.findById(id).orElse(null);
+  public User deactivateUser(Long userId) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new UserNotFoundException());
     user.deactivate();
+
     return user;
   }
 }

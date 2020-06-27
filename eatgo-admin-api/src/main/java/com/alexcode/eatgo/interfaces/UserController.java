@@ -49,6 +49,7 @@ public class UserController {
   public ResponseEntity<?> create(@Valid @RequestBody UserDto resource) throws URISyntaxException {
     String email = resource.getEmail();
     String name = resource.getName();
+
     User user = userService.addUser(email, name);
     URI location = new URI("/users/" + user.getId());
 
@@ -58,19 +59,21 @@ public class UserController {
   @PatchMapping("/users/{userId}")
   public String update(
       @PathVariable("userId") Long userId,
-      @RequestBody User resource) {
+      @Valid @RequestBody UserDto resource) {
 
     String email = resource.getEmail();
     String name = resource.getName();
     Long level = resource.getLevel();
 
     userService.updateUser(userId, email, name, level);
+
     return "{}";
   }
 
   @DeleteMapping("/users/{userId}")
   public String deactivate(@PathVariable("userId") Long userId) {
     userService.deactivateUser(userId);
+
     return "{}";
   }
 }
