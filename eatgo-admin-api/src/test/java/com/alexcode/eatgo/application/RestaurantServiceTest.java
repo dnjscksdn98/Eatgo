@@ -1,21 +1,21 @@
 package com.alexcode.eatgo.application;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-
-import com.alexcode.eatgo.domain.models.Restaurant;
-import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.RestaurantRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
+import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
+import com.alexcode.eatgo.domain.models.Restaurant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 public class RestaurantServiceTest {
 
@@ -27,7 +27,6 @@ public class RestaurantServiceTest {
   @BeforeEach
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-
     mockRestaurantRepository();
 
     restaurantService = new RestaurantService(restaurantRepository);
@@ -36,15 +35,14 @@ public class RestaurantServiceTest {
   private void mockRestaurantRepository() {
     List<Restaurant> restaurants = new ArrayList<>();
     Restaurant restaurant = Restaurant.builder()
-        .id(1004L)
-        .categoryId(1L)
-        .name("Bob zip")
-        .address("Seoul")
-        .build();
-
+            .id(1004L)
+            .name("TestName")
+            .address("TestAddress")
+            .categoryId(1L)
+            .build();
     restaurants.add(restaurant);
-    given(restaurantRepository.findAll()).willReturn(restaurants);
 
+    given(restaurantRepository.findAll()).willReturn(restaurants);
     given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
   }
 
@@ -52,54 +50,53 @@ public class RestaurantServiceTest {
   public void getRestaurants() {
     List<Restaurant> restaurants = restaurantService.getRestaurants();
 
-    assertThat(restaurants.get(0).getId(), is(1004L));
+    assertEquals(restaurants.get(0).getName(), "TestName");
   }
 
   @Test
-  public void getRestaurantWithExistedData() {
+  public void getRestaurantWithValidId() {
     Restaurant restaurant = restaurantService.getRestaurantById(1004L);
 
-    assertThat(restaurant.getId(), is(1004L));
+    assertEquals(restaurant.getId(), 1004L);
   }
 
   @Test
-  public void getRestaurantWithNonExistedData() {
-    Assertions.assertThrows(RestaurantNotFoundException.class, () -> {
+  public void getRestaurantWithInvalidId() {
+    assertThrows(RestaurantNotFoundException.class, () -> {
       restaurantService.getRestaurantById(999L);
     });
   }
 
   @Test
   public void addRestaurant() {
-    given(restaurantRepository.save(any())).will(invocation -> {
-      Restaurant restaurant = invocation.getArgument(0);
-      restaurant.setId(1234L);
-      return restaurant;
-    });
-
     Restaurant restaurant = Restaurant.builder()
-        .name("BeRyong")
-        .address("Seoul")
-        .build();
+            .name("TestName")
+            .address("TestAddress")
+            .build();
 
-    Restaurant created = restaurantService.addRestaurant(restaurant);
+    given(restaurantRepository.save(any()))
+            .willReturn(restaurant);
 
-    assertThat(created.getId(), is(1234L));
+    Restaurant created = restaurantService.addRestaurant(
+            restaurant.getName(), restaurant.getAddress(), restaurant.getCategoryId());
+
+    assertEquals(created.getName(), "TestName");
+    assertEquals(created.getAddress(), "TestAddress");
   }
 
   @Test
   public void updateRestaurant() {
     Restaurant restaurant = Restaurant.builder()
-        .id(1004L)
-        .name("Bob zip")
-        .address("Seoul")
-        .build();
+            .id(1004L)
+            .name("TestName")
+            .address("TestAddress")
+            .categoryId(1L)
+            .build();
 
-    given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
+    Restaurant updated = restaurantService.updateRestaurant(
+            restaurant.getId(), "UpdateName", "UpdateAddress");
 
-    restaurantService.updateRestaurant(1004L, "Sool zip", "Busan");
-
-    assertThat(restaurant.getName(), is("Sool zip"));
-    assertThat(restaurant.getAddress(), is("Busan"));
+    assertEquals(updated.getName(), "UpdateName");
+    assertEquals(updated.getAddress(), "UpdateAddress");
   }
 }
