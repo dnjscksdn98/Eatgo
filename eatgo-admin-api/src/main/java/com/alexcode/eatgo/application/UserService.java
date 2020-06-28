@@ -28,7 +28,7 @@ public class UserService {
     return userRepository.findAll();
   }
 
-  public User addUser(String email, String name) {
+  public User addUser(String email, String name, Long level) {
     if(userRepository.findByEmail(email).isPresent()) {
       throw new EmailDuplicationException(email);
     }
@@ -37,7 +37,7 @@ public class UserService {
             .email(email)
             .name(name)
             .password(temporaryPassword)
-            .level(1L)
+            .level(level)
             .build();
     return userRepository.save(user);
   }

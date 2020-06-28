@@ -49,8 +49,9 @@ public class UserController {
   public ResponseEntity<?> create(@Valid @RequestBody UserDto resource) throws URISyntaxException {
     String email = resource.getEmail();
     String name = resource.getName();
+    Long level = resource.getLevel();
 
-    User user = userService.addUser(email, name);
+    User user = userService.addUser(email, name, level);
     URI location = new URI("/users/" + user.getId());
 
     return ResponseEntity.created(location).body("{}");
