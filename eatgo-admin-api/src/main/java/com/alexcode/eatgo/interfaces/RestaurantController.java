@@ -2,21 +2,18 @@ package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RestaurantService;
 import com.alexcode.eatgo.domain.models.Restaurant;
+import com.alexcode.eatgo.interfaces.dto.RestaurantCreateDto;
+import com.alexcode.eatgo.interfaces.dto.RestaurantUpdateDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin
+
 @RestController
 public class RestaurantController {
 
@@ -34,25 +31,30 @@ public class RestaurantController {
   }
 
   @PostMapping("/restaurants")
-  public ResponseEntity<?> create(@Valid @RequestBody Restaurant resource) throws URISyntaxException {
+  public ResponseEntity<?> create(
+          @Valid @RequestBody RestaurantCreateDto resource) throws URISyntaxException {
+
     Restaurant restaurant = restaurantService.addRestaurant(
-        Restaurant.builder()
-            .name(resource.getName())
-            .address(resource.getAddress())
-            .build()
+            resource.getName(),
+            resource.getAddress(),
+            resource.getCategoryId()
     );
     URI location = new URI("/restaurants/" + restaurant.getId());
+
     return ResponseEntity.created(location).body("{}");
   }
 
   @PatchMapping("/restaurants/{restaurantId}")
-  public String update(@PathVariable("restaurantId") Long restaurantId,
-                       @Valid @RequestBody Restaurant resource) {
+  public String update(
+          @PathVariable("restaurantId") Long restaurantId,
+          @Valid @RequestBody RestaurantUpdateDto resource) {
+
     restaurantService.updateRestaurant(
         restaurantId,
         resource.getName(),
         resource.getAddress()
     );
+
     return "{}";
   }
 }
