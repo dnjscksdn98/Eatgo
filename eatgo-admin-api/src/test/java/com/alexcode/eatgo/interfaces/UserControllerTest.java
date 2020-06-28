@@ -57,30 +57,32 @@ class UserControllerTest {
   public void create() throws Exception {
     String email = "tester@example.com";
     String name = "tester";
+    Long level = 1L;
 
     User user = User.builder()
-        .email(email)
-        .name(name)
-        .build();
+            .email(email)
+            .name(name)
+            .level(level)
+            .build();
 
-    given(userService.addUser(email, name)).willReturn(user);
+    given(userService.addUser(email, name, level)).willReturn(user);
 
     mvc.perform(post("/users")
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"email\": \"tester@example.com\", \"name\": \"tester\"}"))
+        .content("{\"email\": \"tester@example.com\", \"name\": \"tester\", \"level\": 1}"))
         .andExpect(status().isCreated());
 
-    verify(userService).addUser(email, name);
+    verify(userService).addUser(eq(email), eq(name), eq(level));
   }
 
   @Test
   public void createWithInvalidData() throws Exception {
     mvc.perform(post("/users")
             .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"email\":\"tester\", \"name\":\"tester\"}"))
+            .content("{\"email\":\"tester\", \"name\":\"tester\", \"level\":1}"))
             .andExpect(status().isBadRequest());
 
-    verify(userService, never()).addUser(any(), any());
+    verify(userService, never()).addUser(any(), any(), any());
   }
 
   @Test

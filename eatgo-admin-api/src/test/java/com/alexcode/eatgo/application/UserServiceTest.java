@@ -55,15 +55,17 @@ class UserServiceTest {
   public void addUser() {
     String email = "tester@example.com";
     String name = "tester";
+    Long level = 1L;
     User mockUser = User.builder()
-        .email(email)
-        .name(name)
-        .build();
+            .email(email)
+            .name(name)
+            .level(level)
+            .build();
 
     given(userRepository.save(any())).willReturn(mockUser);
     given(userRepository.findByEmail(email)).willReturn(Optional.empty());
 
-    User user = userService.addUser(email, name);
+    User user = userService.addUser(email, name, level);
 
     assertEquals(user.getName(), name);
     assertEquals(user.getEmail(), email);
@@ -73,16 +75,18 @@ class UserServiceTest {
   public void addUserWithEmailDuplication() {
     String email = "tester@example.com";
     String name = "tester";
+    Long level = 1L;
     given(userRepository.findByEmail(any()))
             .willReturn(Optional.of(
                     User.builder()
-                      .email(email)
-                      .name(name)
-                      .build())
+                            .email(email)
+                            .name(name)
+                            .level(level)
+                            .build())
             );
 
     assertThrows(EmailDuplicationException.class, () -> {
-      userService.addUser(email, name);
+      userService.addUser(email, name, level);
     });
   }
 
