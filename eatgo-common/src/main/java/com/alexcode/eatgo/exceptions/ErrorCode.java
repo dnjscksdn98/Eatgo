@@ -4,7 +4,7 @@ public enum ErrorCode {
 
     // Common
     INVALID_INPUT_VALUE(400, "C001", "Invalid input value"),
-    ENTITY_NOT_FOUND(400, "C002", "Entity not found"),
+    ENTITY_NOT_FOUND(404, "C002", "Entity not found"),
 
     // User
     INVALID_LOGIN_VALUE(400, "U001", "Login input value is invalid"),

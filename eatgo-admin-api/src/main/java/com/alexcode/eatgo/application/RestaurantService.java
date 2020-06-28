@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class RestaurantService {
 
   private RestaurantRepository restaurantRepository;
@@ -27,21 +28,21 @@ public class RestaurantService {
         .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
   }
 
-  public Restaurant addRestaurant(Restaurant restaurant) {
+  public Restaurant addRestaurant(String name, String address, Long categoryId) {
+    Restaurant restaurant = Restaurant.builder()
+            .name(name)
+            .address(address)
+            .categoryId(categoryId)
+            .build();
     return restaurantRepository.save(restaurant);
   }
 
-  @Transactional
   public Restaurant updateRestaurant(Long restaurantId, String name, String address) {
     Restaurant restaurant = restaurantRepository.findById(restaurantId)
         .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 
     restaurant.updateInformation(name, address);
 
-    return Restaurant.builder()
-        .id(restaurantId)
-        .name(name)
-        .address(address)
-        .build();
+    return restaurant;
   }
 }
