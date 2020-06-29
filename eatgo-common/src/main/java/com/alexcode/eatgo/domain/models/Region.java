@@ -3,6 +3,9 @@ package com.alexcode.eatgo.domain.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,5 +22,7 @@ public class Region {
   @GeneratedValue
   private Long id;
 
+  @NotEmpty
+  @NotBlank
   private String name;
 }

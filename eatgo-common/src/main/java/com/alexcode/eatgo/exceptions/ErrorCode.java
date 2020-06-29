@@ -8,7 +8,10 @@ public enum ErrorCode {
 
     // User
     INVALID_LOGIN_VALUE(400, "U001", "Login input value is invalid"),
-    EMAIL_DUPLICATION(400, "U002", "This email already exists");
+    EMAIL_DUPLICATION(400, "U002", "This email already exists"),
+
+    // Region
+    REGION_DUPLICATION(400, "R001", "This region already exists");
 
     private final Integer status;
     private final String code;

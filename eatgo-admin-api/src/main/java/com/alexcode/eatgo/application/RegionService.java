@@ -1,10 +1,12 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.models.Region;
+import com.alexcode.eatgo.application.exceptions.RegionDuplicationException;
 import com.alexcode.eatgo.domain.RegionRepository;
-import java.util.List;
+import com.alexcode.eatgo.domain.models.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RegionService {
@@ -21,8 +23,12 @@ public class RegionService {
   }
 
   public Region addRegion(String name) {
+    if(regionRepository.findByName(name).isPresent()) {
+      throw new RegionDuplicationException(name);
+    }
     Region region = Region.builder().name(name).build();
     regionRepository.save(region);
+
     return region;
   }
 }
