@@ -1,20 +1,22 @@
 package com.alexcode.eatgo.application;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-
-import com.alexcode.eatgo.application.exceptions.EmailExistsException;
-import com.alexcode.eatgo.domain.models.User;
+import com.alexcode.eatgo.application.exceptions.PasswordMismatchException;
 import com.alexcode.eatgo.domain.UserRepository;
-import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
+import com.alexcode.eatgo.domain.exceptions.EmailDuplicationException;
+import com.alexcode.eatgo.domain.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 class UserServiceTest {
 
@@ -38,8 +40,9 @@ class UserServiceTest {
     String email = "tester@example.com";
     String name = "tester";
     String password = "testerpw";
+    String confirmPassword = "testerpw";
 
-    userService.registerUser(email, name, password);
+    userService.registerUser(email, name, password, confirmPassword);
 
     verify(userRepository).save(any());
   }
@@ -49,13 +52,31 @@ class UserServiceTest {
     String email = "tester@example.com";
     String name = "tester";
     String password = "testerpw";
+    String confirmPassword = "testerpw";
 
     User user = User.builder().build();
 
-    Assertions.assertThrows(EmailExistsException.class, () -> {
+    assertThrows(EmailDuplicationException.class, () -> {
       given(userRepository.findByEmail(email)).willReturn(Optional.of(user));
 
-      userService.registerUser(email, name, password);
+      userService.registerUser(email, name, password, confirmPassword);
+
+      verify(userRepository, never()).save(any());
+    });
+  }
+
+  @Test
+  public void registerUserWithPasswordMismatch() {
+    String email = "tester@example.com";
+    String name = "tester";
+    String password = "testerpw";
+    String confirmPassword = "mismatch";
+
+    assertThrows(PasswordMismatchException.class, () -> {
+      given(userRepository.findByEmail(email))
+              .willReturn(Optional.empty());
+
+      userService.registerUser(email, name, password, confirmPassword);
 
       verify(userRepository, never()).save(any());
     });
