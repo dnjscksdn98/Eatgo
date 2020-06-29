@@ -1,10 +1,12 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.models.Category;
+import com.alexcode.eatgo.application.exceptions.CategoryDuplicationException;
 import com.alexcode.eatgo.domain.CategoryRepository;
-import java.util.List;
+import com.alexcode.eatgo.domain.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoryService {
@@ -21,6 +23,9 @@ public class CategoryService {
   }
 
   public Category addCategory(String name){
+    if(categoryRepository.findByName(name).isPresent()) {
+      throw new CategoryDuplicationException(name);
+    }
     Category category = Category.builder().name(name).build();
     categoryRepository.save(category);
     return category;
