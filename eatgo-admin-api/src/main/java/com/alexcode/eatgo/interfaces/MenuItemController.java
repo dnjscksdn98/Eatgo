@@ -2,16 +2,14 @@ package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.MenuItemService;
 import com.alexcode.eatgo.domain.models.MenuItem;
-import java.util.List;
+import com.alexcode.eatgo.interfaces.dto.MenuItemUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+import javax.validation.Valid;
+import java.util.List;
+
+
 @RestController
 public class MenuItemController {
 
@@ -24,11 +22,13 @@ public class MenuItemController {
   }
 
   @PatchMapping("/restaurants/{restaurantId}/menuitems")
-  public String bulkUpdate(@PathVariable("restaurantId") Long restaurantId,
-                           @RequestBody List<MenuItem> menuItems) {
+  public String bulkUpdate(
+          @PathVariable("restaurantId") Long restaurantId,
+          @Valid @RequestBody List<MenuItemUpdateDto> menuItems) {
+
     menuItemService.bulkUpdate(restaurantId, menuItems);
 
-    return "";
+    return "{}";
   }
 
 }

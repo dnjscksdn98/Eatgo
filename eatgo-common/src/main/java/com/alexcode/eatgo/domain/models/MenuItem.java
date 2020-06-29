@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +18,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,11 +27,12 @@ public class MenuItem {
   @GeneratedValue
   private Long id;
 
+  @NotNull
   private Long restaurantId;
 
+  @NotEmpty
+  @NotBlank
+  @Setter
   private String name;
 
-  @Transient
-  @JsonInclude(Include.NON_DEFAULT)
-  private boolean destroy;
 }
