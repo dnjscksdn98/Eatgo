@@ -2,7 +2,10 @@ package com.alexcode.eatgo.interfaces;
 
 
 import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alexcode.eatgo.application.CategoryService;
+import com.alexcode.eatgo.application.exceptions.CategoryDuplicationException;
 import com.alexcode.eatgo.domain.models.Category;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,5 +60,28 @@ class CategoryControllerTest {
         .andExpect(content().string("{}"));
 
     verify(categoryService).addCategory("Fast Food");
+  }
+
+  @Test
+  public void createWithInvalidData() throws Exception {
+    mvc.perform(post("/categories")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\":\"\"}"))
+            .andExpect(status().isBadRequest());
+
+    verify(categoryService, never()).addCategory(any());
+  }
+
+  @Test
+  public void createWithExistedData() throws Exception {
+    given(categoryService.addCategory("Seoul"))
+            .willThrow(new CategoryDuplicationException("Seoul"));
+
+    mvc.perform(post("/categories")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\":\"Seoul\"}"))
+            .andExpect(status().isBadRequest());
+
+    verify(categoryService).addCategory(eq("Seoul"));
   }
 }
