@@ -1,26 +1,27 @@
 package com.alexcode.eatgo.application;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-
-import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.MenuItemRepository;
-import com.alexcode.eatgo.domain.models.Restaurant;
-import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.RestaurantRepository;
-import com.alexcode.eatgo.domain.models.Review;
 import com.alexcode.eatgo.domain.ReviewRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
+import com.alexcode.eatgo.domain.models.MenuItem;
+import com.alexcode.eatgo.domain.models.Restaurant;
+import com.alexcode.eatgo.domain.models.Review;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 public class RestaurantServiceTest {
 

@@ -2,15 +2,14 @@ package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RestaurantService;
 import com.alexcode.eatgo.domain.models.Restaurant;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin
+import java.util.List;
+
 @RestController
 public class RestaurantController {
 
@@ -19,14 +18,14 @@ public class RestaurantController {
 
   @GetMapping("/restaurants")
   public List<Restaurant> list(
-      @RequestParam("region") String region,
-      @RequestParam("category") Long categoryId) {
+          @RequestParam String region,
+          @RequestParam Long categoryId) {
 
     return restaurantService.getRestaurants(region, categoryId);
   }
 
-  @GetMapping("/restaurants/{id}")
-  public Restaurant detail(@PathVariable("id") Long id) {
-    return restaurantService.getRestaurantById(id);
+  @GetMapping("/restaurants/{restaurantId}")
+  public Restaurant detail(@PathVariable("restaurantId") Long restaurantId) {
+    return restaurantService.getRestaurantById(restaurantId);
   }
 }
