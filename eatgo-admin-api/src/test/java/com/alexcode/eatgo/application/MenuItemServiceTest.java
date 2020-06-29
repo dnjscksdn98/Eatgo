@@ -1,21 +1,20 @@
 package com.alexcode.eatgo.application;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.MenuItemRepository;
-import java.util.ArrayList;
-import java.util.List;
+import com.alexcode.eatgo.domain.RestaurantRepository;
+import com.alexcode.eatgo.domain.models.MenuItem;
+import com.alexcode.eatgo.domain.models.Restaurant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
 
 class MenuItemServiceTest {
 
@@ -24,39 +23,29 @@ class MenuItemServiceTest {
   @Mock
   private MenuItemRepository menuItemRepository;
 
+  @Mock
+  private RestaurantRepository restaurantRepository;
+
   @BeforeEach
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    menuItemService = new MenuItemService(menuItemRepository);
+    menuItemService = new MenuItemService(menuItemRepository, restaurantRepository);
   }
 
   @Test
   public void getMenuItems() {
     List<MenuItem> mockMenuItems = new ArrayList<>();
     mockMenuItems.add(MenuItem.builder().name("Kimchi").build());
+    Restaurant restaurant = Restaurant.builder().id(1004L).build();
 
+    given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
     given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(mockMenuItems);
 
     List<MenuItem> menuItems = menuItemService.getMenuItems(1004L);
-
     MenuItem menuItem = menuItems.get(0);
 
-    assertThat(menuItem.getName(), is("Kimchi"));
-  }
-
-  @Test
-  public void bulkUpdate() {
-    List<MenuItem> menuItems = new ArrayList<>();
-
-    menuItems.add(MenuItem.builder().name("Kimchi").build());
-    menuItems.add(MenuItem.builder().id(4L).name("Pizza").build());
-    menuItems.add(MenuItem.builder().id(3L).destroy(true).build());
-
-    menuItemService.bulkUpdate(1L, menuItems);
-
-    verify(menuItemRepository, times(2)).save(any());
-    verify(menuItemRepository, times(1)).deleteById(eq(3L));
+    assertEquals(menuItem.getName(), "Kimchi");
   }
 
 }
