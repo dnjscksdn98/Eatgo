@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.application.exceptions;
+package com.alexcode.eatgo.domain.exceptions;
 
 import com.alexcode.eatgo.exceptions.ErrorCode;
 import com.alexcode.eatgo.exceptions.InvalidValueException;

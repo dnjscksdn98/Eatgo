@@ -1,13 +1,14 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.application.exceptions.EmailExistsException;
-import com.alexcode.eatgo.domain.models.User;
+import com.alexcode.eatgo.application.exceptions.PasswordMismatchException;
 import com.alexcode.eatgo.domain.UserRepository;
-import java.util.Optional;
-import javax.transaction.Transactional;
+import com.alexcode.eatgo.domain.exceptions.EmailDuplicationException;
+import com.alexcode.eatgo.domain.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @Transactional
@@ -23,9 +24,14 @@ public class UserService {
     this.passwordEncoder = passwordEncoder;
   }
 
-  public User registerUser(String email, String name, String password) {
-    Optional<User> user = userRepository.findByEmail(email);
-    if(user.isPresent()) throw new EmailExistsException(email);
+  public User registerUser(String email, String name, String password, String confirmPassword) {
+    if(userRepository.findByEmail(email).isPresent()) {
+      throw new EmailDuplicationException(email);
+    }
+
+    if(!isPasswordConfirmed(password, confirmPassword)) {
+      throw new PasswordMismatchException();
+    }
 
     String encodedPassword = passwordEncoder.encode(password);
 
@@ -37,6 +43,13 @@ public class UserService {
           .level(1L)
           .build()
     );
+  }
+
+  private boolean isPasswordConfirmed(String password, String confirmPassword) {
+    if(password.equals(confirmPassword)) {
+      return true;
+    }
+    return false;
   }
 
 }

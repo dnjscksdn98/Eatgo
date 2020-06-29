@@ -1,6 +1,6 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.application.exceptions.EmailDuplicationException;
+import com.alexcode.eatgo.domain.exceptions.EmailDuplicationException;
 import com.alexcode.eatgo.application.exceptions.UserNotFoundException;
 import com.alexcode.eatgo.domain.models.User;
 import com.alexcode.eatgo.domain.UserRepository;

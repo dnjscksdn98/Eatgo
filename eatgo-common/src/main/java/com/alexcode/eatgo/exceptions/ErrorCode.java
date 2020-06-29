@@ -9,6 +9,7 @@ public enum ErrorCode {
     // User
     INVALID_LOGIN_VALUE(400, "U001", "Login input value is invalid"),
     EMAIL_DUPLICATION(400, "U002", "This email already exists"),
+    PASSWORD_MISMATCH(400, "U003", "Password must match with confirm password"),
 
     // Region
     REGION_DUPLICATION(400, "R001", "This region already exists"),
