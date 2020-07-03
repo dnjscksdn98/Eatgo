@@ -54,7 +54,15 @@
 - 예외 발생시 통일된 형태의 객체로 응답
   - ErrorResponse
   
-### 사용자 인증 방법(User Authentication)
+### Roles & Permissions Authentication
+- ```ApplicationUserPermission```
+- ```ApplicationUserRole```
+- ```antMatchers()```를 통한 각 API 모듈에 특정 Role을 가진 사용자만 접근할 수 있도록 보안
+  - Ex) ```.antMatchers("/customer/api/**").hasRole(CUSTOMER.name())```
+- ```@PreAuthorizer()```를 통한 특정 Permission을 가진 사용자만 특정 API를 호출할 수 있도록 보안
+  - Ex) ```@PreAuthorize("hasAuthority('restaurant:read')")```
+
+### User Authentication
 - 토큰 기반 인증
   - **Json Web Tokens**
   - 사용한 JWT 라이브러리
@@ -66,123 +74,14 @@
         runtime 'io.jsonwebtoken:jjwt-jackson:0.11.2'
     }
     ```
-  - JWT 유틸 클래스(토큰생성, 클레임 반환)
-  ```java
-  public class JwtUtil {
+- JwtUsernameAndPasswordAuthenticationFilter
+  - extends UsernameAndPasswordAuthenticationFilter
+  - ```attemptAuthentication()```
+    - ```/login``` URL로 username과 password로 요청시 호출
+    - 사용자의 username과 password가 유효한지 검사
+  - ```successfulAuthentication()```
+    - 유효한 사용자일 경우, Response Header에 JWT 토큰 생성후, 클라이언트로 전송
   
-      private Key key;
-  
-      /**
-       * 사용할 Signature 해싱 알고리즘: HMAC-SHA256
-       * @param secret
-       */
-  
-      public JwtUtil(String secret) {
-          this.key = Keys.hmacShaKeyFor(secret.getBytes());
-      }
-  
-      /**
-       * Claims: 페이로드에 담기는 데이터들
-       * Signature: 토큰이 위조되지 않았는지 검사
-       *
-       * @param userId
-       * @param name
-       * @return token
-       */
-  
-      public String createToken(long userId, String name) {
-          String token = Jwts.builder()
-                  .claim("userId", userId)
-                  .claim("name", name)
-                  .signWith(key, SignatureAlgorithm.HS256)
-                  .compact();
-          
-          return token;
-      }
-  
-      /**
-       * 전달받은 토큰에 저장되어 있는 Claims 객체들을 반환
-       *
-       * @param token
-       * @return claims
-       */
-  
-      public Claims getClaims(String token) {
-          Claims claims = Jwts.parserBuilder()
-                  .setSigningKey(key)
-                  .build()
-                  .parseClaimsJws(token)
-                  .getBody();
-  
-          return claims;
-      }
-  }
-  ```
-  
-  - Spring Security 필터링
-  ```java
-  /**
-   * HTTP 요청에 들어 있는 Authorization 헤더를 필터링하여
-   * 성공적이면 Authentication 객체를 SecurityContextHolder 객체에 저장
-   */
-  
-  public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
-  
-      private JwtUtil jwtUtil;
-  
-      public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
-          super(authenticationManager);
-          this.jwtUtil = jwtUtil;
-      }
-  
-      /**
-       * 생성된 Authentication 객체가 존재하면
-       * SecurityContextHolder에 담음
-       *
-       * @param request
-       * @param response
-       * @param chain
-       * @throws IOException
-       * @throws ServletException
-       */
-  
-      @Override
-      protected void doFilterInternal(
-              HttpServletRequest request,
-              HttpServletResponse response,
-              FilterChain chain
-      ) throws IOException, ServletException {
-  
-          Authentication authentication = getAuthentication(request);
-          if(authentication != null) {
-              SecurityContext context = SecurityContextHolder.getContext();
-              context.setAuthentication(authentication);
-          }
-  
-          chain.doFilter(request, response);
-      }
-  
-      /**
-       * HTTP 요청의 Authorization 헤더를 검사하여, 토큰에 저장된 Claims들을 가져옴
-       * UsernamePasswordAuthentication의 principal에 Claims를 전달하여,
-       * 이 정보를 Authentication 객체에 담음
-       *
-       * @param request
-       * @return authentication
-       */
-  
-      private Authentication getAuthentication(HttpServletRequest request) {
-          String token = request.getHeader("Authorization");
-          if(token == null) {
-              return null;
-          }
-  
-          Claims claims = jwtUtil.getClaims(token.substring("Bearer ".length()));
-          Authentication authentication = new UsernamePasswordAuthenticationToken(claims, null);
-          return authentication;
-      }
-  }
-  ```
     
 ### Gradle 커맨드 라인 명령어
 
