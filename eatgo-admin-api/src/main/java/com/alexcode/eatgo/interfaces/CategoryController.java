@@ -5,10 +5,8 @@ import com.alexcode.eatgo.domain.models.Category;
 import com.alexcode.eatgo.interfaces.dto.CategoryCreateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -16,17 +14,20 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
+@RequestMapping("admin/api/v1/categories")
 public class CategoryController {
 
   @Autowired
   private CategoryService categoryService;
 
-  @GetMapping("/categories")
+  @GetMapping
+  @PreAuthorize("hasAuthority('category:read')")
   public List<Category> list() {
     return categoryService.getCategories();
   }
 
-  @PostMapping("/categories")
+  @PostMapping
+  @PreAuthorize("hasAuthority('category:write')")
   public ResponseEntity<?> create(
           @Valid @RequestBody CategoryCreateDto resource) throws URISyntaxException {
 

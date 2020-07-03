@@ -2,20 +2,23 @@ package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RegionService;
 import com.alexcode.eatgo.domain.models.Region;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin
+import java.util.List;
+
 @RestController
+@RequestMapping("customer/api/v1/regions")
 public class RegionController {
 
   @Autowired
   private RegionService regionService;
 
-  @GetMapping("/regions")
+  @GetMapping
+  @PreAuthorize("hasAuthority('region:read')")
   public List<Region> list() {
     return regionService.getRegions();
   }

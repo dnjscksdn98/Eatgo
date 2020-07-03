@@ -6,6 +6,7 @@ import com.alexcode.eatgo.interfaces.dto.RestaurantCreateDto;
 import com.alexcode.eatgo.interfaces.dto.RestaurantUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,22 +16,26 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("admin/api/v1/restaurants")
 public class RestaurantController {
 
   @Autowired
   private RestaurantService restaurantService;
 
-  @GetMapping("/restaurants")
+  @GetMapping
+  @PreAuthorize("hasAuthority('restaurant:read')")
   public List<Restaurant> list() {
     return restaurantService.getRestaurants();
   }
 
-  @GetMapping("/restaurants/{restaurantId}")
+  @GetMapping(path = "/{restaurantId}")
+  @PreAuthorize("hasAuthority('restaurant:read')")
   public Restaurant detail(@PathVariable("restaurantId") Long restaurantId) {
     return restaurantService.getRestaurantById(restaurantId);
   }
 
-  @PostMapping("/restaurants")
+  @PostMapping
+  @PreAuthorize("hasAuthority('restaurant:write')")
   public ResponseEntity<?> create(
           @Valid @RequestBody RestaurantCreateDto resource) throws URISyntaxException {
 
@@ -44,7 +49,8 @@ public class RestaurantController {
     return ResponseEntity.created(location).body("{}");
   }
 
-  @PatchMapping("/restaurants/{restaurantId}")
+  @PatchMapping(path = "/{restaurantId}")
+  @PreAuthorize("hasAuthority('restaurant:write')")
   public String update(
           @PathVariable("restaurantId") Long restaurantId,
           @Valid @RequestBody RestaurantUpdateDto resource) {

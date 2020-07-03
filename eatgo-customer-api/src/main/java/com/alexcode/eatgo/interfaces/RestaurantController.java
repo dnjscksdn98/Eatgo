@@ -3,20 +3,20 @@ package com.alexcode.eatgo.interfaces;
 import com.alexcode.eatgo.application.RestaurantService;
 import com.alexcode.eatgo.domain.models.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("customer/api/v1/restaurants")
 public class RestaurantController {
 
   @Autowired
   private RestaurantService restaurantService;
 
-  @GetMapping("/restaurants")
+  @GetMapping
+  @PreAuthorize("hasAuthority('restaurant:read')")
   public List<Restaurant> list(
           @RequestParam String region,
           @RequestParam Long categoryId) {
@@ -24,7 +24,8 @@ public class RestaurantController {
     return restaurantService.getRestaurants(region, categoryId);
   }
 
-  @GetMapping("/restaurants/{restaurantId}")
+  @GetMapping(path = "/{restaurantId}")
+  @PreAuthorize("hasAuthority('restaurant:read')")
   public Restaurant detail(@PathVariable("restaurantId") Long restaurantId) {
     return restaurantService.getRestaurantById(restaurantId);
   }

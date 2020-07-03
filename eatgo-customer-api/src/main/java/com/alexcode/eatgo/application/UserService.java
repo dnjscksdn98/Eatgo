@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import static com.alexcode.eatgo.security.ApplicationUserRole.CUSTOMER;
+
 @Service
 @Transactional
 public class UserService {
@@ -37,11 +39,12 @@ public class UserService {
 
     return userRepository.save(
         User.builder()
-          .email(email)
-          .name(name)
-          .password(encodedPassword)
-          .level(1L)
-          .build()
+                .email(email)
+                .name(name)
+                .password(encodedPassword)
+                .role(CUSTOMER)
+                .level(1L)
+                .build()
     );
   }
 
