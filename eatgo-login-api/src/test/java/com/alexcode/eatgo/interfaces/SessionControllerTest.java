@@ -54,7 +54,7 @@ class SessionControllerTest {
     given(userService.authenticate(email, password)).willReturn(mockUser);
     given(jwtUtil.createToken(id, name, null)).willReturn("header.payload.signature");
 
-    mvc.perform(post("/session")
+    mvc.perform(post("/login")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"email\": \"tester@example.com\", \"password\": \"tester\"}"))
         .andExpect(status().isCreated())
@@ -84,7 +84,7 @@ class SessionControllerTest {
     given(userService.authenticate(email, password)).willReturn(mockUser);
     given(jwtUtil.createToken(id, name, restaurantId)).willReturn("header.payload.signature");
 
-    mvc.perform(post("/session")
+    mvc.perform(post("/login")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"email\": \"tester@example.com\", \"password\": \"tester\"}"))
             .andExpect(status().isCreated())
@@ -100,7 +100,7 @@ class SessionControllerTest {
     given(userService.authenticate("tester@example.com", "wrongpw"))
         .willThrow(new WrongPasswordException());
 
-    mvc.perform(post("/session")
+    mvc.perform(post("/login")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"email\": \"tester@example.com\", \"password\": \"wrongpw\"}"))
         .andExpect(status().isBadRequest());
@@ -113,7 +113,7 @@ class SessionControllerTest {
     given(userService.authenticate("nonexist@example.com", "testerpw"))
         .willThrow(new EmailNotExistsException());
 
-    mvc.perform(post("/session")
+    mvc.perform(post("/login")
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"email\": \"nonexist@example.com\", \"password\": \"testerpw\"}"))
         .andExpect(status().isBadRequest());
@@ -123,7 +123,7 @@ class SessionControllerTest {
 
   @Test
   public void loginWithInvalidEmailForm() throws Exception {
-    mvc.perform(post("/session")
+    mvc.perform(post("/login")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"email\":\"test\", \"password\": \"test\"}"))
             .andExpect(status().isBadRequest());
@@ -133,7 +133,7 @@ class SessionControllerTest {
 
   @Test
   public void loginWithEmptyData() throws Exception {
-    mvc.perform(post("/session")
+    mvc.perform(post("/login")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{}"))
             .andExpect(status().isBadRequest());

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
 @ControllerAdvice
-public class SessionErrorAdvice {
+public class GlobalExceptionHandler {
 
-  private static final Logger logger = LogManager.getLogger(SessionErrorAdvice.class);
+  private static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {

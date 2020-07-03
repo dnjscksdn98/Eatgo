@@ -1,4 +1,4 @@
-package com.alexcode.eatgo;
+package com.alexcode.eatgo.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -7,12 +7,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class SessionRequestDto {
+public class LoginRequestDto {
 
   @Email
   @NotEmpty
   @NotBlank
-  private String email;
+  private String username;
 
   @NotEmpty
   @NotBlank
