@@ -27,6 +27,7 @@
 ### Domain Model(도메인 모델)
 
 - Restaurant(식당)
+- Reservation(예약)
 - Menu Item(메뉴)
 - Review(리뷰)
 - Region(지역)
@@ -56,7 +57,9 @@
   
 ### Roles & Permissions Authentication
 - ```ApplicationUserPermission```
+  - 사용자 Permission Enum
 - ```ApplicationUserRole```
+  - 사용자 Role Enum
 - ```antMatchers()```를 통한 각 API 모듈에 특정 Role을 가진 사용자만 접근할 수 있도록 보안
   - Ex) ```.antMatchers("/customer/api/**").hasRole(CUSTOMER.name())```
 - ```@PreAuthorizer()```를 통한 특정 Permission을 가진 사용자만 특정 API를 호출할 수 있도록 보안
@@ -66,7 +69,7 @@
 - 토큰 기반 인증
   - **Json Web Tokens**
   - 사용한 JWT 라이브러리
-    - [Java JWT](https://github.com/jwtk/jjwt)
+    - https://github.com/jwtk/jjwt
     ```
     dependencies {
         implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
@@ -82,6 +85,32 @@
   - ```successfulAuthentication()```
     - 유효한 사용자일 경우, Response Header에 JWT 토큰 생성후, 클라이언트로 전송
   
+- JwtTokenVerifier
+  - extends OncePerRequestFilter
+  - ```doFilterInternal()```
+    - 매번 클라이언트로부터의 요청시 Request Header에 담긴 JWT Token이 유효한지 검사
+    
+- ApplicationSecurityConfig
+```
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http
+            .cors().disable()
+            .csrf().disable()
+            .formLogin().disable()
+            .headers().frameOptions().disable()
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, jwtSecretKey))
+            .addFilterAfter(new JwtTokenVerifier(jwtConfig, jwtSecretKey, applicationUserService), JwtUsernameAndPasswordAuthenticationFilter.class)
+            .authorizeRequests()
+            .antMatchers("/owner/api/v1/**").hasRole(OWNER.name())
+            .anyRequest()
+            .authenticated();
+}
+```
     
 ### Gradle 커맨드 라인 명령어
 
