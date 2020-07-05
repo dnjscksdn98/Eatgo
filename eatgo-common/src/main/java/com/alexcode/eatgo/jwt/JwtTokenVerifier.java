@@ -1,5 +1,7 @@
 package com.alexcode.eatgo.jwt;
 
+import com.alexcode.eatgo.security.ApplicationUser;
+import com.alexcode.eatgo.security.ApplicationUserService;
 import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -25,10 +27,16 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
 
     private final JwtConfig jwtConfig;
     private final JwtSecretKey jwtSecretKey;
+    private final ApplicationUserService applicationUserService;
 
-    public JwtTokenVerifier(JwtConfig jwtConfig, JwtSecretKey jwtSecretKey) {
+    public JwtTokenVerifier(
+            JwtConfig jwtConfig,
+            JwtSecretKey jwtSecretKey,
+            ApplicationUserService applicationUserService) {
+
         this.jwtConfig = jwtConfig;
         this.jwtSecretKey = jwtSecretKey;
+        this.applicationUserService = applicationUserService;
     }
 
     @Override
@@ -56,6 +64,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             Claims body = claimsJws.getBody();
 
             String username = body.getSubject();
+            ApplicationUser applicationUser = (ApplicationUser) applicationUserService.loadUserByUsername(username);
 
             var authorities = (List<Map<String, String>>) body.get("authorities");
 
@@ -64,7 +73,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
                     .collect(Collectors.toSet());
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    username,
+                    applicationUser,
                     null,
                     simpleGrantedAuthorities
             );

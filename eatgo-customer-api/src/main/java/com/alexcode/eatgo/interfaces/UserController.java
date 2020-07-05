@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -14,12 +15,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
+@RequestMapping("users")
 public class UserController {
 
   @Autowired
   private UserService userService;
 
-  @PostMapping("/users")
+  @PostMapping
   public ResponseEntity<?> register(
           @Valid @RequestBody UserRegisterDto resource) throws URISyntaxException {
 
@@ -33,4 +35,5 @@ public class UserController {
 
     return ResponseEntity.created(location).body("{}");
   }
+
 }

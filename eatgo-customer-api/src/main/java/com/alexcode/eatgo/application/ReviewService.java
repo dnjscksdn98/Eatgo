@@ -15,10 +15,10 @@ public class ReviewService {
     this.reviewRepository = reviewRepository;
   }
 
-  public Review addReview(Long restaurantId, String name, Integer score, String description) {
+  public Review addReview(Long restaurantId, String userName, Integer score, String description) {
     Review review = Review.builder()
             .restaurantId(restaurantId)
-            .name(name)
+            .name(userName)
             .score(score)
             .description(description)
             .build();

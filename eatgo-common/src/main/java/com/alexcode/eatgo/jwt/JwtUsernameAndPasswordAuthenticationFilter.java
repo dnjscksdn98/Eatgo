@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.jwt;
 
+import com.alexcode.eatgo.security.ApplicationUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -87,8 +88,14 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
             Authentication authResult
     ) throws IOException, ServletException {
 
+        Object principal = authResult.getPrincipal();
+        Long userId = ((ApplicationUser) principal).getUserId();
+        String userName = ((ApplicationUser) principal).getName();
+
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
+                .claim("userId", userId)
+                .claim("userName", userName)
                 .claim("authorities", authResult.getAuthorities())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))

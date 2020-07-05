@@ -14,6 +14,14 @@ public class ApplicationUser implements UserDetails {
         this.user = user;
     }
 
+    public Long getUserId() {
+        return this.user.getId();
+    }
+
+    public String getName() {
+        return this.user.getName();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.user.getRole().getGrantedAuthorities();
