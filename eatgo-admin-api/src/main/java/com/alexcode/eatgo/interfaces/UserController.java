@@ -2,26 +2,19 @@ package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.UserService;
 import com.alexcode.eatgo.domain.models.User;
+import com.alexcode.eatgo.interfaces.dto.UserDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import com.alexcode.eatgo.interfaces.dto.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
-
-@CrossOrigin
 @RestController
+@RequestMapping("admin/api/v1/users")
 public class UserController {
 
   /**
@@ -40,12 +33,14 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @GetMapping("/users")
+  @GetMapping
+  @PreAuthorize("hasAuthority('user:read')")
   public List<User> list() {
     return userService.getUsers();
   }
 
-  @PostMapping("/users")
+  @PostMapping
+  @PreAuthorize("hasAuthority('user:write')")
   public ResponseEntity<?> create(@Valid @RequestBody UserDto resource) throws URISyntaxException {
     String email = resource.getEmail();
     String name = resource.getName();
@@ -57,7 +52,8 @@ public class UserController {
     return ResponseEntity.created(location).body("{}");
   }
 
-  @PatchMapping("/users/{userId}")
+  @PatchMapping(path = "/{userId}")
+  @PreAuthorize("hasAuthority('user:write')")
   public String update(
       @PathVariable("userId") Long userId,
       @Valid @RequestBody UserDto resource) {
@@ -71,7 +67,8 @@ public class UserController {
     return "{}";
   }
 
-  @DeleteMapping("/users/{userId}")
+  @DeleteMapping(path = "/{userId}")
+  @PreAuthorize("hasAuthority('user:write')")
   public String deactivate(@PathVariable("userId") Long userId) {
     userService.deactivateUser(userId);
 

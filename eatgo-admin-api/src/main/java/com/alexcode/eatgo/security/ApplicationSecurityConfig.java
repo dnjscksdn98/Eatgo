@@ -1,6 +1,9 @@
-package com.alexcode.eatgo;
+package com.alexcode.eatgo.security;
 
-import com.alexcode.eatgo.security.ApplicationUserService;
+import com.alexcode.eatgo.jwt.JwtConfig;
+import com.alexcode.eatgo.jwt.JwtSecretKey;
+import com.alexcode.eatgo.jwt.JwtTokenVerifier;
+import com.alexcode.eatgo.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.alexcode.eatgo.security.ApplicationUserRole.ADMIN;
@@ -18,18 +21,24 @@ import static com.alexcode.eatgo.security.ApplicationUserRole.ADMIN;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
+public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final ApplicationUserService applicationUserService;
+  private final PasswordEncoder passwordEncoder;
+  private final JwtConfig jwtConfig;
+  private final JwtSecretKey jwtSecretKey;
 
   @Autowired
-  public SecurityJavaConfig(ApplicationUserService applicationUserService) {
-    this.applicationUserService = applicationUserService;
-  }
+  public ApplicationSecurityConfig(
+          ApplicationUserService applicationUserService,
+          PasswordEncoder passwordEncoder,
+          JwtConfig jwtConfig,
+          JwtSecretKey jwtSecretKey) {
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
+    this.applicationUserService = applicationUserService;
+    this.passwordEncoder = passwordEncoder;
+    this.jwtConfig = jwtConfig;
+    this.jwtSecretKey = jwtSecretKey;
   }
 
   @Override
@@ -40,10 +49,15 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
             .formLogin().disable()
             .headers().frameOptions().disable()
             .and()
-            .authorizeRequests()
-            .antMatchers("/admin/api/**").hasRole(ADMIN.name())
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .httpBasic();
+            .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, jwtSecretKey))
+            .addFilterAfter(new JwtTokenVerifier(jwtConfig, jwtSecretKey), JwtUsernameAndPasswordAuthenticationFilter.class)
+            .authorizeRequests()
+            .antMatchers("/admin/api/v1/**").hasRole(ADMIN.name())
+            .anyRequest()
+            .authenticated();
   }
 
   @Override
@@ -54,7 +68,7 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public DaoAuthenticationProvider daoAuthenticationProvider() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    provider.setPasswordEncoder(passwordEncoder());
+    provider.setPasswordEncoder(passwordEncoder);
     provider.setUserDetailsService(applicationUserService);
 
     return provider;

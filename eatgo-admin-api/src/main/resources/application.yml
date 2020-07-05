@@ -8,6 +8,13 @@ spring:
     hibernate:
       ddl-auto: update
 
+application:
+  jwt:
+    secretKey: securesecuresecuresecuresecuresecuresecure
+    authorizationHeader: Authorization
+    tokenPrefix: Bearer
+    tokenExpirationAfterDays: 10
+
 ---
 
 spring:
