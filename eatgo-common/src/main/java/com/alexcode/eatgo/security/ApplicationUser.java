@@ -18,6 +18,13 @@ public class ApplicationUser implements UserDetails {
         return this.user.getId();
     }
 
+    public Long getRestaurantId() {
+        if(this.user.isRestaurantOwner()) {
+            return this.user.getRestaurantId();
+        }
+        return null;
+    }
+
     public String getName() {
         return this.user.getName();
     }

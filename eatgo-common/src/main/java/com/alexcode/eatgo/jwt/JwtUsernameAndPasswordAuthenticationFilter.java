@@ -2,6 +2,7 @@ package com.alexcode.eatgo.jwt;
 
 import com.alexcode.eatgo.security.ApplicationUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -90,13 +91,20 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
         Object principal = authResult.getPrincipal();
         Long userId = ((ApplicationUser) principal).getUserId();
+        Long restaurantId = ((ApplicationUser) principal).getRestaurantId();
         String userName = ((ApplicationUser) principal).getName();
 
-        String token = Jwts.builder()
+        JwtBuilder builder = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("userId", userId)
                 .claim("userName", userName)
-                .claim("authorities", authResult.getAuthorities())
+                .claim("authorities", authResult.getAuthorities());
+
+        if(restaurantId != null) {
+            builder = builder.claim("restaurantId", restaurantId);
+        }
+
+        String token = builder
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(jwtSecretKey.getSecretKey())
