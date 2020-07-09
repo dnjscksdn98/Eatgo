@@ -5,47 +5,56 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"restaurant", "reviews", "reservations"})
 public class User {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Setter
-  @NotEmpty
-  @Email
   private String email;
 
   @Setter
-  @NotEmpty
-  @NotBlank
   private String name;
 
-  @NotEmpty
-  @NotBlank
   private String password;
 
-  @JsonInclude(Include.NON_NULL)
-  private Long restaurantId;
-
   @Setter
-  @NotNull
   private Long level;
 
   private ApplicationUserRole role;
+
+  private LocalDateTime createdAt;
+  
+  private String createdBy;
+  
+  private LocalDateTime updatedAt;
+  
+  private String updatedBy;
+
+  private LocalDateTime lastLoginAt;
+
+  @OneToOne
+  @JsonInclude(Include.NON_NULL)
+  private Restaurant restaurant;
+
+  @JsonInclude(Include.NON_EMPTY)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+  private List<Review> reviews;
+
+  @JsonInclude(Include.NON_EMPTY)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+  private List<Reservation> reservations;
 
   public boolean isAdmin() {
     return level == 100L;
@@ -62,13 +71,13 @@ public class User {
     return level > 0;
   }
 
-  public void setRestaurantId(Long restaurantId) {
-    this.level = 50L;
-    this.restaurantId = restaurantId;
-  }
-
   public void deactivate() {
     level = 0L;
+  }
+
+  public void setRestaurant(Restaurant restaurant) {
+    this.level = 50L;
+    this.restaurant = restaurant;
   }
 
 }

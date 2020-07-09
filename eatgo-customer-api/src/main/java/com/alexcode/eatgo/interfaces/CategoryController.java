@@ -1,7 +1,8 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.CategoryService;
-import com.alexcode.eatgo.domain.models.Category;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.CategoryResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class CategoryController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('category:read')")
-  public List<Category> list() {
+  public SuccessResponse<List<CategoryResponseDto>> list() {
     return categoryService.getCategories();
   }
 

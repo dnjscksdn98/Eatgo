@@ -1,6 +1,8 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.ReservationService;
+import com.alexcode.eatgo.domain.RestaurantRepository;
+import com.alexcode.eatgo.domain.UserRepository;
 import com.alexcode.eatgo.domain.models.Reservation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -22,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(ReservationController.class)
+@WebMvcTest(RestaurantController.class)
 class ReservationControllerTest {
 
     @Autowired
@@ -30,6 +35,12 @@ class ReservationControllerTest {
 
     @MockBean
     private ReservationService reservationService;
+
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void create() throws Exception {
@@ -41,13 +52,16 @@ class ReservationControllerTest {
         String time = "20:00";
         Integer partySize = 5;
 
+        String str = date + " " + time;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime bookedAt = LocalDateTime.parse(str, formatter);
+
         Reservation mockReservation = Reservation.builder()
                 .id(1L)
-                .restaurantId(restaurantId)
-                .userId(userId)
-                .name(name)
-                .date(date)
-                .time(time)
+                .restaurant(restaurantRepository.getOne(restaurantId))
+                .user(userRepository.getOne(userId))
+                .createdBy(name)
+                .bookedAt(bookedAt)
                 .partySize(partySize)
                 .build();
 

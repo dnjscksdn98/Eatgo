@@ -1,11 +1,11 @@
 package com.alexcode.eatgo.domain;
 
 import com.alexcode.eatgo.domain.models.Reservation;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ReservationRepository extends CrudRepository<Reservation, Long> {
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     Reservation save(Reservation reservation);
 

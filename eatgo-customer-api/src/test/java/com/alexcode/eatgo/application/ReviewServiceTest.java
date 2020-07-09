@@ -3,6 +3,7 @@ package com.alexcode.eatgo.application;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
+import com.alexcode.eatgo.domain.RestaurantRepository;
 import com.alexcode.eatgo.domain.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,16 +17,19 @@ class ReviewServiceTest {
   @Mock
   private ReviewRepository reviewRepository;
 
+  @Mock
+  private RestaurantRepository restaurantRepository;
+
   @BeforeEach
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    reviewService = new ReviewService(reviewRepository);
+    reviewService = new ReviewService(reviewRepository, restaurantRepository);
   }
 
   @Test
   public void addReview() {
-    reviewService.addReview(1004L, "tester", 3, "yummy");
+    reviewService.addReview(1004L, "tester", 3.5, "yummy");
 
     verify(reviewRepository).save(any());
   }

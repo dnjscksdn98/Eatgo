@@ -1,12 +1,12 @@
 package com.alexcode.eatgo.domain;
 
+import com.alexcode.eatgo.domain.models.MenuItem;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 import java.util.Optional;
 
-import com.alexcode.eatgo.domain.models.MenuItem;
-import org.springframework.data.repository.CrudRepository;
-
-public interface MenuItemRepository extends CrudRepository<MenuItem, Long> {
+public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
 
   List<MenuItem> findAllByRestaurantId(Long restaurantId);
 

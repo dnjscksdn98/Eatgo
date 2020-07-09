@@ -1,6 +1,8 @@
 package com.alexcode.eatgo.application;
 
 import com.alexcode.eatgo.domain.ReservationRepository;
+import com.alexcode.eatgo.domain.RestaurantRepository;
+import com.alexcode.eatgo.domain.UserRepository;
 import com.alexcode.eatgo.domain.models.Reservation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +21,16 @@ class ReservationServiceTest {
     @Mock
     private ReservationRepository reservationRepository;
 
+    @Mock
+    private RestaurantRepository restaurantRepository;
+
+    @Mock
+    private UserRepository userRepository;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        reservationService = new ReservationService(reservationRepository);
+        reservationService = new ReservationService(reservationRepository, restaurantRepository, userRepository);
     }
 
     @Test
@@ -44,7 +52,7 @@ class ReservationServiceTest {
                 restaurantId, userId, name, date, time, partySize
         );
 
-        assertEquals(reservation.getName(), name);
+        assertEquals(reservation.getCreatedBy(), name);
         verify(reservationRepository).save(any(Reservation.class));
     }
 

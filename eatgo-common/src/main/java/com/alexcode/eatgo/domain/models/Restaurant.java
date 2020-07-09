@@ -1,17 +1,9 @@
 package com.alexcode.eatgo.domain.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,30 +11,54 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"user", "category", "region", "menuItems", "reviews", "reservations"})
 public class Restaurant {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotEmpty
-  @NotBlank
   private String name;
 
-  @NotEmpty
-  @NotBlank
   private String address;
 
-  @NotNull
-  private Long categoryId;
+  private String status;
 
-  @Transient
-  @JsonInclude(Include.NON_NULL)
+  private String content;
+
+  private LocalDateTime createdAt;
+
+  private String createdBy;
+
+  private LocalDateTime updatedAt;
+
+  private String updatedBy;
+
+  @ManyToOne
+  private Category category;
+
+  @ManyToOne
+  private Region region;
+
+  @OneToOne
+  private User user;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
   private List<MenuItem> menuItems;
 
-  @Transient
-  @JsonInclude(Include.NON_NULL)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
   private List<Review> reviews;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+  private List<Reservation> reservations;
+
+//  @Transient
+//  @JsonInclude(Include.NON_NULL)
+//  private List<MenuItem> menuItems;
+//
+//  @Transient
+//  @JsonInclude(Include.NON_NULL)
+//  private List<Review> reviews;
 
   public String getInformation() {
     return name + " in " + address;
@@ -53,11 +69,11 @@ public class Restaurant {
     this.address = address;
   }
 
-  public void setMenuItems(List<MenuItem> menuItems) {
-    this.menuItems = new ArrayList<>(menuItems);
-  }
-
-  public void setReviews(List<Review> reviews) {
-    this.reviews = new ArrayList<>(reviews);
-  }
+//  public void setMenuItems(List<MenuItem> menuItems) {
+//    this.menuItems = new ArrayList<>(menuItems);
+//  }
+//
+//  public void setReviews(List<Review> reviews) {
+//    this.reviews = new ArrayList<>(reviews);
+//  }
 }

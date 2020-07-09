@@ -2,40 +2,40 @@ package com.alexcode.eatgo.domain.models;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@ToString(exclude = {"user", "restaurant"})
 public class Reservation {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
-
-    private Long restaurantId;
-
-    private String name;
-
-    @NotEmpty
     @Setter
-    private String date;
-
-    @NotEmpty
-    @Setter
-    private String time;
-
-    @NotNull
-    @Setter
-    @Min(1)
     private Integer partySize;
+
+    private String status;
+
+    private LocalDateTime bookedAt;
+
+    private LocalDateTime createdAt;
+
+    private String createdBy;
+
+    private LocalDateTime updatedAt;
+
+    private String updatedBy;
+
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Restaurant restaurant;
+
 }

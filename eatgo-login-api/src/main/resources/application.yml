@@ -3,10 +3,13 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:~/database/eatgo
+    url: jdbc:mysql://localhost:3306/eatgo?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: Dnjscksdn98@
   jpa:
-    hibernate:
-      ddl-auto: update
+    show-sql: true
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 
 application:
   jwt:
@@ -14,10 +17,3 @@ application:
     authorizationHeader: Authorization
     tokenPrefix: Bearer
     tokenExpirationAfterDays: 10
-
----
-
-spring:
-  profiles: test
-  datasource:
-    url: jdbc:h2:mem:test

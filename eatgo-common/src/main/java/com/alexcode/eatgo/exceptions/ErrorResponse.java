@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.BindingResult;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,23 +23,26 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ErrorResponse {
 
+    private LocalDateTime transactionTime;
     private Integer status;
-    private String code;
+    private String resultCode;
     private String message;
     private List<FieldError> errors;
 
-    private ErrorResponse(final ErrorCode code) {
-        this.message = code.getMessage();
-        this.status = code.getStatus();
-        this.code = code.getCode();
+    private ErrorResponse(final ErrorCode resultCode) {
+        this.transactionTime = LocalDateTime.now();
+        this.status = resultCode.getStatus();
+        this.resultCode = resultCode.getCode();
+        this.message = resultCode.getMessage();
         this.errors = new ArrayList<>();
     }
 
-    private ErrorResponse(final ErrorCode code, final List<FieldError> errors) {
-        this.message = code.getMessage();
-        this.status = code.getStatus();
+    private ErrorResponse(final ErrorCode resultCode, final List<FieldError> errors) {
+        this.transactionTime = LocalDateTime.now();
+        this.status = resultCode.getStatus();
+        this.resultCode = resultCode.getCode();
+        this.message = resultCode.getMessage();
         this.errors = errors;
-        this.code = code.getCode();
     }
 
     public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {

@@ -11,12 +11,16 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewDto {
-
-    @NotNull
-    private Integer score;
+public class ReservationRequestDto {
 
     @NotEmpty
     @NotBlank
-    private String description;
+    private String date;
+
+    @NotEmpty
+    @NotBlank
+    private String time;
+
+    @NotNull
+    private Integer partySize;
 }

@@ -1,6 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RestaurantService;
+import com.alexcode.eatgo.domain.CategoryRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.models.Restaurant;
@@ -33,12 +34,15 @@ class RestaurantControllerTest {
   @MockBean
   private RestaurantService restaurantService;
 
+  @Autowired
+  private CategoryRepository categoryRepository;
+
   @Test
   public void list() throws Exception {
     List<Restaurant> restaurants = new ArrayList<>();
     restaurants.add(Restaurant.builder()
         .id(1004L)
-        .categoryId(1L)
+        .category(categoryRepository.getOne(1L))
         .name("Bob zip")
         .address("Seoul")
         .build()
@@ -64,13 +68,13 @@ class RestaurantControllerTest {
         .build();
 
     Review review = Review.builder()
-        .name("alex")
-        .score(3)
-        .description("yummy")
+        .createdBy("alex")
+        .score(3.5)
+        .content("yummy")
         .build();
 
-    restaurant.setMenuItems(Arrays.asList(menuItem));
-    restaurant.setReviews(Arrays.asList(review));
+//    restaurant.setMenuItems(Arrays.asList(menuItem));
+//    restaurant.setReviews(Arrays.asList(review));
 
     given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant);
 

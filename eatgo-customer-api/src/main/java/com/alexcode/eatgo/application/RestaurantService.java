@@ -1,49 +1,68 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.MenuItemRepository;
 import com.alexcode.eatgo.domain.RestaurantRepository;
-import com.alexcode.eatgo.domain.ReviewRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
-import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.models.Restaurant;
-import com.alexcode.eatgo.domain.models.Review;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.RestaurantResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
 
   private RestaurantRepository restaurantRepository;
-  private MenuItemRepository menuItemRepository;
-  private ReviewRepository reviewRepository;
 
   @Autowired
-  public RestaurantService(
-          RestaurantRepository restaurantRepository,
-          MenuItemRepository menuItemRepository,
-          ReviewRepository reviewRepository) {
-
+  public RestaurantService(RestaurantRepository restaurantRepository) {
     this.restaurantRepository = restaurantRepository;
-    this.menuItemRepository = menuItemRepository;
-    this.reviewRepository = reviewRepository;
   }
 
-  public List<Restaurant> getRestaurants(String region, Long categoryId) {
-    return restaurantRepository.findAllByAddressContainingAndCategoryId(region, categoryId);
+  public SuccessResponse<List<RestaurantResponseDto>> getRestaurants(Long regionId, Long categoryId) {
+    List<Restaurant> restaurants = restaurantRepository.findAllByRegionIdAndCategoryId(regionId, categoryId);
+
+    return response(restaurants, 200);
   }
 
-  public Restaurant getRestaurantById(Long restaurantId) {
+  public SuccessResponse<RestaurantResponseDto> getRestaurantById(Long restaurantId) {
     Restaurant restaurant = restaurantRepository.findById(restaurantId)
         .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 
-    List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(restaurantId);
-    restaurant.setMenuItems(menuItems);
+    return response(restaurant, 200);
+  }
 
-    List<Review> reviews = reviewRepository.findAllByRestaurantId(restaurantId);
-    restaurant.setReviews(reviews);
+  private SuccessResponse<RestaurantResponseDto> response(Restaurant restaurant, Integer status) {
+    RestaurantResponseDto data = RestaurantResponseDto.builder()
+            .id(restaurant.getId())
+            .name(restaurant.getName())
+            .address(restaurant.getAddress())
+            .content(restaurant.getContent())
+            .categoryName(restaurant.getCategory().getName())
+            .regionName(restaurant.getRegion().getName())
+            .userName(restaurant.getUser().getName())
+            .menuItems(restaurant.getMenuItems())
+            .reviews(restaurant.getReviews())
+            .build();
 
-    return restaurant;
+    return SuccessResponse.OK(data, status);
+  }
+
+  private SuccessResponse<List<RestaurantResponseDto>> response(List<Restaurant> restaurants, Integer status) {
+    List<RestaurantResponseDto> data = restaurants.stream()
+            .map(restaurant -> RestaurantResponseDto.builder()
+                      .id(restaurant.getId())
+                      .name(restaurant.getName())
+                      .address(restaurant.getAddress())
+                      .content(restaurant.getContent())
+                      .categoryName(restaurant.getCategory().getName())
+                      .regionName(restaurant.getRegion().getName())
+                      .userName(restaurant.getUser().getName())
+                      .build())
+            .collect(Collectors.toList());
+
+    return SuccessResponse.OK(data, status);
   }
 }

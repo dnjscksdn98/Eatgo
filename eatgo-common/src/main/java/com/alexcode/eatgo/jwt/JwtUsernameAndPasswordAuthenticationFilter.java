@@ -89,10 +89,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
             Authentication authResult
     ) throws IOException, ServletException {
 
-        Object principal = authResult.getPrincipal();
-        Long userId = ((ApplicationUser) principal).getUserId();
-        Long restaurantId = ((ApplicationUser) principal).getRestaurantId();
-        String userName = ((ApplicationUser) principal).getName();
+        ApplicationUser applicationUser = (ApplicationUser) authResult.getPrincipal();
+        Long userId = applicationUser.getUserId();
+        Long restaurantId = applicationUser.getRestaurantId();
+        String userName = applicationUser.getName();
 
         JwtBuilder builder = Jwts.builder()
                 .setSubject(authResult.getName())

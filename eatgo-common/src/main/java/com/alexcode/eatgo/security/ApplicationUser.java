@@ -20,7 +20,7 @@ public class ApplicationUser implements UserDetails {
 
     public Long getRestaurantId() {
         if(this.user.isRestaurantOwner()) {
-            return this.user.getRestaurantId();
+            return this.user.getRestaurant().getId();
         }
         return null;
     }

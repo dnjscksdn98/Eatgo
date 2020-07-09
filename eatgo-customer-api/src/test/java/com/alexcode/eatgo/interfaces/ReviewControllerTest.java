@@ -21,7 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(ReviewController.class)
+@WebMvcTest(RestaurantController.class)
 class ReviewControllerTest {
 
   @Autowired
@@ -34,23 +34,23 @@ class ReviewControllerTest {
   public void createWithValidData() throws Exception {
     String token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDQsIm5hbWUiOiJ0ZXN0ZXIifQ.lFpZkkerjEjRKo51nzjgMhTxJeV0aEFgPul9G8xQvU8";
 
-    given(reviewService.addReview(1L, "tester", 3, "yummy")).willReturn(
+    given(reviewService.addReview(1L, "tester", 3.5, "yummy")).willReturn(
         Review.builder()
             .id(1L)
-            .name("tester")
-            .score(3)
-            .description("yummy")
+            .createdBy("tester")
+            .score(3.5)
+            .content("yummy")
             .build()
     );
 
     mvc.perform(post("/restaurants/1/reviews")
         .header("Authorization", "Bearer " + token)
         .contentType(MediaType.APPLICATION_JSON)
-        .content("{\"score\": 3, \"description\": \"yummy\"}"))
+        .content("{\"score\": 3.5, \"content\": \"yummy\"}"))
         .andExpect(status().isCreated())
         .andExpect(header().string("location", "/restaurants/1/reviews/1"));
 
-    verify(reviewService).addReview(eq(1L), eq("tester"), eq(3), eq("yummy"));
+    verify(reviewService).addReview(eq(1L), eq("tester"), eq(3.5), eq("yummy"));
   }
 
   @Test

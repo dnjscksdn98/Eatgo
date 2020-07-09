@@ -1,28 +1,34 @@
 package com.alexcode.eatgo.domain.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"restaurants"})
 public class Region {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotEmpty
-  @NotBlank
   private String name;
+
+  private LocalDateTime createdAt;
+
+  private String createdBy;
+
+  private LocalDateTime updatedAt;
+
+  private String updatedBy;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "region")
+  private List<Restaurant> restaurants;
+
 }

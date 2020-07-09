@@ -1,38 +1,42 @@
 package com.alexcode.eatgo.domain.models;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"restaurant"})
 public class MenuItem {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotNull
-  private Long restaurantId;
-
-  @NotEmpty
-  @NotBlank
   @Setter
   private String name;
+
+  private String content;
+
+  private Long price;
+
+  private String status;
+
+  private LocalDateTime createdAt;
+
+  private String createdBy;
+
+  private LocalDateTime updatedAt;
+
+  private String updatedBy;
+
+  @ManyToOne
+  @JsonIgnore
+  private Restaurant restaurant;
 
 }

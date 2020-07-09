@@ -4,23 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservationDto {
+public class UserRequestDto {
+
+    @Email
+    @NotEmpty
+    private String email;
 
     @NotEmpty
-    @NotBlank
-    private String date;
+    private String name;
 
     @NotEmpty
-    @NotBlank
-    private String time;
+    private String password;
 
-    @NotNull
-    private Integer partySize;
+    @NotEmpty
+    private String confirmPassword;
 }
