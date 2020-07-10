@@ -4,19 +4,30 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RestaurantUpdateDto {
+public class RestaurantCreateRequestDto {
 
     @NotEmpty
-    @NotBlank
     private String name;
 
     @NotEmpty
-    @NotBlank
     private String address;
+
+    @NotEmpty
+    private String content;
+
+    @NotNull
+    private Long categoryId;
+
+    @NotNull
+    private Long regionId;
+
+    @NotNull
+    private Long userId;
+
 }

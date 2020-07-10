@@ -53,9 +53,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, jwtSecretKey))
-            .addFilterAfter(new JwtTokenVerifier(jwtConfig, jwtSecretKey), JwtUsernameAndPasswordAuthenticationFilter.class)
+            .addFilterAfter(new JwtTokenVerifier(jwtConfig, jwtSecretKey, applicationUserService), JwtUsernameAndPasswordAuthenticationFilter.class)
             .authorizeRequests()
-            .antMatchers("/admin/api/v1/**").hasRole(ADMIN.name())
+            .antMatchers("/management/api/v1/**").hasRole(ADMIN.name())
             .anyRequest()
             .authenticated();
   }

@@ -1,22 +1,20 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RestaurantService;
-import com.alexcode.eatgo.domain.models.Restaurant;
-import com.alexcode.eatgo.interfaces.dto.RestaurantCreateDto;
-import com.alexcode.eatgo.interfaces.dto.RestaurantUpdateDto;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.RestaurantCreateRequestDto;
+import com.alexcode.eatgo.interfaces.dto.RestaurantResponseDto;
+import com.alexcode.eatgo.interfaces.dto.RestaurantUpdateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("admin/api/v1/restaurants")
+@RequestMapping(path = "management/api/v1/restaurants")
 public class RestaurantController {
 
   @Autowired
@@ -24,43 +22,28 @@ public class RestaurantController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('restaurant:read')")
-  public List<Restaurant> list() {
+  public SuccessResponse<List<RestaurantResponseDto>> list() {
     return restaurantService.getRestaurants();
   }
 
   @GetMapping(path = "/{restaurantId}")
   @PreAuthorize("hasAuthority('restaurant:read')")
-  public Restaurant detail(@PathVariable("restaurantId") Long restaurantId) {
-    return restaurantService.getRestaurantById(restaurantId);
+  public SuccessResponse<RestaurantResponseDto> detail(@PathVariable("restaurantId") Long restaurantId) {
+    return restaurantService.detail(restaurantId);
   }
 
   @PostMapping
   @PreAuthorize("hasAuthority('restaurant:write')")
-  public ResponseEntity<?> create(
-          @Valid @RequestBody RestaurantCreateDto resource) throws URISyntaxException {
-
-    Restaurant restaurant = restaurantService.addRestaurant(
-            resource.getName(),
-            resource.getAddress(),
-            resource.getCategoryId()
-    );
-    URI location = new URI("/restaurants/" + restaurant.getId());
-
-    return ResponseEntity.created(location).body("{}");
+  public SuccessResponse<RestaurantResponseDto> create(@Valid @RequestBody RestaurantCreateRequestDto request) {
+    return restaurantService.create(request);
   }
 
   @PatchMapping(path = "/{restaurantId}")
   @PreAuthorize("hasAuthority('restaurant:write')")
-  public String update(
+  public SuccessResponse<RestaurantResponseDto> update(
           @PathVariable("restaurantId") Long restaurantId,
-          @Valid @RequestBody RestaurantUpdateDto resource) {
+          @Valid @RequestBody RestaurantUpdateRequestDto request) {
 
-    restaurantService.updateRestaurant(
-        restaurantId,
-        resource.getName(),
-        resource.getAddress()
-    );
-
-    return "{}";
+    return restaurantService.update(request, restaurantId);
   }
 }

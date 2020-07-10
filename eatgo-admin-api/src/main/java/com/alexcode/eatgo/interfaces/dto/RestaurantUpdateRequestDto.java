@@ -4,15 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryCreateDto {
+public class RestaurantUpdateRequestDto {
 
     @NotEmpty
-    @NotBlank
     private String name;
+
+    @NotEmpty
+    private String address;
+
+    @NotEmpty
+    private String status;
+
+    @NotEmpty
+    private String content;
+
 }

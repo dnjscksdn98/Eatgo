@@ -1,48 +1,151 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.models.Restaurant;
-import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
+import com.alexcode.eatgo.application.exceptions.CategoryNotFoundException;
+import com.alexcode.eatgo.application.exceptions.RegionNotFoundException;
+import com.alexcode.eatgo.domain.CategoryRepository;
+import com.alexcode.eatgo.domain.RegionRepository;
 import com.alexcode.eatgo.domain.RestaurantRepository;
-import java.util.List;
-import javax.transaction.Transactional;
+import com.alexcode.eatgo.domain.UserRepository;
+import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
+import com.alexcode.eatgo.domain.exceptions.UserNotFoundException;
+import com.alexcode.eatgo.domain.models.Category;
+import com.alexcode.eatgo.domain.models.Region;
+import com.alexcode.eatgo.domain.models.Restaurant;
+import com.alexcode.eatgo.domain.models.User;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.RestaurantCreateRequestDto;
+import com.alexcode.eatgo.interfaces.dto.RestaurantResponseDto;
+import com.alexcode.eatgo.interfaces.dto.RestaurantUpdateRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.alexcode.eatgo.security.ApplicationUserRole.ADMIN;
 
 @Service
 @Transactional
 public class RestaurantService {
 
   private RestaurantRepository restaurantRepository;
+  private CategoryRepository categoryRepository;
+  private RegionRepository regionRepository;
+  private UserRepository userRepository;
 
   @Autowired
-  public RestaurantService(RestaurantRepository restaurantRepository) {
+  public RestaurantService(
+          RestaurantRepository restaurantRepository,
+          CategoryRepository categoryRepository,
+          RegionRepository regionRepository,
+          UserRepository userRepository) {
+
     this.restaurantRepository = restaurantRepository;
+    this.categoryRepository = categoryRepository;
+    this.regionRepository = regionRepository;
+    this.userRepository = userRepository;
   }
 
-  public List<Restaurant> getRestaurants() {
-    return restaurantRepository.findAll();
+  public SuccessResponse<List<RestaurantResponseDto>> getRestaurants() {
+    List<Restaurant> restaurants = restaurantRepository.findAll();
+
+    return response(restaurants, 200);
   }
 
-  public Restaurant getRestaurantById(Long restaurantId) {
-    return restaurantRepository.findById(restaurantId)
-        .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+  public SuccessResponse<RestaurantResponseDto> detail(Long restaurantId) {
+    Restaurant restaurant = restaurantRepository.findById(restaurantId)
+            .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+
+    return response(restaurant, 200);
   }
 
-  public Restaurant addRestaurant(String name, String address, Long categoryId) {
+  public SuccessResponse<RestaurantResponseDto> create(RestaurantCreateRequestDto request) {
+    Long categoryId = request.getCategoryId();
+    Long regionId = request.getRegionId();
+    Long userId = request.getUserId();
+
+    Category category = categoryRepository.findById(categoryId)
+            .orElseThrow(() -> new CategoryNotFoundException(categoryId));
+
+    Region region = regionRepository.findById(regionId)
+            .orElseThrow(() -> new RegionNotFoundException(regionId));
+
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new UserNotFoundException(userId));
+
     Restaurant restaurant = Restaurant.builder()
-            .name(name)
-            .address(address)
-            .categoryId(categoryId)
+            .name(request.getName())
+            .address(request.getAddress())
+            .status("REGISTERED")
+            .content(request.getContent())
+            .createdAt(LocalDateTime.now())
+            .createdBy(ADMIN.name())
+            .category(category)
+            .region(region)
+            .user(user)
             .build();
-    return restaurantRepository.save(restaurant);
+
+    Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+
+    return response(savedRestaurant, 200);
   }
 
-  public Restaurant updateRestaurant(Long restaurantId, String name, String address) {
+  public SuccessResponse<RestaurantResponseDto> update(RestaurantUpdateRequestDto request, Long restaurantId) {
     Restaurant restaurant = restaurantRepository.findById(restaurantId)
         .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 
-    restaurant.updateInformation(name, address);
+    restaurant.updateRestaurant(
+            request.getName(),
+            request.getAddress(),
+            request.getStatus(),
+            request.getContent()
+    );
 
-    return restaurant;
+    return response(restaurant, 200);
+  }
+
+  private SuccessResponse<List<RestaurantResponseDto>> response(List<Restaurant> restaurants, Integer status) {
+    List<RestaurantResponseDto> data = restaurants.stream()
+            .map(restaurant -> RestaurantResponseDto.builder()
+                    .id(restaurant.getId())
+                    .name(restaurant.getName())
+                    .address(restaurant.getAddress())
+                    .status(restaurant.getStatus())
+                    .content(restaurant.getContent())
+                    .createdAt(restaurant.getCreatedAt())
+                    .createdBy(restaurant.getCreatedBy())
+                    .updatedAt(restaurant.getUpdatedAt())
+                    .updatedBy(restaurant.getUpdatedBy())
+                    .categoryName(restaurant.getCategory().getName())
+                    .regionName(restaurant.getRegion().getName())
+                    .owner(restaurant.getUser().getName())
+                    .build())
+            .collect(Collectors.toList());
+
+    return SuccessResponse.OK(data, status);
+  }
+
+  private SuccessResponse<RestaurantResponseDto> response(Restaurant restaurant, Integer status) {
+    RestaurantResponseDto data = RestaurantResponseDto.builder()
+            .id(restaurant.getId())
+            .name(restaurant.getName())
+            .address(restaurant.getAddress())
+            .status(restaurant.getStatus())
+            .content(restaurant.getContent())
+            .createdAt(restaurant.getCreatedAt())
+            .createdBy(restaurant.getCreatedBy())
+            .updatedAt(restaurant.getUpdatedAt())
+            .updatedBy(restaurant.getUpdatedBy())
+            .categoryName(restaurant.getCategory().getName())
+            .regionName(restaurant.getRegion().getName())
+            .owner(restaurant.getUser().getName())
+            .menuItems(restaurant.getMenuItems())
+            .reviews(restaurant.getReviews())
+            .reservations(restaurant.getReservations())
+            .build();
+
+    return SuccessResponse.OK(data, status);
   }
 }

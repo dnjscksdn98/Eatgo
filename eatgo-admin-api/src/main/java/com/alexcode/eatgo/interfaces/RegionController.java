@@ -1,21 +1,18 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RegionService;
-import com.alexcode.eatgo.domain.models.Region;
-import com.alexcode.eatgo.interfaces.dto.RegionCreateDto;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.RegionRequestDto;
+import com.alexcode.eatgo.interfaces.dto.RegionResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 
 
 @RestController
-@RequestMapping("admin/api/v1/regions")
+@RequestMapping(path = "management/api/v1/regions")
 public class RegionController {
 
   @Autowired
@@ -23,19 +20,14 @@ public class RegionController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('region:read')")
-  public List<Region> list() {
-    return regionService.getRegions();
+  public SuccessResponse list() {
+    return regionService.list();
   }
 
   @PostMapping
   @PreAuthorize("hasAuthority('region:write')")
-  public ResponseEntity<?> create(
-          @Valid @RequestBody RegionCreateDto resource) throws URISyntaxException {
-
-    Region region = regionService.addRegion(resource.getName());
-    URI location = new URI("/regions/" + region.getId());
-
-    return ResponseEntity.created(location).body("{}");
+  public SuccessResponse<RegionResponseDto> create(@Valid @RequestBody RegionRequestDto request) {
+    return regionService.create(request);
   }
 
 }

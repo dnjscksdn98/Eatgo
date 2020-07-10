@@ -1,6 +1,7 @@
 package com.alexcode.eatgo.interfaces.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,9 +10,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RestaurantCreateDto {
+public class MenuItemCreateRequestDto {
 
     @NotEmpty
     @NotBlank
@@ -19,8 +21,9 @@ public class RestaurantCreateDto {
 
     @NotEmpty
     @NotBlank
-    private String address;
+    private String content;
 
     @NotNull
-    private Long categoryId;
+    private Long price;
+
 }

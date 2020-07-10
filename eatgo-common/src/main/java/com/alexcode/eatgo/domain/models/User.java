@@ -9,6 +9,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.alexcode.eatgo.security.ApplicationUserRole.ADMIN;
+
 @Entity
 @Builder
 @Getter
@@ -21,15 +23,12 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Setter
   private String email;
 
-  @Setter
   private String name;
 
   private String password;
 
-  @Setter
   private Long level;
 
   private ApplicationUserRole role;
@@ -37,9 +36,9 @@ public class User {
   private LocalDateTime createdAt;
   
   private String createdBy;
-  
+
   private LocalDateTime updatedAt;
-  
+
   private String updatedBy;
 
   private LocalDateTime lastLoginAt;
@@ -78,6 +77,15 @@ public class User {
   public void setRestaurant(Restaurant restaurant) {
     this.level = 50L;
     this.restaurant = restaurant;
+  }
+
+  public void updateUser(String email, String name, Long level, ApplicationUserRole role) {
+    this.email = email;
+    this.name = name;
+    this.level = level;
+    this.role = role;
+    this.updatedAt = LocalDateTime.now();
+    this.updatedBy = ADMIN.name();
   }
 
 }

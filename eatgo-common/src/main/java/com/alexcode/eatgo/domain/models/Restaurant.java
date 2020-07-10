@@ -1,10 +1,13 @@
 package com.alexcode.eatgo.domain.models;
 
+import com.alexcode.eatgo.security.ApplicationUserRole;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.alexcode.eatgo.security.ApplicationUserRole.ADMIN;
 
 @Entity
 @Getter
@@ -52,28 +55,13 @@ public class Restaurant {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
   private List<Reservation> reservations;
 
-//  @Transient
-//  @JsonInclude(Include.NON_NULL)
-//  private List<MenuItem> menuItems;
-//
-//  @Transient
-//  @JsonInclude(Include.NON_NULL)
-//  private List<Review> reviews;
-
-  public String getInformation() {
-    return name + " in " + address;
-  }
-
-  public void updateInformation(String name, String address) {
+  public void updateRestaurant(String name, String address, String status, String content) {
     this.name = name;
     this.address = address;
+    this.status = status;
+    this.content = content;
+    this.updatedAt = LocalDateTime.now();
+    this.updatedBy = ADMIN.name();
   }
 
-//  public void setMenuItems(List<MenuItem> menuItems) {
-//    this.menuItems = new ArrayList<>(menuItems);
-//  }
-//
-//  public void setReviews(List<Review> reviews) {
-//    this.reviews = new ArrayList<>(reviews);
-//  }
 }

@@ -1,20 +1,18 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.UserService;
-import com.alexcode.eatgo.domain.models.User;
-import com.alexcode.eatgo.interfaces.dto.UserDto;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.UserRequestDto;
+import com.alexcode.eatgo.interfaces.dto.UserResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("admin/api/v1/users")
+@RequestMapping("management/api/v1/users")
 public class UserController {
 
   /**
@@ -35,36 +33,25 @@ public class UserController {
 
   @GetMapping
   @PreAuthorize("hasAuthority('user:read')")
-  public List<User> list() {
-    return userService.getUsers();
+  public SuccessResponse<List<UserResponseDto>> list() {
+    return userService.list();
   }
 
   @PostMapping
   @PreAuthorize("hasAuthority('user:write')")
-  public ResponseEntity<?> create(@Valid @RequestBody UserDto resource) throws URISyntaxException {
-    String email = resource.getEmail();
-    String name = resource.getName();
-    Long level = resource.getLevel();
+  public SuccessResponse<UserResponseDto> create(
+          @Valid @RequestBody UserRequestDto request) {
 
-    User user = userService.addUser(email, name, level);
-    URI location = new URI("/users/" + user.getId());
-
-    return ResponseEntity.created(location).body("{}");
+    return userService.create(request);
   }
 
   @PatchMapping(path = "/{userId}")
   @PreAuthorize("hasAuthority('user:write')")
-  public String update(
+  public SuccessResponse<UserResponseDto> update(
       @PathVariable("userId") Long userId,
-      @Valid @RequestBody UserDto resource) {
+      @Valid @RequestBody UserRequestDto request) {
 
-    String email = resource.getEmail();
-    String name = resource.getName();
-    Long level = resource.getLevel();
-
-    userService.updateUser(userId, email, name, level);
-
-    return "{}";
+    return userService.update(request, userId);
   }
 
   @DeleteMapping(path = "/{userId}")

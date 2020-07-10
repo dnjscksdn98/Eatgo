@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class Region {
 
   private String updatedBy;
 
+  @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "region")
   private List<Restaurant> restaurants;
 

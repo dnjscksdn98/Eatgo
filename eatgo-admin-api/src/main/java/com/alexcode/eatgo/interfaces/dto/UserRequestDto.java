@@ -4,19 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuItemUpdateDto {
+public class UserRequestDto {
 
-    @NotNull
-    @NotBlank
-    private Long id;
+    @NotEmpty
+    @Email
+    private String email;
 
+    @NotEmpty
     private String name;
 
-    private boolean destroy;
+    @NotNull
+    private Long level;
+
 }

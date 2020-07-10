@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static com.alexcode.eatgo.security.ApplicationUserRole.ADMIN;
+
 @Entity
 @Getter
 @Builder
@@ -38,5 +40,14 @@ public class MenuItem {
   @ManyToOne
   @JsonIgnore
   private Restaurant restaurant;
+
+  public void updateMenuItem(String name, String content, Long price, String status) {
+    this.name = name;
+    this.content = content;
+    this.price = price;
+    this.status = status;
+    this.updatedAt = LocalDateTime.now();
+    this.updatedBy = ADMIN.name();
+  }
 
 }

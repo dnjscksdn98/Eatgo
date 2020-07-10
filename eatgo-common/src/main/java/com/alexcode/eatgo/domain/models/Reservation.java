@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,9 +34,11 @@ public class Reservation {
     private String updatedBy;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     private Restaurant restaurant;
 
 }
