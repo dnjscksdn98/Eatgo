@@ -25,7 +25,6 @@ public class ReservationResponseDto {
 
     private String createdBy;
 
-    private Long restaurantId;
+    private String restaurantName;
 
-    private Long userId;
 }

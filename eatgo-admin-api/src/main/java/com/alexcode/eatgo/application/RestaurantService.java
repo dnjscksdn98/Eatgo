@@ -48,7 +48,7 @@ public class RestaurantService {
     this.userRepository = userRepository;
   }
 
-  public SuccessResponse<List<RestaurantResponseDto>> getRestaurants() {
+  public SuccessResponse<List<RestaurantResponseDto>> list() {
     List<Restaurant> restaurants = restaurantRepository.findAll();
 
     return response(restaurants, 200);

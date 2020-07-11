@@ -73,8 +73,7 @@ public class ReservationService {
                 .bookedAt(reservation.getBookedAt())
                 .createdAt(reservation.getCreatedAt())
                 .createdBy(reservation.getCreatedBy())
-                .restaurantId(reservation.getRestaurant().getId())
-                .userId(reservation.getUser().getId())
+                .restaurantName(reservation.getRestaurant().getName())
                 .build();
 
         return SuccessResponse.OK(data, status);

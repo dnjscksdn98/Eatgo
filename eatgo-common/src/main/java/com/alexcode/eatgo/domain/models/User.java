@@ -2,7 +2,6 @@ package com.alexcode.eatgo.domain.models;
 
 import com.alexcode.eatgo.security.ApplicationUserRole;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.alexcode.eatgo.security.ApplicationUserRole.ADMIN;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Entity
 @Builder
@@ -43,15 +44,15 @@ public class User {
 
   private LocalDateTime lastLoginAt;
 
-  @OneToOne
-  @JsonInclude(Include.NON_NULL)
+  @JsonInclude(NON_NULL)
+  @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
   private Restaurant restaurant;
 
-  @JsonInclude(Include.NON_EMPTY)
+  @JsonInclude(NON_EMPTY)
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
   private List<Review> reviews;
 
-  @JsonInclude(Include.NON_EMPTY)
+  @JsonInclude(NON_EMPTY)
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
   private List<Reservation> reservations;
 

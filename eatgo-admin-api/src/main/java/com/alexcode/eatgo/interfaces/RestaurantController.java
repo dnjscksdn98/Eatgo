@@ -23,7 +23,7 @@ public class RestaurantController {
   @GetMapping
   @PreAuthorize("hasAuthority('restaurant:read')")
   public SuccessResponse<List<RestaurantResponseDto>> list() {
-    return restaurantService.getRestaurants();
+    return restaurantService.list();
   }
 
   @GetMapping(path = "/{restaurantId}")

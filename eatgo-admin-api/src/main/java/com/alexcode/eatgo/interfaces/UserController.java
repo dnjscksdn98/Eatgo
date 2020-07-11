@@ -39,9 +39,7 @@ public class UserController {
 
   @PostMapping
   @PreAuthorize("hasAuthority('user:write')")
-  public SuccessResponse<UserResponseDto> create(
-          @Valid @RequestBody UserRequestDto request) {
-
+  public SuccessResponse<UserResponseDto> create(@Valid @RequestBody UserRequestDto request) {
     return userService.create(request);
   }
 

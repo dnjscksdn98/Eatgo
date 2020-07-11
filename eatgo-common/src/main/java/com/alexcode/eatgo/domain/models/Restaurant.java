@@ -1,6 +1,5 @@
 package com.alexcode.eatgo.domain.models;
 
-import com.alexcode.eatgo.security.ApplicationUserRole;
 import lombok.*;
 
 import javax.persistence.*;
