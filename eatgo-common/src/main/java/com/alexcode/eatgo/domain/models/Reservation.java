@@ -18,7 +18,6 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     private Integer partySize;
 
     private String status;

@@ -1,7 +1,8 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.ReservationService;
-import com.alexcode.eatgo.domain.models.Reservation;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.ReservationResponseDto;
 import com.alexcode.eatgo.security.ApplicationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,12 +23,11 @@ public class ReservationController {
 
     @GetMapping(path = "/reservations")
     @PreAuthorize("hasAuthority('reservation:read')")
-    public List<Reservation> list(Authentication authentication) {
+    public SuccessResponse<List<ReservationResponseDto>> list(Authentication authentication) {
 
         ApplicationUser applicationUser = (ApplicationUser) authentication.getPrincipal();
         Long restaurantId = applicationUser.getRestaurantId();
 
-        List<Reservation> reservations = reservationService.getReservations(restaurantId);
-        return reservations;
+        return reservationService.list(restaurantId);
     }
 }
