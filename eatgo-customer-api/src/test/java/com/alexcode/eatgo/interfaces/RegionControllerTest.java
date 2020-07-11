@@ -33,7 +33,7 @@ class RegionControllerTest {
     List<Region> regions = new ArrayList<>();
     regions.add(Region.builder().name("Seoul").build());
 
-    given(regionService.getRegions()).willReturn(regions);
+//    given(regionService.getRegions()).willReturn(regions);
 
     mvc.perform(get("/regions"))
         .andExpect(status().isOk())

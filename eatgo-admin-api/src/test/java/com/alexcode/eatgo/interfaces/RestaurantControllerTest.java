@@ -36,13 +36,13 @@ class RestaurantControllerTest {
   @Test
   public void list() throws Exception {
     List<Restaurant> restaurants = new ArrayList<>();
-    restaurants.add(Restaurant.builder()
-            .name("TestName")
-            .address("TestAddress")
-            .categoryId(1L)
-            .build()
-    );
-    given(restaurantService.getRestaurants()).willReturn(restaurants);
+//    restaurants.add(Restaurant.builder()
+//            .name("TestName")
+//            .address("TestAddress")
+//            .categoryId(1L)
+//            .build()
+//    );
+//    given(restaurantService.getRestaurants()).willReturn(restaurants);
 
     mvc.perform(get("/restaurants"))
         .andExpect(status().isOk())
@@ -51,13 +51,13 @@ class RestaurantControllerTest {
 
   @Test
   public void detailWithExistedData() throws Exception {
-    Restaurant restaurant = Restaurant.builder()
-            .name("TestName")
-            .address("TestAddress")
-            .categoryId(1L)
-            .build();
-
-    given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant);
+//    Restaurant restaurant = Restaurant.builder()
+//            .name("TestName")
+//            .address("TestAddress")
+//            .categoryId(1L)
+//            .build();
+//
+//    given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant);
 
     mvc.perform(get("/restaurants/1004"))
         .andExpect(status().isOk())
@@ -66,8 +66,8 @@ class RestaurantControllerTest {
 
   @Test
   public void detailWithNonExistedData() throws Exception {
-    given(restaurantService.getRestaurantById(999L))
-            .willThrow(new RestaurantNotFoundException(999L));
+//    given(restaurantService.getRestaurantById(999L))
+//            .willThrow(new RestaurantNotFoundException(999L));
 
     mvc.perform(get("/restaurants/999"))
         .andExpect(status().isNotFound());
@@ -75,14 +75,14 @@ class RestaurantControllerTest {
 
   @Test
   public void createWithValidData() throws Exception {
-    given(restaurantService.addRestaurant(any(), any(), any()))
-            .willReturn(
-                    Restaurant.builder()
-                            .name("TestName")
-                            .address("TestAddress")
-                            .categoryId(1L)
-                            .build()
-            );
+//    given(restaurantService.addRestaurant(any(), any(), any()))
+//            .willReturn(
+//                    Restaurant.builder()
+//                            .name("TestName")
+//                            .address("TestAddress")
+//                            .categoryId(1L)
+//                            .build()
+//            );
 
 
     mvc.perform(post("/restaurants")
@@ -91,7 +91,7 @@ class RestaurantControllerTest {
         .andExpect(status().isCreated())
         .andExpect(content().string("{}"));
 
-    verify(restaurantService).addRestaurant(any(), any(), any());
+//    verify(restaurantService).addRestaurant(any(), any(), any());
   }
 
   @Test
@@ -109,7 +109,7 @@ class RestaurantControllerTest {
         .content("{\"name\": \"TestName\", \"address\": \"TestAddress\"}"))
         .andExpect(status().isOk());
 
-    verify(restaurantService).updateRestaurant(any(), any(), any());
+//    verify(restaurantService).updateRestaurant(any(), any(), any());
   }
 
   @Test

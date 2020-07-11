@@ -28,9 +28,9 @@ class ReservationServiceTest {
     public void getReservations() {
         Long restaurantId = 1004L;
 
-        List<Reservation> reservations = reservationService.getReservations(restaurantId);
+//        List<Reservation> reservations = reservationService.getReservations(restaurantId);
 
-        verify(reservationRepository).findAllByRestaurantId(restaurantId);
+//        verify(reservationRepository).findAllByRestaurantId(restaurantId);
     }
 
 }

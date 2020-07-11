@@ -31,9 +31,9 @@ class ReviewControllerTest {
   @Test
   public void list() throws Exception {
     List<Review> reviews = new ArrayList<>();
-    reviews.add(Review.builder().description("Cool").build());
+//    reviews.add(Review.builder().description("Cool").build());
 
-    given(reviewService.getReviews()).willReturn(reviews);
+//    given(reviewService.getReviews()).willReturn(reviews);
 
     mvc.perform(get("/reviews"))
         .andExpect(status().isOk())

@@ -9,8 +9,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.alexcode.eatgo.security.ApplicationUserRole.CUSTOMER;
-import static com.alexcode.eatgo.security.ApplicationUserRole.OWNER;
+import static com.alexcode.eatgo.security.ApplicationUserRole.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -22,37 +21,37 @@ public class UserTest extends EatgoCustomerApiApplicationTests {
     @Test
     public void create() {
         User user = User.builder()
-                .email("tester01@test.com")
-                .name("tester01")
-                .password("tester01")
-                .level(1L)
-                .role(CUSTOMER)
+                .email("admin@example.com")
+                .name("admin")
+                .password("$2a$10$40uq4eVNDAkz26CZ/cpXH.ioA3cKWn/ZK9vWHRVPY4SMeeEPWkMTG")
+                .level(100L)
+                .role(ADMIN)
                 .createdAt(LocalDateTime.now())
-                .createdBy("AdminServer")
+                .createdBy("ADMIN")
                 .build();
 
         User savedUser = userRepository.save(user);
 
         assertNotNull(savedUser);
-        assertEquals(savedUser.getEmail(), "tester01@test.com");
+        assertEquals(savedUser.getEmail(), "admin@example.com");
     }
 
     @Test
     public void createOwner() {
         User user = User.builder()
-                .email("owner01@test.com")
+                .email("owner01@example.com")
                 .name("owner01")
                 .password("owner01")
                 .level(50L)
                 .role(OWNER)
                 .createdAt(LocalDateTime.now())
-                .createdBy("AdminServer")
+                .createdBy("ADMINSERVER")
                 .build();
 
         User savedUser = userRepository.save(user);
 
         assertNotNull(savedUser);
-        assertEquals(savedUser.getEmail(), "owner01@test.com");
+        assertEquals(savedUser.getEmail(), "owner01@example.com");
     }
 
     @Test

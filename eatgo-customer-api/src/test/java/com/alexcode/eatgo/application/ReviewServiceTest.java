@@ -24,12 +24,12 @@ class ReviewServiceTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
-    reviewService = new ReviewService(reviewRepository, restaurantRepository);
+//    reviewService = new ReviewService(reviewRepository, restaurantRepository);
   }
 
   @Test
   public void addReview() {
-    reviewService.addReview(1004L, "tester", 3.5, "yummy");
+//    reviewService.addReview(1004L, "tester", 3.5, "yummy");
 
     verify(reviewRepository).save(any());
   }

@@ -41,7 +41,7 @@ class CategoryControllerTest {
     List<Category> categories = new ArrayList<>();
     categories.add(Category.builder().name("Fast Food").build());
 
-    given(categoryService.getCategories()).willReturn(categories);
+//    given(categoryService.getCategories()).willReturn(categories);
 
     mvc.perform(get("/categories"))
         .andExpect(status().isOk())
@@ -51,7 +51,7 @@ class CategoryControllerTest {
   @Test
   public void create() throws Exception {
     Category category = Category.builder().name("Fast Food").build();
-    given(categoryService.addCategory("Fast Food")).willReturn(category);
+//    given(categoryService.addCategory("Fast Food")).willReturn(category);
 
     mvc.perform(post("/categories")
         .contentType(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ class CategoryControllerTest {
         .andExpect(status().isCreated())
         .andExpect(content().string("{}"));
 
-    verify(categoryService).addCategory("Fast Food");
+//    verify(categoryService).addCategory("Fast Food");
   }
 
   @Test
@@ -69,19 +69,19 @@ class CategoryControllerTest {
             .content("{\"name\":\"\"}"))
             .andExpect(status().isBadRequest());
 
-    verify(categoryService, never()).addCategory(any());
+//    verify(categoryService, never()).addCategory(any());
   }
 
   @Test
   public void createWithExistedData() throws Exception {
-    given(categoryService.addCategory("Seoul"))
-            .willThrow(new CategoryDuplicationException("Seoul"));
+//    given(categoryService.addCategory("Seoul"))
+//            .willThrow(new CategoryDuplicationException("Seoul"));
 
     mvc.perform(post("/categories")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\":\"Seoul\"}"))
             .andExpect(status().isBadRequest());
 
-    verify(categoryService).addCategory(eq("Seoul"));
+//    verify(categoryService).addCategory(eq("Seoul"));
   }
 }

@@ -47,7 +47,7 @@ class RestaurantControllerTest {
         .address("Seoul")
         .build()
     );
-    given(restaurantService.getRestaurants("Seoul", 1L)).willReturn(restaurants);
+//    given(restaurantService.getRestaurants("Seoul", 1L)).willReturn(restaurants);
 
     mvc.perform(get("/restaurants?region=Seoul&categoryId=1"))
         .andExpect(status().isOk())
@@ -76,7 +76,7 @@ class RestaurantControllerTest {
 //    restaurant.setMenuItems(Arrays.asList(menuItem));
 //    restaurant.setReviews(Arrays.asList(review));
 
-    given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant);
+//    given(restaurantService.getRestaurantById(1004L)).willReturn(restaurant);
 
     mvc.perform(get("/restaurants/1004"))
         .andExpect(status().isOk())

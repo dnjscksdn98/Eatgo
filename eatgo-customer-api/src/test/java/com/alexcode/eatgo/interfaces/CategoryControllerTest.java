@@ -34,7 +34,7 @@ class CategoryControllerTest {
     List<Category> categories = new ArrayList<>();
     categories.add(Category.builder().name("Fast Food").build());
 
-    given(categoryService.getCategories()).willReturn(categories);
+//    given(categoryService.getCategories()).willReturn(categories);
 
     mvc.perform(get("/categories"))
         .andExpect(status().isOk())
