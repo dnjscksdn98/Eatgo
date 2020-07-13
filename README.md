@@ -1,5 +1,8 @@
 ## 스프링 부트로 구현한 식당 예약 웹 애플리케이션
 
+### Build Jar
+- ```./gradlew bootJar```
+
 ### 기술 선택
 
 - Java
@@ -10,6 +13,7 @@
 - REST API
 - Lombok
 - Json Web Tokens
+- Docker
 
 ### 3-Tier Architecture
 
@@ -125,3 +129,5 @@ protected void configure(HttpSecurity http) throws Exception {
   
 - 단일 모듈 실행
   - ./gradlew :module-name:bootRun
+  
+### Docker Compose

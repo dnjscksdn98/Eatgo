@@ -1,10 +1,13 @@
 package com.alexcode.eatgo.domain.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Entity
 @Getter
@@ -28,8 +31,10 @@ public class Reservation {
 
     private String createdBy;
 
+    @JsonInclude(NON_NULL)
     private LocalDateTime updatedAt;
 
+    @JsonInclude(NON_NULL)
     private String updatedBy;
 
     @ManyToOne
