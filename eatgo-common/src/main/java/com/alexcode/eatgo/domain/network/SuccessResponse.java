@@ -35,14 +35,23 @@ public class SuccessResponse<T> {
                 .build();
     }
 
-    public static <T> SuccessResponse<T> OK(T data, Integer status) {
+    public static <T> SuccessResponse<T> OK(T data, Integer status, SuccessCode successCode) {
         return (SuccessResponse<T>) SuccessResponse.builder()
                 .transactionTime(LocalDateTime.now())
                 .status(status)
-                .resultCode("OK")
-                .message("OK")
+                .resultCode(successCode.getResultCode())
+                .message(successCode.getMessage())
                 .data(data)
                 .build();
     }
 
+    public static <T> SuccessResponse<T> CREATED(T data, Integer status, SuccessCode successCode) {
+        return (SuccessResponse<T>) SuccessResponse.builder()
+                .transactionTime(LocalDateTime.now())
+                .status(status)
+                .resultCode(successCode.getResultCode())
+                .message(successCode.getMessage())
+                .data(data)
+                .build();
+    }
 }

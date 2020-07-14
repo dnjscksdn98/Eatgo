@@ -4,6 +4,7 @@ import com.alexcode.eatgo.domain.MenuItemRepository;
 import com.alexcode.eatgo.domain.RestaurantRepository;
 import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.models.Restaurant;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -42,10 +43,11 @@ class MenuItemServiceTest {
     given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
     given(menuItemRepository.findAllByRestaurantId(1004L)).willReturn(mockMenuItems);
 
-//    List<MenuItem> menuItems = menuItemService.getMenuItems(1004L);
-//    MenuItem menuItem = menuItems.get(0);
-//
-//    assertEquals(menuItem.getName(), "Kimchi");
+    SuccessResponse response = menuItemService.listById(1004L);
+    List<MenuItem> menuItems = (List<MenuItem>) response.getData();
+    MenuItem menuItem = menuItems.get(0);
+
+    assertEquals(menuItem.getName(), "Kimchi");
   }
 
 }

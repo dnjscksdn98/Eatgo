@@ -2,6 +2,7 @@ package com.alexcode.eatgo.application;
 
 import com.alexcode.eatgo.domain.ReservationRepository;
 import com.alexcode.eatgo.domain.models.Reservation;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -25,12 +26,11 @@ class ReservationServiceTest {
     }
 
     @Test
-    public void getReservations() {
-        Long restaurantId = 1004L;
+    public void list() {
+        Long restaurantId = 1L;
+        SuccessResponse response = reservationService.list(restaurantId);
 
-//        List<Reservation> reservations = reservationService.getReservations(restaurantId);
-
-//        verify(reservationRepository).findAllByRestaurantId(restaurantId);
+        verify(reservationRepository).findAllByRestaurantId(restaurantId);
     }
 
 }

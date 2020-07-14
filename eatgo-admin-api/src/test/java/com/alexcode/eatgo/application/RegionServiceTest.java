@@ -1,8 +1,10 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.application.exceptions.RegionDuplicationException;
+import com.alexcode.eatgo.exceptions.RegionDuplicationException;
 import com.alexcode.eatgo.domain.RegionRepository;
 import com.alexcode.eatgo.domain.models.Region;
+import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.RegionRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -38,21 +40,23 @@ class RegionServiceTest {
 
     given(regionRepository.findAll()).willReturn(mockRegions);
 
-//    List<Region> regions = regionService.getRegions();
-//    Region region = regions.get(0);
-//
-//    assertEquals(region.getName(), "Seoul");
+    SuccessResponse response = regionService.list();
+    List<Region> regions = (List<Region>) response.getData();
+    Region region = regions.get(0);
+
+    assertEquals(region.getName(), "Seoul");
   }
 
   @Test
   public void addRegion() {
-//    Region region = regionService.addRegion("Seoul");
-//
-//    given(regionRepository.findByName("Seoul")).willReturn(null);
-//
-//    verify(regionRepository).save(any());
-//
-//    assertEquals(region.getName(), "Seoul");
+    SuccessResponse response = regionService.create(RegionRequestDto.builder().name("서울").build());
+    Region region = (Region) response.getData();
+
+    given(regionRepository.findByName("Seoul")).willReturn(null);
+
+    verify(regionRepository).save(any());
+
+    assertEquals(region.getName(), "Seoul");
   }
 
   @Test

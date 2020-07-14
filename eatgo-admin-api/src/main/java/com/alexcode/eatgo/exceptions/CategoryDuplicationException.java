@@ -1,7 +1,4 @@
-package com.alexcode.eatgo.application.exceptions;
-
-import com.alexcode.eatgo.exceptions.ErrorCode;
-import com.alexcode.eatgo.exceptions.InvalidValueException;
+package com.alexcode.eatgo.exceptions;
 
 public class CategoryDuplicationException extends InvalidValueException {
 

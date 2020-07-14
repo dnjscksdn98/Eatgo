@@ -2,8 +2,6 @@ package com.alexcode.eatgo.interfaces;
 
 import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -11,7 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alexcode.eatgo.application.RegionService;
-import com.alexcode.eatgo.application.exceptions.RegionDuplicationException;
 import com.alexcode.eatgo.domain.models.Region;
 import java.util.ArrayList;
 import java.util.List;

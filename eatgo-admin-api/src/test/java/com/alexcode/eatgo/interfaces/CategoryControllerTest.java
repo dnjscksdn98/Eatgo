@@ -5,7 +5,6 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -13,10 +12,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alexcode.eatgo.application.CategoryService;
-import com.alexcode.eatgo.application.exceptions.CategoryDuplicationException;
 import com.alexcode.eatgo.domain.models.Category;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.alexcode.eatgo.domain.network.SuccessResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +41,19 @@ class CategoryControllerTest {
   @Test
   public void list() throws Exception {
     List<Category> categories = new ArrayList<>();
-    categories.add(Category.builder().name("Fast Food").build());
+    Category category = Category.builder()
+            .name("분식")
+            .createdAt(LocalDateTime.now())
+            .createdBy("ADMIN")
+            .build();
+    categories.add(category);
+    SuccessResponse response = SuccessResponse.OK(categories, 200);
 
-//    given(categoryService.getCategories()).willReturn(categories);
+    given(categoryService.list()).willReturn(response);
 
     mvc.perform(get("/categories"))
         .andExpect(status().isOk())
-        .andExpect(content().string(containsString("Fast Food")));
+        .andExpect(content().string(containsString("분식")));
   }
 
   @Test

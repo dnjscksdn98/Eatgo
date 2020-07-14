@@ -1,10 +1,11 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.application.exceptions.PasswordMismatchException;
 import com.alexcode.eatgo.domain.UserRepository;
 import com.alexcode.eatgo.domain.exceptions.EmailDuplicationException;
 import com.alexcode.eatgo.domain.models.User;
+import com.alexcode.eatgo.domain.network.SuccessCode;
 import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.exceptions.PasswordMismatchException;
 import com.alexcode.eatgo.interfaces.dto.UserRequestDto;
 import com.alexcode.eatgo.interfaces.dto.UserResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
 import java.time.LocalDateTime;
 
 import static com.alexcode.eatgo.security.ApplicationUserRole.CUSTOMER;
+import static org.springframework.http.HttpStatus.CREATED;
 
 @Service
 @Transactional
@@ -58,7 +59,7 @@ public class UserService {
 
     User savedUser = userRepository.save(user);
 
-    return response(savedUser, 201);
+    return response(savedUser, CREATED.value(), SuccessCode.USER_ADMISSION_SUCCESS);
   }
 
   private boolean isPasswordConfirmed(String password, String confirmPassword) {
@@ -68,7 +69,7 @@ public class UserService {
     return false;
   }
 
-  private SuccessResponse<UserResponseDto> response(User user, Integer status) {
+  private SuccessResponse<UserResponseDto> response(User user, Integer status, SuccessCode successCode) {
     UserResponseDto userResponseDto = UserResponseDto.builder()
             .id(user.getId())
             .email(user.getEmail())
@@ -79,7 +80,7 @@ public class UserService {
             .createdBy(user.getCreatedBy())
             .build();
 
-    return SuccessResponse.OK(userResponseDto, status);
+    return SuccessResponse.CREATED(userResponseDto, status, successCode);
   }
 
 }

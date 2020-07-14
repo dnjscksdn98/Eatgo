@@ -1,6 +1,6 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.application.exceptions.RegionDuplicationException;
+import com.alexcode.eatgo.exceptions.RegionDuplicationException;
 import com.alexcode.eatgo.domain.RegionRepository;
 import com.alexcode.eatgo.domain.models.Region;
 import com.alexcode.eatgo.domain.network.SuccessResponse;

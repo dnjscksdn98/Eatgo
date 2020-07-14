@@ -1,6 +1,6 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.application.exceptions.MenuItemNotFoundException;
+import com.alexcode.eatgo.exceptions.MenuItemNotFoundException;
 import com.alexcode.eatgo.domain.MenuItemRepository;
 import com.alexcode.eatgo.domain.RestaurantRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;

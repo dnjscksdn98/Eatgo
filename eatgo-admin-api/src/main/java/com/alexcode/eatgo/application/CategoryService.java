@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.application.exceptions.CategoryDuplicationException;
-import com.alexcode.eatgo.application.exceptions.CategoryNotFoundException;
+import com.alexcode.eatgo.exceptions.CategoryDuplicationException;
+import com.alexcode.eatgo.exceptions.CategoryNotFoundException;
 import com.alexcode.eatgo.domain.CategoryRepository;
 import com.alexcode.eatgo.domain.models.Category;
 import com.alexcode.eatgo.domain.network.SuccessResponse;

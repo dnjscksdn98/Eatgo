@@ -1,14 +1,16 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.models.Region;
 import com.alexcode.eatgo.domain.RegionRepository;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.alexcode.eatgo.domain.models.Region;
+import com.alexcode.eatgo.domain.network.SuccessCode;
 import com.alexcode.eatgo.domain.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.RegionResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RegionService {
@@ -23,10 +25,10 @@ public class RegionService {
   public SuccessResponse<List<RegionResponseDto>> list() {
     List<Region> regions = regionRepository.findAll();
 
-    return response(regions, 200);
+    return response(regions, HttpStatus.OK.value(), SuccessCode.OK);
   }
 
-  private SuccessResponse<List<RegionResponseDto>> response(List<Region> regions, Integer status) {
+  private SuccessResponse<List<RegionResponseDto>> response(List<Region> regions, Integer status, SuccessCode successCode) {
     List<RegionResponseDto> data = regions.stream()
             .map(region -> RegionResponseDto.builder()
                     .id(region.getId())
@@ -35,7 +37,7 @@ public class RegionService {
             )
             .collect(Collectors.toList());
 
-    return SuccessResponse.OK(data, status);
+    return SuccessResponse.OK(data, status, successCode);
   }
 
 }

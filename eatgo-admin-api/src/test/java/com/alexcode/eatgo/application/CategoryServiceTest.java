@@ -7,13 +7,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import com.alexcode.eatgo.application.exceptions.CategoryDuplicationException;
+import com.alexcode.eatgo.exceptions.CategoryDuplicationException;
 import com.alexcode.eatgo.domain.models.Category;
 import com.alexcode.eatgo.domain.CategoryRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.CategoryRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -40,30 +42,30 @@ class CategoryServiceTest {
 
     given(categoryRepository.findAll()).willReturn(mockCategories);
 
-    //List<Category> categories = categoryService.getCategories();
+    SuccessResponse response = categoryService.list();
 
-    //Category category = categories.get(0);
-    //assertThat(category.getName(), is("Fast Food"));
+    Category category = (Category) response.getData();
+    assertThat(category.getName(), is("Fast Food"));
   }
 
   @Test
   public void addCategory() {
-    //Category category = categoryService.addCategory("Fast Food");
-
+    SuccessResponse response = categoryService.create(CategoryRequestDto.builder().name("Fast Food").build());
+    Category category = (Category) response.getData();
     verify(categoryRepository).save(any());
 
-    //assertThat(category.getName(), is("Fast Food"));
+    assertThat(category.getName(), is("Fast Food"));
   }
 
   @Test
   public void addCategoryWithExistedData() {
-    Category category = Category.builder().name("Seoul").build();
+    Category category = Category.builder().name("Fast Food").build();
 
-    given(categoryRepository.findByName("Seoul"))
+    given(categoryRepository.findByName("Fast Food"))
             .willReturn(Optional.of(category));
 
-//    assertThrows(CategoryDuplicationException.class, () -> {
-//      categoryService.addCategory("Seoul");
-//    });
+    assertThrows(CategoryDuplicationException.class, () -> {
+      categoryService.create(CategoryRequestDto.builder().name("Fast Food").build());
+    });
   }
 }

@@ -2,33 +2,35 @@ package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RestaurantService;
 import com.alexcode.eatgo.domain.network.SuccessResponse;
-import com.alexcode.eatgo.interfaces.dto.RestaurantResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("customer/api/v1/restaurants")
+@RequestMapping(path = "customer/api/v1/restaurants")
 public class RestaurantController {
 
   @Autowired
   private RestaurantService restaurantService;
 
-  @GetMapping
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('restaurant:read')")
-  public SuccessResponse<List<RestaurantResponseDto>> list(
+  public ResponseEntity<SuccessResponse> list(
           @RequestParam Long regionId,
           @RequestParam Long categoryId) {
 
-    return restaurantService.getRestaurants(regionId, categoryId);
+    SuccessResponse body = restaurantService.getRestaurants(regionId, categoryId);
+    return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
-  @GetMapping(path = "/{restaurantId}")
+  @GetMapping(path = "/{restaurantId}", produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('restaurant:read')")
-  public SuccessResponse<RestaurantResponseDto> detail(@PathVariable("restaurantId") Long restaurantId) {
-    return restaurantService.getRestaurantById(restaurantId);
+  public ResponseEntity<SuccessResponse> detail(@PathVariable("restaurantId") Long restaurantId) {
+    SuccessResponse body = restaurantService.getRestaurantById(restaurantId);
+    return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
 }

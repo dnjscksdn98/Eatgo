@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.application.exceptions.CategoryNotFoundException;
-import com.alexcode.eatgo.application.exceptions.RegionNotFoundException;
+import com.alexcode.eatgo.exceptions.CategoryNotFoundException;
+import com.alexcode.eatgo.exceptions.RegionNotFoundException;
 import com.alexcode.eatgo.domain.CategoryRepository;
 import com.alexcode.eatgo.domain.RegionRepository;
 import com.alexcode.eatgo.domain.RestaurantRepository;

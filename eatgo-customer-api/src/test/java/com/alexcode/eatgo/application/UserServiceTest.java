@@ -1,8 +1,6 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.application.exceptions.PasswordMismatchException;
 import com.alexcode.eatgo.domain.UserRepository;
-import com.alexcode.eatgo.domain.exceptions.EmailDuplicationException;
 import com.alexcode.eatgo.domain.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,12 +8,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 class UserServiceTest {

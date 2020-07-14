@@ -8,9 +8,12 @@ import com.alexcode.eatgo.domain.exceptions.UserNotFoundException;
 import com.alexcode.eatgo.domain.models.Reservation;
 import com.alexcode.eatgo.domain.models.Restaurant;
 import com.alexcode.eatgo.domain.models.User;
+import com.alexcode.eatgo.domain.network.SuccessCode;
 import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.interfaces.dto.ReservationRequestDto;
 import com.alexcode.eatgo.interfaces.dto.ReservationResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -38,9 +41,9 @@ public class ReservationService {
     }
 
     public SuccessResponse<ReservationResponseDto> create(
-            Long restaurantId, Long userId, String username, String date, String time, Integer partySize) {
+            Long restaurantId, Long userId, String username, ReservationRequestDto request) {
 
-        String str = date + " " + time;
+        String str = request.getDate() + " " + request.getTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime bookedAt = LocalDateTime.parse(str, formatter);
 
@@ -51,7 +54,7 @@ public class ReservationService {
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
         Reservation reservation = Reservation.builder()
-                .partySize(partySize)
+                .partySize(request.getPartySize())
                 .status("WAITING")
                 .bookedAt(bookedAt)
                 .createdAt(LocalDateTime.now())
@@ -62,10 +65,10 @@ public class ReservationService {
 
         Reservation savedReservation =  reservationRepository.save(reservation);
 
-        return response(savedReservation, 201);
+        return response(savedReservation, HttpStatus.CREATED.value(), SuccessCode.RESERVATION_SUCCESS);
     }
 
-    private SuccessResponse<ReservationResponseDto> response(Reservation reservation, Integer status) {
+    private SuccessResponse<ReservationResponseDto> response(Reservation reservation, Integer status, SuccessCode successCode) {
         ReservationResponseDto data = ReservationResponseDto.builder()
                 .id(reservation.getId())
                 .partySize(reservation.getPartySize())
@@ -76,6 +79,6 @@ public class ReservationService {
                 .restaurantName(reservation.getRestaurant().getName())
                 .build();
 
-        return SuccessResponse.OK(data, status);
+        return SuccessResponse.CREATED(data, status, successCode);
     }
 }
