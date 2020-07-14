@@ -21,9 +21,6 @@ public class ReviewResponseDto {
 
     private LocalDateTime createdAt;
 
-    private String createdBy;
+    private String restaurantName;
 
-    private Long restaurantId;
-
-    private Long userId;
 }

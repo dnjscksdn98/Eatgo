@@ -18,24 +18,38 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class ReviewService {
 
-  private ReviewRepository reviewRepository;
-  private UserRepository userRepository;
-  private RestaurantRepository restaurantRepository;
+  private final UserRepository userRepository;
+  private final ReviewRepository reviewRepository;
+  private final RestaurantRepository restaurantRepository;
 
   @Autowired
   public ReviewService(
-          ReviewRepository reviewRepository,
           UserRepository userRepository,
+          ReviewRepository reviewRepository,
           RestaurantRepository restaurantRepository) {
 
-    this.reviewRepository = reviewRepository;
     this.userRepository = userRepository;
+    this.reviewRepository = reviewRepository;
     this.restaurantRepository = restaurantRepository;
+  }
+
+  public SuccessResponse<List<ReviewResponseDto>> list(Long restaurantId, Long userId) {
+    restaurantRepository.findById(restaurantId)
+            .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+
+    userRepository.findById(userId)
+            .orElseThrow(() -> new UserNotFoundException(userId));
+
+    List<Review> reviews = reviewRepository.findAllByRestaurantIdAndUserId(restaurantId, userId);
+
+    return response(reviews, HttpStatus.OK.value(), SuccessCode.OK);
   }
 
   public SuccessResponse<ReviewResponseDto> create(
@@ -67,10 +81,22 @@ public class ReviewService {
             .score(review.getScore())
             .content(review.getContent())
             .createdAt(review.getCreatedAt())
-            .createdBy(review.getCreatedBy())
-            .restaurantId(review.getRestaurant().getId())
-            .userId(review.getUser().getId())
+            .restaurantName(review.getRestaurant().getName())
             .build();
+
+    return SuccessResponse.OK(data, status, successCode);
+  }
+
+  private SuccessResponse<List<ReviewResponseDto>> response(List<Review> reviews, Integer status, SuccessCode successCode) {
+    List<ReviewResponseDto> data = reviews.stream()
+            .map(review -> ReviewResponseDto.builder()
+                    .id(review.getId())
+                    .score(review.getScore())
+                    .content(review.getContent())
+                    .createdAt(review.getCreatedAt())
+                    .restaurantName(review.getRestaurant().getName())
+                    .build())
+            .collect(Collectors.toList());
 
     return SuccessResponse.OK(data, status, successCode);
   }
