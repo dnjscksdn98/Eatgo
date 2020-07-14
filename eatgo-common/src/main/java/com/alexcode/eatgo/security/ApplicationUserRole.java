@@ -22,7 +22,8 @@ public enum ApplicationUserRole {
     )),
 
     OWNER(Sets.newHashSet(
-            RESERVATION_READ
+            RESERVATION_READ,
+            RESERVATION_WRITE
     )),
 
     ADMIN(Sets.newHashSet(

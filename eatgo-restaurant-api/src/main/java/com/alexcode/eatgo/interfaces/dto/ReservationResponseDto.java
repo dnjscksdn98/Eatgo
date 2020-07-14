@@ -34,5 +34,4 @@ public class ReservationResponseDto {
     @JsonInclude(NON_NULL)
     private String updatedBy;
 
-    private Long userId;
 }

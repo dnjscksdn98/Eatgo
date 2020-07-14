@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static com.alexcode.eatgo.security.ApplicationUserRole.OWNER;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @Entity
@@ -44,5 +45,17 @@ public class Reservation {
     @ManyToOne
     @JsonIgnore
     private Restaurant restaurant;
+
+    public void update() {
+        this.status = "ACCEPTED";
+        this.updatedAt = LocalDateTime.now();
+        this.updatedBy = OWNER.name();
+    }
+
+    public void cancel() {
+        this.status = "CANCELED";
+        this.updatedAt = LocalDateTime.now();
+        this.updatedBy = OWNER.name();
+    }
 
 }
