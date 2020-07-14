@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -13,6 +15,8 @@ import javax.validation.constraints.NotNull;
 public class ReviewRequestDto {
 
     @NotNull
+    @Max(5)
+    @Min(0)
     private Double score;
 
     @NotEmpty

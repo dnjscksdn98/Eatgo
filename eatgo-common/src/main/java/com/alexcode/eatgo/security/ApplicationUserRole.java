@@ -3,7 +3,6 @@ package com.alexcode.eatgo.security;
 import com.google.common.collect.Sets;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +21,7 @@ public enum ApplicationUserRole {
     )),
 
     OWNER(Sets.newHashSet(
+            REVIEW_READ,
             RESERVATION_READ,
             RESERVATION_WRITE
     )),

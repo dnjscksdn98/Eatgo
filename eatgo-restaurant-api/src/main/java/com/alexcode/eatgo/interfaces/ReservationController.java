@@ -14,7 +14,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 
 @RestController
-@RequestMapping("owner/api/v1")
+@RequestMapping(path = "owner/api/v1")
 public class ReservationController {
 
     @Autowired
