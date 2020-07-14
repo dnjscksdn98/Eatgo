@@ -2,6 +2,7 @@ package com.alexcode.eatgo.application;
 
 import com.alexcode.eatgo.domain.ReservationRepository;
 import com.alexcode.eatgo.domain.models.Reservation;
+import com.alexcode.eatgo.domain.network.SuccessCode;
 import com.alexcode.eatgo.domain.network.SuccessResponse;
 import com.alexcode.eatgo.exceptions.ReservationNotFoundException;
 import com.alexcode.eatgo.interfaces.dto.ReservationResponseDto;
@@ -29,28 +30,31 @@ public class ReservationService {
     public SuccessResponse<List<ReservationResponseDto>> list(Long restaurantId) {
         List<Reservation> reservations = reservationRepository.findAllByRestaurantId(restaurantId);
 
-        return response(reservations, OK.value());
+        return response(reservations, OK.value(), SuccessCode.OK);
     }
 
     public SuccessResponse<ReservationResponseDto> update(Long reservationId, Long restaurantId) {
-        Reservation reservation = reservationRepository.findByIdAndRestaurantId(reservationId, restaurantId)
-                .orElseThrow(() -> new ReservationNotFoundException(reservationId));
-
+        Reservation reservation = findByIdAndRestaurantId(reservationId, restaurantId);
         reservation.update();
 
-        return response(reservation, OK.value());
+        return response(reservation, OK.value(), SuccessCode.RESERVATION_ACCEPT);
     }
 
     public SuccessResponse<ReservationResponseDto> delete(Long reservationId, Long restaurantId) {
+        Reservation reservation = findByIdAndRestaurantId(reservationId, restaurantId);
+        reservation.cancel();
+
+        return response(reservation, OK.value(), SuccessCode.RESERVATION_REJECT);
+    }
+
+    private Reservation findByIdAndRestaurantId(Long reservationId, Long restaurantId) {
         Reservation reservation = reservationRepository.findByIdAndRestaurantId(reservationId, restaurantId)
                 .orElseThrow(() -> new ReservationNotFoundException(reservationId));
 
-        reservation.cancel();
-
-        return response(reservation, OK.value());
+        return reservation;
     }
 
-    private SuccessResponse<ReservationResponseDto> response(Reservation reservation, Integer status) {
+    private SuccessResponse<ReservationResponseDto> response(Reservation reservation, Integer status, SuccessCode successCode) {
         ReservationResponseDto data = ReservationResponseDto.builder()
                 .id(reservation.getId())
                 .partySize(reservation.getPartySize())
@@ -62,10 +66,10 @@ public class ReservationService {
                 .updatedBy(reservation.getUpdatedBy())
                 .build();
 
-        return SuccessResponse.OK(data, status);
+        return SuccessResponse.OK(data, status, successCode);
     }
 
-    private SuccessResponse<List<ReservationResponseDto>> response(List<Reservation> reservations, Integer status) {
+    private SuccessResponse<List<ReservationResponseDto>> response(List<Reservation> reservations, Integer status, SuccessCode successCode) {
         List<ReservationResponseDto> data = reservations.stream()
                 .map(reservation -> ReservationResponseDto.builder()
                         .id(reservation.getId())
@@ -79,6 +83,6 @@ public class ReservationService {
                         .build())
                 .collect(Collectors.toList());
 
-        return SuccessResponse.OK(data, status);
+        return SuccessResponse.OK(data, status, successCode);
     }
 }

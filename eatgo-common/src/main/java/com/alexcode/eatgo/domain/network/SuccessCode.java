@@ -10,6 +10,8 @@ public enum SuccessCode {
 
     // Reservation
     RESERVATION_SUCCESS("R001", "Successfully reserved"),
+    RESERVATION_ACCEPT("R002", "Accepted a reservation"),
+    RESERVATION_REJECT("R003", "Rejected a reservation"),
 
     // Review
     REVIEW_SUCCESS("RV001", "Successfully reviewed a restaurant");
