@@ -1,6 +1,7 @@
 package com.alexcode.eatgo.security;
 
 import com.alexcode.eatgo.domain.models.User;
+import com.alexcode.eatgo.domain.status.UserStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,6 +28,10 @@ public class ApplicationUser implements UserDetails {
 
     public String getName() {
         return this.user.getName();
+    }
+
+    public String getStatus() {
+        return this.user.getStatus().name();
     }
 
     @Override

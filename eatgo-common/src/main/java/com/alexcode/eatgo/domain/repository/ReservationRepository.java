@@ -10,6 +10,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     Reservation save(Reservation reservation);
 
+    List<Reservation> findAllByUserId(Long userId);
+
     List<Reservation> findAllByRestaurantId(Long restaurantId);
 
     Optional<Reservation> findByIdAndRestaurantId(Long id, Long restaurantId);

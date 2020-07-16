@@ -1,8 +1,8 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.ReservationService;
-import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.ReservationRequestDto;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.security.ApplicationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +20,16 @@ public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
+
+    @GetMapping(path = "/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SuccessResponse> list(Authentication authentication) {
+        ApplicationUser applicationUser = (ApplicationUser) authentication.getPrincipal();
+        Long userId = applicationUser.getUserId();
+
+        SuccessResponse body = reservationService.list(userId);
+
+        return new ResponseEntity<>(body, HttpStatus.OK);
+    }
 
     @PostMapping(path = "/{restaurantId}/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('reservation:write')")

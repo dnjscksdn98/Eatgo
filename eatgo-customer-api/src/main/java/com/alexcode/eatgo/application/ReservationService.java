@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -39,6 +41,11 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
         this.restaurantRepository = restaurantRepository;
         this.userRepository = userRepository;
+    }
+
+    public SuccessResponse<List<ReservationResponseDto>> list(Long userId) {
+        List<Reservation> reservations = reservationRepository.findAllByUserId(userId);
+        return response(reservations, HttpStatus.OK.value(), SuccessCode.OK);
     }
 
     public SuccessResponse<ReservationResponseDto> create(
@@ -81,5 +88,23 @@ public class ReservationService {
                 .build();
 
         return SuccessResponse.CREATED(data, status, successCode);
+    }
+
+    private SuccessResponse<List<ReservationResponseDto>> response(
+            List<Reservation> reservations, Integer status, SuccessCode successCode) {
+
+        List<ReservationResponseDto> data = reservations.stream()
+                .map(reservation -> ReservationResponseDto.builder()
+                        .id(reservation.getId())
+                        .partySize(reservation.getPartySize())
+                        .status(reservation.getStatus())
+                        .bookedAt(reservation.getBookedAt())
+                        .createdAt(reservation.getCreatedAt())
+                        .createdBy(reservation.getCreatedBy())
+                        .restaurantName(reservation.getRestaurant().getName())
+                        .build())
+                .collect(Collectors.toList());
+
+        return SuccessResponse.OK(data, status, successCode);
     }
 }
