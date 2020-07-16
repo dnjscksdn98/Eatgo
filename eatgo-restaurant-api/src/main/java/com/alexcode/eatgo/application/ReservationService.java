@@ -1,11 +1,11 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.repository.ReservationRepository;
 import com.alexcode.eatgo.domain.models.Reservation;
-import com.alexcode.eatgo.network.SuccessCode;
-import com.alexcode.eatgo.network.SuccessResponse;
+import com.alexcode.eatgo.domain.repository.ReservationRepository;
 import com.alexcode.eatgo.exceptions.ReservationNotFoundException;
 import com.alexcode.eatgo.interfaces.dto.ReservationResponseDto;
+import com.alexcode.eatgo.network.SuccessCode;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +42,9 @@ public class ReservationService {
 
     public SuccessResponse<ReservationResponseDto> delete(Long reservationId, Long restaurantId) {
         Reservation reservation = findByIdAndRestaurantId(reservationId, restaurantId);
-        reservation.cancel();
+        reservation.refuse();
 
-        return response(reservation, OK.value(), SuccessCode.RESERVATION_REJECT);
+        return response(reservation, OK.value(), SuccessCode.RESERVATION_REFUSE);
     }
 
     private Reservation findByIdAndRestaurantId(Long reservationId, Long restaurantId) {

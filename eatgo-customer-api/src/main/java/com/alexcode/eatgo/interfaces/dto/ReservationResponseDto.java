@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.interfaces.dto;
 
+import com.alexcode.eatgo.domain.status.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class ReservationResponseDto {
 
     private Integer partySize;
 
-    private String status;
+    private ReservationStatus status;
 
     private LocalDateTime bookedAt;
 

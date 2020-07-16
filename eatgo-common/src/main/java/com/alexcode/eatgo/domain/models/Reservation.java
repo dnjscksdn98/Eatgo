@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.domain.models;
 
+import com.alexcode.eatgo.domain.status.ReservationStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -24,7 +25,8 @@ public class Reservation {
 
     private Integer partySize;
 
-    private String status;
+    @Enumerated(value = EnumType.STRING)
+    private ReservationStatus status;
 
     private LocalDateTime bookedAt;
 
@@ -47,13 +49,13 @@ public class Reservation {
     private Restaurant restaurant;
 
     public void update() {
-        this.status = "ACCEPTED";
+        this.status = ReservationStatus.ACCEPTED;
         this.updatedAt = LocalDateTime.now();
         this.updatedBy = OWNER.name();
     }
 
-    public void cancel() {
-        this.status = "CANCELED";
+    public void refuse() {
+        this.status = ReservationStatus.REFUSED;
         this.updatedAt = LocalDateTime.now();
         this.updatedBy = OWNER.name();
     }

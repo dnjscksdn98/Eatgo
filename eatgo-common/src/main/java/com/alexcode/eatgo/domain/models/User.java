@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.domain.models;
 
+import com.alexcode.eatgo.domain.status.UserStatus;
 import com.alexcode.eatgo.security.ApplicationUserRole;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -29,6 +30,9 @@ public class User {
   private String name;
 
   private String password;
+
+  @Enumerated(value = EnumType.STRING)
+  private UserStatus status;
 
   private Long level;
 

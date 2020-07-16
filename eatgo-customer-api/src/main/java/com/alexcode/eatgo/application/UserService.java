@@ -3,6 +3,7 @@ package com.alexcode.eatgo.application;
 import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.exceptions.EmailDuplicationException;
 import com.alexcode.eatgo.domain.models.User;
+import com.alexcode.eatgo.domain.status.UserStatus;
 import com.alexcode.eatgo.network.SuccessCode;
 import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.exceptions.PasswordMismatchException;
@@ -51,6 +52,7 @@ public class UserService {
             .email(email)
             .name(name)
             .password(encodedPassword)
+            .status(UserStatus.REGISTERED)
             .level(1L)
             .role(CUSTOMER)
             .createdAt(LocalDateTime.now())
@@ -74,6 +76,7 @@ public class UserService {
             .id(user.getId())
             .email(user.getEmail())
             .name(user.getName())
+            .status(user.getStatus())
             .level(user.getLevel())
             .role(user.getRole().name())
             .createdAt(user.getCreatedAt())

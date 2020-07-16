@@ -1,17 +1,18 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.repository.ReservationRepository;
-import com.alexcode.eatgo.domain.repository.RestaurantRepository;
-import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.exceptions.UserNotFoundException;
 import com.alexcode.eatgo.domain.models.Reservation;
 import com.alexcode.eatgo.domain.models.Restaurant;
 import com.alexcode.eatgo.domain.models.User;
-import com.alexcode.eatgo.network.SuccessCode;
-import com.alexcode.eatgo.network.SuccessResponse;
+import com.alexcode.eatgo.domain.repository.ReservationRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
+import com.alexcode.eatgo.domain.repository.UserRepository;
+import com.alexcode.eatgo.domain.status.ReservationStatus;
 import com.alexcode.eatgo.interfaces.dto.ReservationRequestDto;
 import com.alexcode.eatgo.interfaces.dto.ReservationResponseDto;
+import com.alexcode.eatgo.network.SuccessCode;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,7 @@ public class ReservationService {
 
         Reservation reservation = Reservation.builder()
                 .partySize(request.getPartySize())
-                .status("WAITING")
+                .status(ReservationStatus.WAITING)
                 .bookedAt(bookedAt)
                 .createdAt(LocalDateTime.now())
                 .createdBy(username)
