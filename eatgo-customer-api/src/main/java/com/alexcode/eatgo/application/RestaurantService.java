@@ -1,10 +1,10 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.RestaurantRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.models.Restaurant;
-import com.alexcode.eatgo.domain.network.SuccessCode;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessCode;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.RestaurantResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

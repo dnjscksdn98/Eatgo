@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
 
 import com.alexcode.eatgo.domain.models.Region;
-import com.alexcode.eatgo.domain.RegionRepository;
+import com.alexcode.eatgo.domain.repository.RegionRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

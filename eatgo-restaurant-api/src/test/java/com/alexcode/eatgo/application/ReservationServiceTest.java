@@ -1,14 +1,11 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.ReservationRepository;
-import com.alexcode.eatgo.domain.models.Reservation;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.domain.repository.ReservationRepository;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.List;
 
 import static org.mockito.Mockito.verify;
 

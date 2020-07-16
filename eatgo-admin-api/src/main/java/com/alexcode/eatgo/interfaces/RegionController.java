@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RegionService;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.RegionRequestDto;
 import com.alexcode.eatgo.interfaces.dto.RegionResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;

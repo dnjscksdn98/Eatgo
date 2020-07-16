@@ -1,9 +1,9 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.CategoryRepository;
+import com.alexcode.eatgo.domain.repository.CategoryRepository;
 import com.alexcode.eatgo.domain.models.Category;
-import com.alexcode.eatgo.domain.network.SuccessCode;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessCode;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.CategoryResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

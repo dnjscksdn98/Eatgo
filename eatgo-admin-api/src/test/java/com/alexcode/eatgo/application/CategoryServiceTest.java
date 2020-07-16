@@ -9,12 +9,12 @@ import static org.mockito.Mockito.verify;
 
 import com.alexcode.eatgo.exceptions.CategoryDuplicationException;
 import com.alexcode.eatgo.domain.models.Category;
-import com.alexcode.eatgo.domain.CategoryRepository;
+import com.alexcode.eatgo.domain.repository.CategoryRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.CategoryRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

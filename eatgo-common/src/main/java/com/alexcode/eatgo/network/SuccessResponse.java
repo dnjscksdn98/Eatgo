@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.domain.network;
+package com.alexcode.eatgo.network;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

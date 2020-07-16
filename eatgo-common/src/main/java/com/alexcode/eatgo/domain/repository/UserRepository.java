@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.domain;
+package com.alexcode.eatgo.domain.repository;
 
 import com.alexcode.eatgo.domain.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

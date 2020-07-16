@@ -1,4 +1,4 @@
-package com.alexcode.eatgo.domain.network;
+package com.alexcode.eatgo.network;
 
 public enum SuccessCode {
 

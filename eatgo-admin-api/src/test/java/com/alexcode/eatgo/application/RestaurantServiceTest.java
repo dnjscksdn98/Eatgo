@@ -1,12 +1,11 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.CategoryRepository;
-import com.alexcode.eatgo.domain.RegionRepository;
-import com.alexcode.eatgo.domain.RestaurantRepository;
-import com.alexcode.eatgo.domain.UserRepository;
-import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
+import com.alexcode.eatgo.domain.repository.CategoryRepository;
+import com.alexcode.eatgo.domain.repository.RegionRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
+import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.models.Restaurant;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

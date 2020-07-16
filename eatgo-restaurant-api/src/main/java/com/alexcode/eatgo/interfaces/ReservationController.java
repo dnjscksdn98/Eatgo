@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.ReservationService;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.security.ApplicationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

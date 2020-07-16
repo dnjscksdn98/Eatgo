@@ -3,8 +3,8 @@ package com.alexcode.eatgo.application;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
-import com.alexcode.eatgo.domain.RestaurantRepository;
-import com.alexcode.eatgo.domain.ReviewRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
+import com.alexcode.eatgo.domain.repository.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

@@ -1,8 +1,8 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.ReservationService;
-import com.alexcode.eatgo.domain.RestaurantRepository;
-import com.alexcode.eatgo.domain.UserRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
+import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.models.Reservation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +18,6 @@ import java.time.format.DateTimeFormatter;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;

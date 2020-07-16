@@ -2,7 +2,7 @@ package com.alexcode.eatgo.application;
 
 //import com.alexcode.eatgo.exceptions.EmailNotExistsException;
 //import com.alexcode.eatgo.exceptions.WrongPasswordException;
-import com.alexcode.eatgo.domain.UserRepository;
+import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

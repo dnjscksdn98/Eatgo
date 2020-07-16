@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.MenuItemService;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.MenuItemCreateRequestDto;
 import com.alexcode.eatgo.interfaces.dto.MenuItemResponseDto;
 import com.alexcode.eatgo.interfaces.dto.MenuItemUpdateRequestDto;

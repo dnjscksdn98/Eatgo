@@ -1,6 +1,6 @@
 package com.alexcode.eatgo.security;
 
-import com.alexcode.eatgo.domain.UserRepository;
+import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

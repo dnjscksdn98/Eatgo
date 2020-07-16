@@ -2,6 +2,7 @@ package com.alexcode.eatgo.domain;
 
 import com.alexcode.eatgo.EatgoCustomerApiApplicationTests;
 import com.alexcode.eatgo.domain.models.Restaurant;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

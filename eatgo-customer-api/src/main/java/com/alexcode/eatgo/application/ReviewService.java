@@ -1,15 +1,15 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.RestaurantRepository;
-import com.alexcode.eatgo.domain.ReviewRepository;
-import com.alexcode.eatgo.domain.UserRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
+import com.alexcode.eatgo.domain.repository.ReviewRepository;
+import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.exceptions.UserNotFoundException;
 import com.alexcode.eatgo.domain.models.Restaurant;
 import com.alexcode.eatgo.domain.models.Review;
 import com.alexcode.eatgo.domain.models.User;
-import com.alexcode.eatgo.domain.network.SuccessCode;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessCode;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.ReviewRequestDto;
 import com.alexcode.eatgo.interfaces.dto.ReviewResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;

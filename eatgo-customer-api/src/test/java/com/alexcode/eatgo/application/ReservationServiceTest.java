@@ -1,8 +1,8 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.ReservationRepository;
-import com.alexcode.eatgo.domain.RestaurantRepository;
-import com.alexcode.eatgo.domain.UserRepository;
+import com.alexcode.eatgo.domain.repository.ReservationRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
+import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.models.Reservation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

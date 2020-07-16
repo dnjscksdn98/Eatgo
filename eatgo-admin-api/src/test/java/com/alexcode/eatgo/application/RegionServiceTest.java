@@ -1,9 +1,9 @@
 package com.alexcode.eatgo.application;
 
 import com.alexcode.eatgo.exceptions.RegionDuplicationException;
-import com.alexcode.eatgo.domain.RegionRepository;
+import com.alexcode.eatgo.domain.repository.RegionRepository;
 import com.alexcode.eatgo.domain.models.Region;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.RegionRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

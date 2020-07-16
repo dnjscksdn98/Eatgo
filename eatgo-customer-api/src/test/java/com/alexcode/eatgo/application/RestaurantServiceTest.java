@@ -1,9 +1,9 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.domain.CategoryRepository;
-import com.alexcode.eatgo.domain.MenuItemRepository;
-import com.alexcode.eatgo.domain.RestaurantRepository;
-import com.alexcode.eatgo.domain.ReviewRepository;
+import com.alexcode.eatgo.domain.repository.CategoryRepository;
+import com.alexcode.eatgo.domain.repository.MenuItemRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
+import com.alexcode.eatgo.domain.repository.ReviewRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.models.Restaurant;

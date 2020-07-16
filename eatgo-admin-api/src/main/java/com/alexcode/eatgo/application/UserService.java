@@ -1,10 +1,10 @@
 package com.alexcode.eatgo.application;
 
 import com.alexcode.eatgo.exceptions.UserNotFoundException;
-import com.alexcode.eatgo.domain.UserRepository;
+import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.exceptions.EmailDuplicationException;
 import com.alexcode.eatgo.domain.models.User;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.UserRequestDto;
 import com.alexcode.eatgo.interfaces.dto.UserResponseDto;
 import com.alexcode.eatgo.security.ApplicationUserRole;

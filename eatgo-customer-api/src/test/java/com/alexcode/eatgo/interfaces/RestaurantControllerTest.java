@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RestaurantService;
-import com.alexcode.eatgo.domain.CategoryRepository;
+import com.alexcode.eatgo.domain.repository.CategoryRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.models.Restaurant;
@@ -15,7 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;

@@ -1,7 +1,7 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RestaurantService;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.RestaurantCreateRequestDto;
 import com.alexcode.eatgo.interfaces.dto.RestaurantResponseDto;
 import com.alexcode.eatgo.interfaces.dto.RestaurantUpdateRequestDto;

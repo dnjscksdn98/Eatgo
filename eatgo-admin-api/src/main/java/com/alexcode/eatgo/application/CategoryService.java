@@ -2,9 +2,9 @@ package com.alexcode.eatgo.application;
 
 import com.alexcode.eatgo.exceptions.CategoryDuplicationException;
 import com.alexcode.eatgo.exceptions.CategoryNotFoundException;
-import com.alexcode.eatgo.domain.CategoryRepository;
+import com.alexcode.eatgo.domain.repository.CategoryRepository;
 import com.alexcode.eatgo.domain.models.Category;
-import com.alexcode.eatgo.domain.network.SuccessResponse;
+import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.CategoryRequestDto;
 import com.alexcode.eatgo.interfaces.dto.CategoryResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
