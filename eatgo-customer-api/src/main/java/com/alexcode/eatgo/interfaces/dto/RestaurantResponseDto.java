@@ -2,6 +2,7 @@ package com.alexcode.eatgo.interfaces.dto;
 
 import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.models.Review;
+import com.alexcode.eatgo.domain.status.RestaurantStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -21,6 +22,8 @@ public class RestaurantResponseDto {
     private String name;
 
     private String address;
+
+    private RestaurantStatus status;
 
     private String content;
 

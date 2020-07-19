@@ -41,6 +41,7 @@ public class RestaurantService {
             .id(restaurant.getId())
             .name(restaurant.getName())
             .address(restaurant.getAddress())
+            .status(restaurant.getStatus())
             .content(restaurant.getContent())
             .categoryName(restaurant.getCategory().getName())
             .regionName(restaurant.getRegion().getName())
@@ -55,14 +56,15 @@ public class RestaurantService {
   private SuccessResponse<List<RestaurantResponseDto>> response(List<Restaurant> restaurants, Integer status, SuccessCode successCode) {
     List<RestaurantResponseDto> data = restaurants.stream()
             .map(restaurant -> RestaurantResponseDto.builder()
-                      .id(restaurant.getId())
-                      .name(restaurant.getName())
-                      .address(restaurant.getAddress())
-                      .content(restaurant.getContent())
-                      .categoryName(restaurant.getCategory().getName())
-                      .regionName(restaurant.getRegion().getName())
-                      .userName(restaurant.getUser().getName())
-                      .build())
+                    .id(restaurant.getId())
+                    .name(restaurant.getName())
+                    .address(restaurant.getAddress())
+                    .status(restaurant.getStatus())
+                    .content(restaurant.getContent())
+                    .categoryName(restaurant.getCategory().getName())
+                    .regionName(restaurant.getRegion().getName())
+                    .userName(restaurant.getUser().getName())
+                    .build())
             .collect(Collectors.toList());
 
     return SuccessResponse.OK(data, status, successCode);

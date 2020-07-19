@@ -1,12 +1,14 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.exceptions.RegionDuplicationException;
-import com.alexcode.eatgo.domain.repository.RegionRepository;
 import com.alexcode.eatgo.domain.models.Region;
-import com.alexcode.eatgo.network.SuccessResponse;
+import com.alexcode.eatgo.domain.repository.RegionRepository;
+import com.alexcode.eatgo.exceptions.RegionDuplicationException;
 import com.alexcode.eatgo.interfaces.dto.RegionRequestDto;
 import com.alexcode.eatgo.interfaces.dto.RegionResponseDto;
+import com.alexcode.eatgo.network.SuccessCode;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,8 +31,7 @@ public class RegionService {
 
   public SuccessResponse<List<RegionResponseDto>> list() {
     List<Region> regions = regionRepository.findAll();
-
-    return response(regions, 200);
+    return response(regions, HttpStatus.OK.value(), SuccessCode.OK);
   }
 
   public SuccessResponse<RegionResponseDto> create(RegionRequestDto request) {
@@ -48,10 +49,10 @@ public class RegionService {
 
     Region savedRegion = regionRepository.save(region);
 
-    return response(savedRegion, 201);
+    return response(savedRegion, HttpStatus.CREATED.value(), SuccessCode.REGION_CREATION_SUCCESS);
   }
 
-  private SuccessResponse<List<RegionResponseDto>> response(List<Region> regions, Integer status) {
+  private SuccessResponse<List<RegionResponseDto>> response(List<Region> regions, Integer status, SuccessCode successCode) {
     List<RegionResponseDto> data = regions.stream()
             .map(region -> RegionResponseDto.builder()
                     .id(region.getId())
@@ -63,10 +64,10 @@ public class RegionService {
                     .build())
             .collect(Collectors.toList());
 
-    return SuccessResponse.OK(data, status);
+    return SuccessResponse.OK(data, status, successCode);
   }
 
-  private SuccessResponse<RegionResponseDto> response(Region region, Integer status) {
+  private SuccessResponse<RegionResponseDto> response(Region region, Integer status, SuccessCode successCode) {
     RegionResponseDto data = RegionResponseDto.builder()
             .id(region.getId())
             .name(region.getName())
@@ -76,6 +77,6 @@ public class RegionService {
             .updatedBy(region.getUpdatedBy())
             .build();
 
-    return SuccessResponse.OK(data, status);
+    return SuccessResponse.OK(data, status, successCode);
   }
 }

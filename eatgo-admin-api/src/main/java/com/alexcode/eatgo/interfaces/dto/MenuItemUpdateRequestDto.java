@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.interfaces.dto;
 
+import com.alexcode.eatgo.domain.status.MenuItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,7 +34,7 @@ public class MenuItemUpdateRequestDto {
 
     @NotEmpty
     @NotBlank
-    private String status;
+    private MenuItemStatus status;
 
     private boolean destroy;
 }

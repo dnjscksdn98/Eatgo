@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.interfaces.dto;
 
+import com.alexcode.eatgo.domain.status.UserStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,8 @@ public class UserResponseDto {
     private String email;
 
     private String name;
+
+    private UserStatus status;
 
     private Long level;
 

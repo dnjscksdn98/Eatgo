@@ -77,6 +77,7 @@ public class User {
 
   public void deactivate() {
     level = 0L;
+    this.status = UserStatus.UNREGISTERED;
   }
 
   public void setRestaurant(Restaurant restaurant) {

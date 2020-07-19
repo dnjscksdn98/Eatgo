@@ -27,11 +27,12 @@ public class SuccessResponse<T> {
     @JsonInclude(NON_NULL)
     private T data;
 
-    public static <T> SuccessResponse<T> OK() {
+    public static <T> SuccessResponse<T> OK(Integer status, SuccessCode successCode) {
         return (SuccessResponse<T>) SuccessResponse.builder()
                 .transactionTime(LocalDateTime.now())
-                .resultCode("OK")
-                .message("OK")
+                .status(status)
+                .resultCode(successCode.getResultCode())
+                .message(successCode.getMessage())
                 .build();
     }
 

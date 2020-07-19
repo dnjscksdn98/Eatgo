@@ -1,16 +1,19 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.exceptions.MenuItemNotFoundException;
-import com.alexcode.eatgo.domain.repository.MenuItemRepository;
-import com.alexcode.eatgo.domain.repository.RestaurantRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.models.MenuItem;
 import com.alexcode.eatgo.domain.models.Restaurant;
-import com.alexcode.eatgo.network.SuccessResponse;
+import com.alexcode.eatgo.domain.repository.MenuItemRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
+import com.alexcode.eatgo.domain.status.MenuItemStatus;
+import com.alexcode.eatgo.exceptions.MenuItemNotFoundException;
 import com.alexcode.eatgo.interfaces.dto.MenuItemCreateRequestDto;
 import com.alexcode.eatgo.interfaces.dto.MenuItemResponseDto;
 import com.alexcode.eatgo.interfaces.dto.MenuItemUpdateRequestDto;
+import com.alexcode.eatgo.network.SuccessCode;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -39,7 +42,7 @@ public class MenuItemService {
 
     List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(restaurantId);
 
-    return response(menuItems, 200);
+    return response(menuItems, HttpStatus.OK.value(), SuccessCode.OK);
   }
 
   public SuccessResponse<MenuItemResponseDto> create(MenuItemCreateRequestDto request, Long restaurantId) {
@@ -50,7 +53,7 @@ public class MenuItemService {
             .name(request.getName())
             .content(request.getContent())
             .price(request.getPrice())
-            .status("REGISTERED")
+            .status(MenuItemStatus.REGISTERED)
             .createdAt(LocalDateTime.now())
             .createdBy(ADMIN.name())
             .restaurant(restaurant)
@@ -58,16 +61,18 @@ public class MenuItemService {
 
     MenuItem savedMenuItem = menuItemRepository.save(menuItem);
 
-    return response(savedMenuItem, 201);
+    return response(savedMenuItem, HttpStatus.CREATED.value(), SuccessCode.MENU_CREATION_SUCCESS);
   }
 
-  public void bulkUpdate(List<MenuItemUpdateRequestDto> request, Long restaurantId) {
+  public SuccessResponse<?> bulkUpdate(List<MenuItemUpdateRequestDto> request, Long restaurantId) {
     restaurantRepository.findById(restaurantId)
             .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 
     for(MenuItemUpdateRequestDto menuItem : request) {
       update(menuItem);
     }
+
+    return SuccessResponse.OK(HttpStatus.OK.value(), SuccessCode.MENU_UPDATE_SUCCESS);
   }
 
   private void update(MenuItemUpdateRequestDto menuItem) {
@@ -89,7 +94,7 @@ public class MenuItemService {
     );
   }
 
-  private SuccessResponse<List<MenuItemResponseDto>> response(List<MenuItem> menuItems, Integer status) {
+  private SuccessResponse<List<MenuItemResponseDto>> response(List<MenuItem> menuItems, Integer status, SuccessCode successCode) {
     List<MenuItemResponseDto> data = menuItems.stream()
             .map(menuItem -> MenuItemResponseDto.builder()
                     .id(menuItem.getId())
@@ -104,10 +109,10 @@ public class MenuItemService {
                     .build())
             .collect(Collectors.toList());
 
-    return SuccessResponse.OK(data, status);
+    return SuccessResponse.OK(data, status, successCode);
   }
 
-  private SuccessResponse<MenuItemResponseDto> response(MenuItem menuItem, Integer status) {
+  private SuccessResponse<MenuItemResponseDto> response(MenuItem menuItem, Integer status, SuccessCode successCode) {
     MenuItemResponseDto data = MenuItemResponseDto.builder()
             .id(menuItem.getId())
             .name(menuItem.getName())
@@ -120,6 +125,6 @@ public class MenuItemService {
             .updatedBy(menuItem.getUpdatedBy())
             .build();
 
-    return SuccessResponse.OK(data, status);
+    return SuccessResponse.OK(data, status, successCode);
   }
 }

@@ -1,18 +1,19 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.UserService;
-import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.UserRequestDto;
-import com.alexcode.eatgo.interfaces.dto.UserResponseDto;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
-@RequestMapping("management/api/v1/users")
+@RequestMapping(path = "management/api/v1/users")
 public class UserController {
 
   /**
@@ -31,32 +32,34 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @GetMapping
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('user:read')")
-  public SuccessResponse<List<UserResponseDto>> list() {
-    return userService.list();
+  public ResponseEntity<SuccessResponse<?>> list() {
+    SuccessResponse<?> body = userService.list();
+    return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('user:write')")
-  public SuccessResponse<UserResponseDto> create(@Valid @RequestBody UserRequestDto request) {
-    return userService.create(request);
+  public ResponseEntity<SuccessResponse<?>> create(@Valid @RequestBody UserRequestDto request) {
+    SuccessResponse<?> body = userService.create(request);
+    return new ResponseEntity<>(body, HttpStatus.CREATED);
   }
 
-  @PatchMapping(path = "/{userId}")
+  @PatchMapping(path = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('user:write')")
-  public SuccessResponse<UserResponseDto> update(
+  public ResponseEntity<SuccessResponse<?>> update(
       @PathVariable("userId") Long userId,
       @Valid @RequestBody UserRequestDto request) {
 
-    return userService.update(request, userId);
+    SuccessResponse<?> body = userService.update(request, userId);
+    return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
-  @DeleteMapping(path = "/{userId}")
+  @DeleteMapping(path = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('user:write')")
-  public String deactivate(@PathVariable("userId") Long userId) {
-    userService.deactivateUser(userId);
-
-    return "{}";
+  public ResponseEntity<SuccessResponse<?>> deactivate(@PathVariable("userId") Long userId) {
+    SuccessResponse<?> body = userService.deactivateUser(userId);
+    return new ResponseEntity<>(body, HttpStatus.OK);
   }
 }

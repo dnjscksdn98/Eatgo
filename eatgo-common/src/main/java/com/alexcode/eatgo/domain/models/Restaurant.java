@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.domain.models;
 
+import com.alexcode.eatgo.domain.status.RestaurantStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +25,8 @@ public class Restaurant {
 
   private String address;
 
-  private String status;
+  @Enumerated(value = EnumType.STRING)
+  private RestaurantStatus status;
 
   private String content;
 
@@ -54,7 +56,7 @@ public class Restaurant {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
   private List<Reservation> reservations;
 
-  public void updateRestaurant(String name, String address, String status, String content) {
+  public void updateRestaurant(String name, String address, RestaurantStatus status, String content) {
     this.name = name;
     this.address = address;
     this.status = status;

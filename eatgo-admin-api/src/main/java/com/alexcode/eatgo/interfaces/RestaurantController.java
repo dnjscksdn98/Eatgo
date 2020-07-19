@@ -1,16 +1,17 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RestaurantService;
-import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.RestaurantCreateRequestDto;
-import com.alexcode.eatgo.interfaces.dto.RestaurantResponseDto;
 import com.alexcode.eatgo.interfaces.dto.RestaurantUpdateRequestDto;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @RestController
@@ -20,30 +21,34 @@ public class RestaurantController {
   @Autowired
   private RestaurantService restaurantService;
 
-  @GetMapping
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('restaurant:read')")
-  public SuccessResponse<List<RestaurantResponseDto>> list() {
-    return restaurantService.list();
+  public ResponseEntity<SuccessResponse<?>> list() {
+    SuccessResponse<?> body = restaurantService.list();
+    return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
-  @GetMapping(path = "/{restaurantId}")
+  @GetMapping(path = "/{restaurantId}", produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('restaurant:read')")
-  public SuccessResponse<RestaurantResponseDto> detail(@PathVariable("restaurantId") Long restaurantId) {
-    return restaurantService.detail(restaurantId);
+  public ResponseEntity<SuccessResponse<?>> detail(@PathVariable("restaurantId") Long restaurantId) {
+    SuccessResponse<?> body = restaurantService.detail(restaurantId);
+    return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('restaurant:write')")
-  public SuccessResponse<RestaurantResponseDto> create(@Valid @RequestBody RestaurantCreateRequestDto request) {
-    return restaurantService.create(request);
+  public ResponseEntity<SuccessResponse<?>> create(@Valid @RequestBody RestaurantCreateRequestDto request) {
+    SuccessResponse<?> body = restaurantService.create(request);
+    return new ResponseEntity<>(body, HttpStatus.CREATED);
   }
 
-  @PatchMapping(path = "/{restaurantId}")
+  @PatchMapping(path = "/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('restaurant:write')")
-  public SuccessResponse<RestaurantResponseDto> update(
+  public ResponseEntity<SuccessResponse<?>> update(
           @PathVariable("restaurantId") Long restaurantId,
           @Valid @RequestBody RestaurantUpdateRequestDto request) {
 
-    return restaurantService.update(request, restaurantId);
+    SuccessResponse<?> body = restaurantService.update(request, restaurantId);
+    return new ResponseEntity<>(body, HttpStatus.OK);
   }
 }

@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.interfaces.dto;
 
+import com.alexcode.eatgo.domain.status.MenuItemStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ public class MenuItemResponseDto {
 
     private Long price;
 
-    private String status;
+    private MenuItemStatus status;
 
     private LocalDateTime createdAt;
 

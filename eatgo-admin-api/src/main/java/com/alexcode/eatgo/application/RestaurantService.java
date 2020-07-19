@@ -1,22 +1,25 @@
 package com.alexcode.eatgo.application;
 
-import com.alexcode.eatgo.exceptions.CategoryNotFoundException;
-import com.alexcode.eatgo.exceptions.RegionNotFoundException;
-import com.alexcode.eatgo.domain.repository.CategoryRepository;
-import com.alexcode.eatgo.domain.repository.RegionRepository;
-import com.alexcode.eatgo.domain.repository.RestaurantRepository;
-import com.alexcode.eatgo.domain.repository.UserRepository;
 import com.alexcode.eatgo.domain.exceptions.RestaurantNotFoundException;
 import com.alexcode.eatgo.domain.exceptions.UserNotFoundException;
 import com.alexcode.eatgo.domain.models.Category;
 import com.alexcode.eatgo.domain.models.Region;
 import com.alexcode.eatgo.domain.models.Restaurant;
 import com.alexcode.eatgo.domain.models.User;
-import com.alexcode.eatgo.network.SuccessResponse;
+import com.alexcode.eatgo.domain.repository.CategoryRepository;
+import com.alexcode.eatgo.domain.repository.RegionRepository;
+import com.alexcode.eatgo.domain.repository.RestaurantRepository;
+import com.alexcode.eatgo.domain.repository.UserRepository;
+import com.alexcode.eatgo.domain.status.RestaurantStatus;
+import com.alexcode.eatgo.exceptions.CategoryNotFoundException;
+import com.alexcode.eatgo.exceptions.RegionNotFoundException;
 import com.alexcode.eatgo.interfaces.dto.RestaurantCreateRequestDto;
 import com.alexcode.eatgo.interfaces.dto.RestaurantResponseDto;
 import com.alexcode.eatgo.interfaces.dto.RestaurantUpdateRequestDto;
+import com.alexcode.eatgo.network.SuccessCode;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -50,15 +53,14 @@ public class RestaurantService {
 
   public SuccessResponse<List<RestaurantResponseDto>> list() {
     List<Restaurant> restaurants = restaurantRepository.findAll();
-
-    return response(restaurants, 200);
+    return response(restaurants, HttpStatus.OK.value(), SuccessCode.OK);
   }
 
   public SuccessResponse<RestaurantResponseDto> detail(Long restaurantId) {
     Restaurant restaurant = restaurantRepository.findById(restaurantId)
             .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 
-    return response(restaurant, 200);
+    return response(restaurant, HttpStatus.OK.value(), SuccessCode.OK);
   }
 
   public SuccessResponse<RestaurantResponseDto> create(RestaurantCreateRequestDto request) {
@@ -78,7 +80,7 @@ public class RestaurantService {
     Restaurant restaurant = Restaurant.builder()
             .name(request.getName())
             .address(request.getAddress())
-            .status("REGISTERED")
+            .status(RestaurantStatus.REGISTERED)
             .content(request.getContent())
             .createdAt(LocalDateTime.now())
             .createdBy(ADMIN.name())
@@ -89,7 +91,7 @@ public class RestaurantService {
 
     Restaurant savedRestaurant = restaurantRepository.save(restaurant);
 
-    return response(savedRestaurant, 200);
+    return response(savedRestaurant, HttpStatus.CREATED.value(), SuccessCode.RESTAURANT_CREATION_SUCCESS);
   }
 
   public SuccessResponse<RestaurantResponseDto> update(RestaurantUpdateRequestDto request, Long restaurantId) {
@@ -103,10 +105,10 @@ public class RestaurantService {
             request.getContent()
     );
 
-    return response(restaurant, 200);
+    return response(restaurant, HttpStatus.OK.value(), SuccessCode.RESTAURANT_UPDATE_SUCCESS);
   }
 
-  private SuccessResponse<List<RestaurantResponseDto>> response(List<Restaurant> restaurants, Integer status) {
+  private SuccessResponse<List<RestaurantResponseDto>> response(List<Restaurant> restaurants, Integer status, SuccessCode successCode) {
     List<RestaurantResponseDto> data = restaurants.stream()
             .map(restaurant -> RestaurantResponseDto.builder()
                     .id(restaurant.getId())
@@ -124,10 +126,10 @@ public class RestaurantService {
                     .build())
             .collect(Collectors.toList());
 
-    return SuccessResponse.OK(data, status);
+    return SuccessResponse.OK(data, status, successCode);
   }
 
-  private SuccessResponse<RestaurantResponseDto> response(Restaurant restaurant, Integer status) {
+  private SuccessResponse<RestaurantResponseDto> response(Restaurant restaurant, Integer status, SuccessCode successCode) {
     RestaurantResponseDto data = RestaurantResponseDto.builder()
             .id(restaurant.getId())
             .name(restaurant.getName())
@@ -146,6 +148,6 @@ public class RestaurantService {
             .reservations(restaurant.getReservations())
             .build();
 
-    return SuccessResponse.OK(data, status);
+    return SuccessResponse.OK(data, status, successCode);
   }
 }

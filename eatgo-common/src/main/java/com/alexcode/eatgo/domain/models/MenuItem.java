@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.domain.models;
 
+import com.alexcode.eatgo.domain.status.MenuItemStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -29,7 +30,8 @@ public class MenuItem {
 
   private Long price;
 
-  private String status;
+  @Enumerated(value = EnumType.STRING)
+  private MenuItemStatus status;
 
   private LocalDateTime createdAt;
 
@@ -45,7 +47,7 @@ public class MenuItem {
   @JsonIgnore
   private Restaurant restaurant;
 
-  public void updateMenuItem(String name, String content, Long price, String status) {
+  public void updateMenuItem(String name, String content, Long price, MenuItemStatus status) {
     this.name = name;
     this.content = content;
     this.price = price;

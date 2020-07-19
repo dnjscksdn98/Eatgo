@@ -1,10 +1,12 @@
 package com.alexcode.eatgo.interfaces;
 
 import com.alexcode.eatgo.application.RegionService;
-import com.alexcode.eatgo.network.SuccessResponse;
 import com.alexcode.eatgo.interfaces.dto.RegionRequestDto;
-import com.alexcode.eatgo.interfaces.dto.RegionResponseDto;
+import com.alexcode.eatgo.network.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,16 +20,18 @@ public class RegionController {
   @Autowired
   private RegionService regionService;
 
-  @GetMapping
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('region:read')")
-  public SuccessResponse list() {
-    return regionService.list();
+  public ResponseEntity<SuccessResponse<?>> list() {
+    SuccessResponse<?> body = regionService.list();
+    return new ResponseEntity<>(body, HttpStatus.OK);
   }
 
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @PreAuthorize("hasAuthority('region:write')")
-  public SuccessResponse<RegionResponseDto> create(@Valid @RequestBody RegionRequestDto request) {
-    return regionService.create(request);
+  public ResponseEntity<SuccessResponse<?>> create(@Valid @RequestBody RegionRequestDto request) {
+    SuccessResponse<?> body = regionService.create(request);
+    return new ResponseEntity<>(body, HttpStatus.CREATED);
   }
 
 }

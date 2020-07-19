@@ -1,5 +1,6 @@
 package com.alexcode.eatgo.interfaces.dto;
 
+import com.alexcode.eatgo.domain.status.RestaurantStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class RestaurantUpdateRequestDto {
     private String address;
 
     @NotEmpty
-    private String status;
+    private RestaurantStatus status;
 
     @NotEmpty
     private String content;
