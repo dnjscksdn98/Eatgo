@@ -2,7 +2,23 @@
 
 ### Build Jar
 ```
-./gradlew bootJar
+./gradlew :eatgo-customer-api:clean :eatgo-customer-api:bootJar
+./gradlew :eatgo-restaurant-api:clean :eatgo-restaurant-api:bootJar
+./gradlew :eatgo-admin-api:clean :eatgo-admin-api:bootJar
+./gradlew :eatgo-login-api:clean :eatgo-login-api:bootJar
+```
+
+### Create Docker Image
+```
+docker build --build-arg ENVIRONMENT=prod -t eatgo-customer-api:1.0.0 .
+docker build --build-arg ENVIRONMENT=prod -t eatgo-restaurant-api:1.0.0 .
+docker build --build-arg ENVIRONMENT=prod -t eatgo-admin-api:1.0.0 .
+docker build --build-arg ENVIRONMENT=prod -t eatgo-login-api:1.0.0 .
+```
+
+### Pull MySQL Image
+```
+docker pull mysql:5.7
 ```
 
 ### Run with Docker

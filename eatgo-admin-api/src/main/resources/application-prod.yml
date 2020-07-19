@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: prod
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql-standalone:3306/eatgo?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: user
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+application:
+  jwt:
+    secretKey: securesecuresecuresecuresecuresecuresecure
+    authorizationHeader: Authorization
+    tokenPrefix: Bearer
+    tokenExpirationAfterDays: 10

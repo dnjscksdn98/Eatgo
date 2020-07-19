@@ -1,6 +1,3 @@
-server:
-  port: 8181
-
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/eatgo?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
@@ -17,12 +14,3 @@ application:
     authorizationHeader: Authorization
     tokenPrefix: Bearer
     tokenExpirationAfterDays: 10
-
----
-
-spring:
-  profiles: mysql
-  datasource:
-    url: jdbc:mysql://${MYSQL_HOST}:13306/${MYSQL_DATABASE}
-    username: ${MYSQL_USER}
-    password: ${MYSQL_PASSWORD}
