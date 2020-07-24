@@ -10,15 +10,23 @@
 
 ### Create Docker Image
 ```
-docker build --build-arg ENVIRONMENT=prod -t eatgo-customer-api:1.0.0 .
-docker build --build-arg ENVIRONMENT=prod -t eatgo-restaurant-api:1.0.0 .
-docker build --build-arg ENVIRONMENT=prod -t eatgo-admin-api:1.0.0 .
-docker build --build-arg ENVIRONMENT=prod -t eatgo-login-api:1.0.0 .
+docker build --build-arg ENVIRONMENT=prod -t dnjscksdn98/eatgo-customer-api:1.0.0 .
+docker build --build-arg ENVIRONMENT=prod -t dnjscksdn98/eatgo-restaurant-api:1.0.0 .
+docker build --build-arg ENVIRONMENT=prod -t dnjscksdn98/eatgo-admin-api:1.0.0 .
+docker build --build-arg ENVIRONMENT=prod -t dnjscksdn98/eatgo-login-api:1.0.0 .
 ```
 
 ### Pull MySQL Image
 ```
 docker pull mysql:5.7
+```
+
+### Pull Docker Image
+```
+docker pull dnjscksdn98/eatgo-customer-api:1.0.0
+docker pull dnjscksdn98/eatgo-restaurant-api:1.0.0
+docker pull dnjscksdn98/eatgo-admin-api:1.0.0
+docker pull dnjscksdn98/eatgo-login-api:1.0.0
 ```
 
 ### Run with Docker
@@ -34,7 +42,7 @@ docker-compose up
 
 ### 기술 선택
 
-- Java 11
+- Java 8
 - Spring-Boot
 - Spring Data JPA
 - Spring-Security
