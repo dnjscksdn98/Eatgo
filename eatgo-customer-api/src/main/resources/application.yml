@@ -2,6 +2,9 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: eatgo-customer-api
+
   profiles:
     active: dev
 
@@ -25,6 +28,15 @@ spring:
 
   jackson:
     property-naming-strategy: SNAKE_CASE
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8010/eureka/
 
 application:
   jwt:
