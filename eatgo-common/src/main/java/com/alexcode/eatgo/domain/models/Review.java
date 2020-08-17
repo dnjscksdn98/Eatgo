@@ -36,12 +36,12 @@ public class Review {
   private String updatedBy;
 
   @Setter
-  @ManyToOne
   @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
   private Restaurant restaurant;
 
-  @ManyToOne
   @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 
 }

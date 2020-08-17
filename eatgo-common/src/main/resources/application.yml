@@ -1,13 +1,3 @@
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/eatgo?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-    username: root
-    password: root
-  jpa:
-    show-sql: true
-  jackson:
-    property-naming-strategy: SNAKE_CASE
-
 application:
   jwt:
     secretKey: securesecuresecuresecuresecuresecuresecure
