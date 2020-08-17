@@ -7,6 +7,7 @@ import com.alexcode.eatgo.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -55,10 +56,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, jwtSecretKey))
             .addFilterAfter(new JwtTokenVerifier(jwtConfig, jwtSecretKey, applicationUserService), JwtUsernameAndPasswordAuthenticationFilter.class)
             .authorizeRequests()
-            .antMatchers("/users").permitAll()
+            .antMatchers("/h2-console/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/users").permitAll()
             .antMatchers("/customer/api/**").hasRole(CUSTOMER.name())
-            .anyRequest()
-            .authenticated();
+            .anyRequest().authenticated();
   }
 
   @Override
