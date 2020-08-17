@@ -49,15 +49,15 @@ public class User {
   private LocalDateTime lastLoginAt;
 
   @JsonInclude(NON_NULL)
-  @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+  @OneToOne(mappedBy = "user")
   private Restaurant restaurant;
 
   @JsonInclude(NON_EMPTY)
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+  @OneToMany(mappedBy = "user")
   private List<Review> reviews;
 
   @JsonInclude(NON_EMPTY)
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+  @OneToMany(mappedBy = "user")
   private List<Reservation> reservations;
 
   public boolean isAdmin() {

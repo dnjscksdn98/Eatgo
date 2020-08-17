@@ -38,22 +38,22 @@ public class Restaurant {
 
   private String updatedBy;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Category category;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Region region;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY)
   private User user;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+  @OneToMany(mappedBy = "restaurant")
   private List<MenuItem> menuItems;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+  @OneToMany(mappedBy = "restaurant")
   private List<Review> reviews;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+  @OneToMany(mappedBy = "restaurant")
   private List<Reservation> reservations;
 
   public void updateRestaurant(String name, String address, RestaurantStatus status, String content) {

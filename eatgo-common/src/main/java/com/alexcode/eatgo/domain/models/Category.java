@@ -32,7 +32,7 @@ public class Category {
   private String updatedBy;
 
   @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+  @OneToMany(mappedBy = "category")
   private List<Restaurant> restaurants;
 
   public void updateCategory(String name) {

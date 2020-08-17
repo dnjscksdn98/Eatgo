@@ -40,12 +40,12 @@ public class Reservation {
     @JsonInclude(NON_NULL)
     private String updatedBy;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
     public void update() {

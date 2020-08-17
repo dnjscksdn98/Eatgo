@@ -43,8 +43,8 @@ public class MenuItem {
   @JsonInclude(NON_NULL)
   private String updatedBy;
 
-  @ManyToOne
   @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
   private Restaurant restaurant;
 
   public void updateMenuItem(String name, String content, Long price, MenuItemStatus status) {

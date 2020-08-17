@@ -30,7 +30,7 @@ public class Region {
   private String updatedBy;
 
   @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "region")
+  @OneToMany(mappedBy = "region")
   private List<Restaurant> restaurants;
 
 }
