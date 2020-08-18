@@ -1,0 +1,29 @@
+server:
+  port: 5555
+
+spring:
+  application:
+    name: zuul-api-gateway
+
+  profiles:
+    active: dev
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8010/eureka/
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 7000
+
+ribbon:
+  ReadTimeout: 7000
