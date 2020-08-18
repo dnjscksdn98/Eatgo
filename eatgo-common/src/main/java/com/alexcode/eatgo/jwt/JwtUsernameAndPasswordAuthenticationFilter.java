@@ -110,7 +110,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .signWith(jwtSecretKey.getSecretKey())
                 .compact();
 
-        response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + " " + token);
+        response.addHeader("token", jwtConfig.getTokenPrefix() + " " + token);
     }
 
 }
